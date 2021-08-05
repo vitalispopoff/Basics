@@ -8,7 +8,10 @@ namespace ch19
 {
 	void main()
 	{
-		cout
-			<< "\n\tWe good.\n";
+		m_vector m (5);
+
+		cout 
+			<< m.capacity() << '\t' 
+			<< m.size () << '\n';
 	}
 }
