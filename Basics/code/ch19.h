@@ -50,16 +50,16 @@ namespace ch19
 			copy (v.elem, v.elem + sz, elem);
 		}
 
-		//m_vector (m_vector && v) noexcept (true) :
-		//	sz {v.sz},
-		//	space {v.space},
-		//	elem {v.elem}
-		//{
-		//	cout
-		//		<< "\n\tmove constructor\n";
-		//	v.sz = v.space = 0;
-		//	v.elem = nullptr;
-		//}
+		m_vector (m_vector && v) noexcept (true) :
+			sz {v.sz},
+			space {v.space},
+			elem {v.elem}
+		{
+			cout
+				<< "\n\tmove constructor\n";
+			v.sz = v.space = 0;
+			v.elem = nullptr;
+		}
 
 		~m_vector ()
 		{
@@ -71,7 +71,7 @@ namespace ch19
 
 		m_vector & operator = (const m_vector & v);
 
-		//m_vector & operator = (m_vector && v) noexcept (true);
+		m_vector & operator = (m_vector && v) noexcept (true);
 		
 
 		double & operator [] (int n)
