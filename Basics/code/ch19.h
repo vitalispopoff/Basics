@@ -76,8 +76,8 @@ namespace ch19
 		}
 
 		void reserve (int i);
-		//void resize(int i);
-		//void push_back (double d);
+		void resize(int i);
+		void push_back (double d);
 
 		int size () const {return sz;}
 		int capacity () const {return space;}

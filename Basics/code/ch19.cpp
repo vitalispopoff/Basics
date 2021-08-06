@@ -43,12 +43,35 @@ namespace ch19
 		space = new_space;
 	}
 
+	void m_vector::resize (int new_size)
+	{		
+		reserve (new_size);
+		if (new_size > sz)
+		{
+			for (int i = sz; i < new_size; ++i)
+				elem [i] = 0.;
+			sz = new_size;
+		}
+	}
+
+	void m_vector::push_back (double d)
+	{
+		if (space == 0)
+			reserve (8);
+		if (sz == space)
+			reserve (space * 2);
+		elem [sz] = d;
+		++sz;
+	}
+
 	void main()
 	{
 		auto skrt = [](const m_vector & v) 
 		{
-			cout
-			<< v.size() << ", " << v.capacity() << '\n';
+			for (int i = 0; i < v.size(); ++i)
+				cout
+					<< v[i] << ", ";
+			cout << '\n';
 		};
 
 		m_vector 
@@ -57,8 +80,16 @@ namespace ch19
 
 		skrt(a);
 		
-		a.reserve(b.capacity());
+		a.push_back(-1);
 
 		skrt(a);
+
+		a.resize (b.capacity());
+
+		skrt(a);
+	
+		a.resize (-1);
+
+		skrt (a);
 	}
 }
