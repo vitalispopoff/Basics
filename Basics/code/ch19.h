@@ -61,6 +61,8 @@ namespace ch19
 		}
 
 		m_vector & operator = (const m_vector & v);
+
+		m_vector & operator = (m_vector && v) noexcept (true);
 		
 
 		double & operator [] (int n)

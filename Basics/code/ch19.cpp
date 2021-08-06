@@ -16,7 +16,17 @@ namespace ch19
 		}
 		sz = v.sz;			
 		copy (v.elem, v.elem + sz, elem);
+		return * this;
+	}
 
+	m_vector & m_vector::operator = (m_vector && v) noexcept (true)
+	{
+		sz = v.sz;
+		space = v.space;
+		elem = v.elem;
+		delete [] v.elem;
+		v.elem = nullptr;
+		v.sz = v.space = 0;
 		return * this;
 	}
 
@@ -27,10 +37,18 @@ namespace ch19
 			return m_vector {0., .1, .2, .3};
 		};
 
-		m_vector v {a()};
+		m_vector v {a()},
+		 u = a();
 
-		for (int i = 0 ; i < v.size(); ++i)
-			cout
-				<< v[i] << ", ";
+		auto print = [](const m_vector & m)
+		{
+			for (int i = 0 ; i < m.size(); ++i)
+				cout
+					<< m[i] << ", ";
+			cout 
+				<< '\n';
+		};		
+		print(v);
+		print(u);
 	}
 }
