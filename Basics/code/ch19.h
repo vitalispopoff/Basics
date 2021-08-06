@@ -2,29 +2,35 @@
 
 namespace ch19
 {
-	class m_vector
+	struct m_vector
 	{
 		int sz;
 		int space;
-		double * elem;
+		int * elem;
 
-	public : 
+	//public : 
 		m_vector () :
 			sz {0},
 			space {8},
-			elem {new double (space)}
+			elem {new int [space]}
 		{}
 
 		explicit m_vector (int i) :
 			sz {i},
 			space {i},
-			elem {new double (space)}
-		{}
+			elem {new int [space]}
+		{			
+			for (int c = 0; c < sz; ++c) 
+				elem [c] = c; 
+		}
 
+
+
+		/// gotta check it...
 		~m_vector ()
 		{
 			delete [] elem;
-			elem = nullptr;		/// just in case...
+			elem = nullptr;
 		}
 
 		int size () {return sz;}
