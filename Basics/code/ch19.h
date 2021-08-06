@@ -35,8 +35,6 @@ namespace ch19
 			space {(int) lst.size()},
 			elem {new double [sz]}
 		{
-			cout
-				<< "\n\tinit_list constructor\n";
 			copy (lst.begin(), lst.end(), elem);
 		}
 
@@ -45,8 +43,6 @@ namespace ch19
 			space {sz},
 			elem {new double [sz]}
 		{
-			cout
-				<< "\n\tcopy constructor\n";
 			copy (v.elem, v.elem + sz, elem);
 		}
 
@@ -55,16 +51,12 @@ namespace ch19
 			space {v.space},
 			elem {v.elem}
 		{
-			cout
-				<< "\n\tmove constructor\n";
 			v.sz = v.space = 0;
 			v.elem = nullptr;
 		}
 
 		~m_vector ()
 		{
-			cout
-				<< "\n\tdestructor\n";
 			delete [] elem;
 			elem = nullptr;
 		}
@@ -83,6 +75,9 @@ namespace ch19
 			return elem [n];
 		}
 
+		void reserve (int i);
+		//void resize(int i);
+		//void push_back (double d);
 
 		int size () const {return sz;}
 		int capacity () const {return space;}

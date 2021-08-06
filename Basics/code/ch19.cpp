@@ -8,9 +8,6 @@ namespace ch19
 {
 	m_vector & m_vector::operator = (const m_vector & v)
 	{
-		cout
-			<< "\n\tassign-by-copy operator\n";
-
 		if (space < v.sz)
 		{
 			delete [] elem;
@@ -24,8 +21,6 @@ namespace ch19
 
 	m_vector & m_vector::operator = (m_vector && v) noexcept (true)
 	{
-		cout
-			<< "\n\tassign-by-move operator\n";
 		sz = v.sz;
 		space = v.space;
 		delete [] elem;
@@ -35,29 +30,35 @@ namespace ch19
 		return * this;
 	}
 
+	void m_vector::reserve (int new_space)
+	{
+		if (new_space <= space)
+			return;
+		double 
+			* p = new double [new_space];
+		for (int i = 0; i < sz; ++i)
+			p [i] = elem [i];
+		delete [] elem;
+		elem = p;
+		space = new_space;
+	}
+
 	void main()
 	{
-		auto a = []() -> m_vector
+		auto skrt = [](const m_vector & v) 
 		{
 			cout
-				<< "\n\ta() called\n";
-			m_vector result {0, 1, 2, 3};
-			cout 
-				<< "\n\ta() returns:\n";
-				
-			return result;
+			<< v.size() << ", " << v.capacity() << '\n';
 		};
 
-		cout << "1";
-
 		m_vector 
-			v {a()};
+			a {0, 1, 2, 3},
+			b;
 
-		cout << "2";
+		skrt(a);
+		
+		a.reserve(b.capacity());
 
-		if (true)
-			v = m_vector {1, 2, 3, 4, 5};
-
-		cout << "3";
+		skrt(a);
 	}
 }
