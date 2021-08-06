@@ -3,13 +3,15 @@
 #include <iostream>
 #include <initializer_list>
 #include <algorithm>	//for the copy function in initializer_list constructor
+#include <memory>
 
 using namespace std;
 namespace ch19
 {
-	template <typename T>
+	template <typename T>	// T is Element <E>()
 	class m_vector
 	{
+		allocator<T> alloc;
 		int sz;
 		int space;
 		T * elem;
