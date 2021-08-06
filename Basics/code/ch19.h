@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <initializer_list>
 #include <algorithm>	//for the copy function in initializer_list constructor
 
@@ -24,7 +25,7 @@ namespace ch19
 			sz {i},
 			space {i},
 			elem {new double [space]}
-		{			
+		{
 			for (int c = 0; c < sz; ++c) 
 				elem [c] = c; 
 		}
@@ -34,6 +35,8 @@ namespace ch19
 			space {(int) lst.size()},
 			elem {new double [sz]}
 		{
+			cout
+				<< "\n\tinit_list constructor\n";
 			copy (lst.begin(), lst.end(), elem);
 		}
 
@@ -42,27 +45,33 @@ namespace ch19
 			space {sz},
 			elem {new double [sz]}
 		{
+			cout
+				<< "\n\tcopy constructor\n";
 			copy (v.elem, v.elem + sz, elem);
 		}
 
-		m_vector (m_vector && v) :
-			sz {v.sz},
-			space {v.space},
-			elem {v.elem}
-		{
-			v.sz = v.space = 0;
-			v.elem = nullptr;
-		}
+		//m_vector (m_vector && v) noexcept (true) :
+		//	sz {v.sz},
+		//	space {v.space},
+		//	elem {v.elem}
+		//{
+		//	cout
+		//		<< "\n\tmove constructor\n";
+		//	v.sz = v.space = 0;
+		//	v.elem = nullptr;
+		//}
 
 		~m_vector ()
 		{
+			cout
+				<< "\n\tdestructor\n";
 			delete [] elem;
 			elem = nullptr;
 		}
 
 		m_vector & operator = (const m_vector & v);
 
-		m_vector & operator = (m_vector && v) noexcept (true);
+		//m_vector & operator = (m_vector && v) noexcept (true);
 		
 
 		double & operator [] (int n)

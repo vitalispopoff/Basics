@@ -1,6 +1,6 @@
 #include "ch19.h"
 
-#include <iostream>
+//#include <iostream>
 
 using namespace std;
 
@@ -8,6 +8,9 @@ namespace ch19
 {
 	m_vector & m_vector::operator = (const m_vector & v)
 	{
+		cout
+			<< "\n\tassign-by-copy operator\n";
+
 		if (space < v.sz)
 		{
 			delete [] elem;
@@ -19,36 +22,42 @@ namespace ch19
 		return * this;
 	}
 
-	m_vector & m_vector::operator = (m_vector && v) noexcept (true)
-	{
-		sz = v.sz;
-		space = v.space;
-		elem = v.elem;
-		delete [] v.elem;
-		v.elem = nullptr;
-		v.sz = v.space = 0;
-		return * this;
-	}
+	//m_vector & m_vector::operator = (m_vector && v) noexcept (true)
+	//{
+	//	cout
+	//		<< "\n\tassign-by-move operator\n";
+	//	sz = v.sz;
+	//	space = v.space;
+	//	delete [] elem;
+	//	elem = v.elem;
+	//	v.elem = nullptr;
+	//	v.sz = v.space = 0;
+	//	return * this;
+	//}
 
 	void main()
 	{
 		auto a = []() -> m_vector
 		{
-			return m_vector {0., .1, .2, .3};
+			cout
+				<< "\n\ta() called\n";
+			m_vector result {0, 1, 2, 3};
+			cout 
+				<< "\n\ta() returns:\n";
+				
+			return result;
 		};
 
-		m_vector v {a()},
-		 u = a();
+		cout << "1";
 
-		auto print = [](const m_vector & m)
-		{
-			for (int i = 0 ; i < m.size(); ++i)
-				cout
-					<< m[i] << ", ";
-			cout 
-				<< '\n';
-		};		
-		print(v);
-		print(u);
+		m_vector 
+			v {a()};
+
+		cout << "2";
+
+		if (true)
+			v = m_vector {1, 2, 3, 4, 5};
+
+		cout << "3";
 	}
 }
