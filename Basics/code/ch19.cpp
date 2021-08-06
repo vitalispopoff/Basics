@@ -11,11 +11,10 @@ namespace ch19
 	{
 		if (this == & v)
 			return * this;
-
 		if (space < v.sz)
 		{
 			delete [] elem;
-			elem = new T [v.sz];
+			elem = alloc.allocate (v.sz);
 			space = v.sz;
 		}
 		sz = v.sz;			
@@ -25,9 +24,17 @@ namespace ch19
 	template <typename T>
 		m_vector<T> & m_vector<T>::operator = (m_vector && v) noexcept (true)
 	{
+		// need further investigation
+		if (true)
+			delete [] elem;
+		else
+		{
+			alloc.destroy (space, elem);
+			alloc.deallocate (elem);
+		}
+
 		sz = v.sz;
 		space = v.space;
-		delete [] elem;
 		elem = v.elem;
 		v.elem = nullptr;
 		v.sz = v.space = 0;
@@ -53,7 +60,6 @@ namespace ch19
 		void m_vector<T>::resize (int new_size, T val)
 	{		
 		reserve (new_size);
-
 		for (int i = sz; i < new_size; ++i)
 			alloc.construct (& elem [i], val);
 		for (int i = new_size; i < sz; ++i)
@@ -61,13 +67,16 @@ namespace ch19
 		sz = new_size;
 	}
 	template <typename T>
-	void m_vector<T>::push_back (T d)
+		void m_vector<T>::push_back (T val)
 	{
 		if (space == 0)
-			reserve (8);
-		if (sz == space)
-			reserve (space * 2);
-		elem [sz] = d;
+			reserve (8);		
+		/// is 'else' redundant?: if space==0 reserve(8) returns sz==0 && space==8
+		/// but if space!=0 then and only then space?=sz is to be checked
+		else
+			if (space == sz)
+				reserve (space * 2);
+		alloc.construct (& elem [sz], val);
 		++sz;
 	}
 
@@ -99,4 +108,5 @@ namespace ch19
 
 		skrt (a);
 	}
+
 }

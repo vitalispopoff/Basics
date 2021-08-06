@@ -60,27 +60,20 @@ namespace ch19
 
 		~m_vector ()
 		{
-			delete [] elem;
+			delete [] elem;		// keep delete or connect with alloc ?
 			elem = nullptr;
 		}
 
 		m_vector & operator = (const m_vector & v);
-
 		m_vector & operator = (m_vector && v) noexcept (true);
 		
 
-		T & operator [] (int n)
-		{
-			return elem [n];
-		}
-		const T & operator [] (int n) const
-		{
-			return elem [n];
-		}
+		T & operator [] (int n) {return elem [n];}
+		const T & operator [] (int n) const {return elem [n];}
 
 		void reserve (int new_space);
 		void resize(int new_size, T val = T());
-		void push_back (T d);
+		void push_back (T val);
 
 		int size () const {return sz;}
 		int capacity () const {return space;}
