@@ -78,8 +78,8 @@ namespace ch19
 			return elem [n];
 		}
 
-		void reserve (int i);
-		void resize(int i);
+		void reserve (int new_space);
+		void resize(int new_size, T val = T());
 		void push_back (T d);
 
 		int size () const {return sz;}

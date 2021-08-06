@@ -38,23 +38,27 @@ namespace ch19
 	{
 		if (new_space <= space)
 			return;
-		T * p = new T [new_space];
+		T * p = alloc.allocate(new_space);
+
 		for (int i = 0; i < sz; ++i)
-			p [i] = elem [i];
-		delete [] elem;
+		{
+			alloc.construct(& p [i], elem [i]);
+			alloc.destroy (& elem[i]);		/// is it ok ?
+		}
+		alloc.deallocate (elem, space);
 		elem = p;
 		space = new_space;
 	}
 	template <typename T>
-		void m_vector<T>::resize (int new_size)
+		void m_vector<T>::resize (int new_size, T val)
 	{		
 		reserve (new_size);
-		if (new_size > sz)
-		{
-			for (int i = sz; i < new_size; ++i)
-				elem [i] = 0.;
-			sz = new_size;
-		}
+
+		for (int i = sz; i < new_size; ++i)
+			alloc.construct (& elem [i], val);
+		for (int i = new_size; i < sz; ++i)
+			alloc.destroy (& elem [i]);
+		sz = new_size;
 	}
 	template <typename T>
 	void m_vector<T>::push_back (T d)
@@ -68,9 +72,8 @@ namespace ch19
 	}
 
 	void main()
-	{
-		
-		auto skrt = [](const auto & v)	// XD
+	{		
+		auto skrt = [](const auto & v)	// 'auto' XD
 		{
 			for (int i = 0; i < v.size(); ++i)
 				cout
