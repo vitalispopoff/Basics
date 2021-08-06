@@ -6,18 +6,31 @@ using namespace std;
 
 namespace ch19
 {
+	m_vector & m_vector::operator = (const m_vector & v)
+	{
+		if (space < v.sz)
+		{
+			delete [] elem;
+			elem = new double [v.sz];
+			space = v.sz;
+		}
+		sz = v.sz;			
+		copy (v.elem, v.elem + sz, elem);
+
+		return * this;
+	}
+
 	void main()
 	{
-		m_vector 
-			v {0., 0.1, 0.2, 0.3};
-		m_vector u;
-		cout
-			<< u.size() << '\t' << u.capacity() << '\n';
-		u = v;
-		for (int i = 0; i < v.size(); ++i)
+		auto a = []() -> m_vector
+		{
+			return m_vector {0., .1, .2, .3};
+		};
+
+		m_vector v {a()};
+
+		for (int i = 0 ; i < v.size(); ++i)
 			cout
-				<< (v [i] == u [i]) << ", ";
-		cout 
-			<< '\n';		
+				<< v[i] << ", ";
 	}
 }

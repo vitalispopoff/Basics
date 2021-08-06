@@ -45,25 +45,23 @@ namespace ch19
 			copy (v.elem, v.elem + sz, elem);
 		}
 
+		m_vector (m_vector && v) :
+			sz {v.sz},
+			space {v.space},
+			elem {v.elem}
+		{
+			v.sz = v.space = 0;
+			v.elem = nullptr;
+		}
+
 		~m_vector ()
 		{
 			delete [] elem;
 			elem = nullptr;
 		}
 
-		m_vector & operator = (const m_vector & v)
-		{
-			if (space < v.sz)
-			{
-				delete [] elem;
-				elem = new double [v.sz];
-				space = v.sz;
-			}
-			sz = v.sz;			
-			copy (v.elem, v.elem + sz, elem);
-
-			return * this;
-		}
+		m_vector & operator = (const m_vector & v);
+		
 
 		double & operator [] (int n)
 		{
