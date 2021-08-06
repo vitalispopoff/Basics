@@ -8,6 +8,9 @@ namespace ch19
 {
 	m_vector & m_vector::operator = (const m_vector & v)
 	{
+		if (this == & v)
+			return * this;
+
 		if (space < v.sz)
 		{
 			delete [] elem;
