@@ -30,17 +30,39 @@ namespace ch19
 		}
 
 		m_vector (initializer_list <double> lst) :
-			sz {(int)lst.size()},
-			space {(int)lst.size()},
+			sz {(int) lst.size()},
+			space {(int) lst.size()},
 			elem {new double [sz]}
 		{
 			copy (lst.begin(), lst.end(), elem);
+		}
+
+		m_vector (const m_vector & v) :
+			sz {v.sz},
+			space {sz},
+			elem {new double [sz]}
+		{
+			copy (v.elem, v.elem + sz, elem);
 		}
 
 		~m_vector ()
 		{
 			delete [] elem;
 			elem = nullptr;
+		}
+
+		m_vector & operator = (const m_vector & v)
+		{
+			if (space < v.sz)
+			{
+				delete [] elem;
+				elem = new double [v.sz];
+				space = v.sz;
+			}
+			sz = v.sz;			
+			copy (v.elem, v.elem + sz, elem);
+
+			return * this;
 		}
 
 		double & operator [] (int n)
@@ -53,8 +75,8 @@ namespace ch19
 		}
 
 
-		int size () {return sz;}
-		int capacity () {return space;}
+		int size () const {return sz;}
+		int capacity () const {return space;}
 	};
 
 
