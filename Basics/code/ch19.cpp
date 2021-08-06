@@ -6,7 +6,8 @@ using namespace std;
 
 namespace ch19
 {
-	m_vector & m_vector::operator = (const m_vector & v)
+	template <typename T>
+		m_vector<T> & m_vector<T>::operator = (const m_vector & v)
 	{
 		if (this == & v)
 			return * this;
@@ -14,15 +15,15 @@ namespace ch19
 		if (space < v.sz)
 		{
 			delete [] elem;
-			elem = new double [v.sz];
+			elem = new T [v.sz];
 			space = v.sz;
 		}
 		sz = v.sz;			
 		copy (v.elem, v.elem + sz, elem);
 		return * this;
 	}
-
-	m_vector & m_vector::operator = (m_vector && v) noexcept (true)
+	template <typename T>
+		m_vector<T> & m_vector<T>::operator = (m_vector && v) noexcept (true)
 	{
 		sz = v.sz;
 		space = v.space;
@@ -32,21 +33,20 @@ namespace ch19
 		v.sz = v.space = 0;
 		return * this;
 	}
-
-	void m_vector::reserve (int new_space)
+	template <typename T>
+		void m_vector<T>::reserve (int new_space)
 	{
 		if (new_space <= space)
 			return;
-		double 
-			* p = new double [new_space];
+		T * p = new T [new_space];
 		for (int i = 0; i < sz; ++i)
 			p [i] = elem [i];
 		delete [] elem;
 		elem = p;
 		space = new_space;
 	}
-
-	void m_vector::resize (int new_size)
+	template <typename T>
+		void m_vector<T>::resize (int new_size)
 	{		
 		reserve (new_size);
 		if (new_size > sz)
@@ -56,8 +56,8 @@ namespace ch19
 			sz = new_size;
 		}
 	}
-
-	void m_vector::push_back (double d)
+	template <typename T>
+	void m_vector<T>::push_back (T d)
 	{
 		if (space == 0)
 			reserve (8);
@@ -69,7 +69,8 @@ namespace ch19
 
 	void main()
 	{
-		auto skrt = [](const m_vector & v) 
+		
+		auto skrt = [](const auto & v)	// XD
 		{
 			for (int i = 0; i < v.size(); ++i)
 				cout
@@ -77,7 +78,7 @@ namespace ch19
 			cout << '\n';
 		};
 
-		m_vector 
+		m_vector <double>
 			a {0, 1, 2, 3},
 			b;
 

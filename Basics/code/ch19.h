@@ -7,33 +7,34 @@
 using namespace std;
 namespace ch19
 {
+	template <typename T>
 	class m_vector
 	{
 		int sz;
 		int space;
-		double * elem;
+		T * elem;
 
 	public : 
 
 		m_vector () :
 			sz {0},
 			space {8},
-			elem {new double [space]}
+			elem {new T [space]}
 		{}
 
 		explicit m_vector (int i) :
 			sz {i},
 			space {i},
-			elem {new double [space]}
+			elem {new T [space]}
 		{
 			for (int c = 0; c < sz; ++c) 
 				elem [c] = c; 
 		}
 
-		m_vector (initializer_list <double> lst) :
+		m_vector (initializer_list <T> lst) :
 			sz {(int) lst.size()},
 			space {(int) lst.size()},
-			elem {new double [sz]}
+			elem {new T [sz]}
 		{
 			copy (lst.begin(), lst.end(), elem);
 		}
@@ -41,7 +42,7 @@ namespace ch19
 		m_vector (const m_vector & v) :
 			sz {v.sz},
 			space {sz},
-			elem {new double [sz]}
+			elem {new T [sz]}
 		{
 			copy (v.elem, v.elem + sz, elem);
 		}
@@ -66,18 +67,18 @@ namespace ch19
 		m_vector & operator = (m_vector && v) noexcept (true);
 		
 
-		double & operator [] (int n)
+		T & operator [] (int n)
 		{
 			return elem [n];
 		}
-		const double & operator [] (int n) const
+		const T & operator [] (int n) const
 		{
 			return elem [n];
 		}
 
 		void reserve (int i);
 		void resize(int i);
-		void push_back (double d);
+		void push_back (T d);
 
 		int size () const {return sz;}
 		int capacity () const {return space;}
