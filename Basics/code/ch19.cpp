@@ -8,23 +8,12 @@ namespace ch19
 {
 	void main()
 	{
-		m_vector * m = nullptr;
+		m_vector v {0., 0.1, 0.2, 0.3};
 
-		if (true)
-		{
-			m_vector v(6);
-			m = & v;
-
+		for (int i = 0; i < v.size(); ++i)
 			cout
-				<< "within the inner scope\t"
-				<< (m != nullptr ? "yup" : "nay")
-				<< '\n';
-		}
-			cout
-				<< "outside inner scope\t"
-				<< (m != nullptr ? "yup" : "nay")
-				//<< hex 
-				//<< m -> elem [0]
-				<< '\n';
+				<< v [i] << ", ";
+		cout 
+			<< '\n';
 	}
 }
