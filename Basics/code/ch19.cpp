@@ -1,7 +1,5 @@
 #include "ch19.h"
 
-//#include <iostream>
-
 using namespace std;
 
 namespace ch19
@@ -102,7 +100,7 @@ namespace ch19
 		{
 			m_vector<int> v;
 			testing ("empty constr: size", v.size(), 0);
-			testing ("empty constr: space", v.capacity(), 8);
+			testing ("empty constr: space", v.capacity(), 1);
 			++test_no;
 		}
 		
@@ -121,6 +119,7 @@ namespace ch19
 		//	testing ("init constr: size", v.size(), 1);
 		//	testing ("init constr: space", v.capacity(), 1);
 		//	testing ("init constr: elem", v[0], -1);
+		//	++test_no;
 		//}
 		
 		//if (false)
@@ -131,6 +130,7 @@ namespace ch19
 		//	testing ("copy constr: size", v.size(), 1);
 		//	testing ("copy constr: space", v.capacity(), 1);
 		//	testing ("copy constr: elem", v[0], -1);
+		//	++test_no;
 		//}
 		
 		//if (false)
@@ -146,6 +146,7 @@ namespace ch19
 		//	testing ("move constr: size", v.size(), 1);
 		//	testing ("move constr: space", v.capacity(), 1);
 		//	testing ("move constr: elem", v[0], -1);
+		//	++test_no;
 		//}
 		
 		//if (false)
@@ -155,6 +156,7 @@ namespace ch19
 		//	testing ("= oper: size", v.size(), 1);
 		//	testing ("= oper: space", v.capacity(), 1);
 		//	testing ("= oper: elem", v[0], -1);
+		//	++test_no;
 		//}
 		
 		//if (false)
@@ -231,7 +233,7 @@ namespace ch19
 	}
 
 	void main()
-	{
+	{		
 		test_01();
 	}
 }

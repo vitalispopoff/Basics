@@ -13,91 +13,63 @@ namespace ch19
 		struct vector_base
 	{
 		A alloc;
+		int sz, space;
 		T * elem;
-		int sz;
-		int space;
 
-		vector_base () :
-			alloc {A ()},
-			elem {alloc.allocate (8)},
-			sz {0},
-			space {8}
-		{}
-
-		vector_base (const A & a, int n) :
+		vector_base (const A & a = A(), int n = 0) :			
 			alloc {a},
-			elem {alloc.allocate (n)},
-			sz {n},
-			space {n}
+			sz {max (0, n)},
+			space {sz},
+			elem {(bool) sz ? alloc.allocate(sz) : nullptr}
 		{}
-		~vector_base () {alloc.deallocate (elem, space);}
+
+		~vector_base () 
+		{
+			for (int i = 0; i < sz; ++i)
+				alloc.destroy (elem + i);
+		}
 	};
 		
 	template <typename T, typename A = allocator <T>>	// T is Element <E>()
 	class m_vector : private vector_base<T, A>
 	{
-		//A alloc;
-		//int sz;
-		//int space;
-		//T * elem;
-
 	public : 
 
-		m_vector ()
-		//	sz {0},
-		//	space {8},
-		//	elem {alloc.allocate (space)}
-		{
-			this -> alloc = A ();
-			this -> sz = 0;
-			this -> space = 8;
-			this -> elem = this -> alloc.allocate (this -> space);
-		
-		}
-
-		explicit m_vector (int n, T val = T())
+		explicit m_vector (int n = 0, T val = T())
 		{
 			this -> sz = max (0, n);
 			this -> space = max(1, n);
 			this -> elem = this -> alloc.allocate (this -> space);
-
 			for (int i = 0; i < this -> sz; ++i) 
 				this->alloc.construct (& (this->elem [i]), val);
 		}
 
-		//m_vector (initializer_list <T> lst) :
-		//	sz {(int) lst.size()},
-		//	space {(int) lst.size()},
-		//	elem {alloc.allocate (space)}
+		m_vector (initializer_list <T> lst)
+		{
+			this -> sz = (int) lst.size();
+			this -> space = (int) lst.size();
+			this -> elem = this -> alloc.allocate (this -> space);
+			copy (lst.begin(), lst.end(), this -> elem);
+		}
+
+		//m_vector (const m_vector & v)
 		//{
-		//	copy (lst.begin(), lst.end(), elem);
+		//	this -> sz = this -> space = v.sz;			
+		//	this -> elem = this -> alloc.allocate (v.sz);
+		//	copy (v.elem, v.elem + v.sz, this -> elem);
 		//}
 
-		//m_vector (const m_vector & v) :
-		//	sz {v.sz},
-		//	space {sz},
-		//	elem {new T [sz]}
+		//m_vector (m_vector && v) noexcept (true)
 		//{
-		//	copy (v.elem, v.elem + sz, elem);
-		//}
-
-		//m_vector (m_vector && v) noexcept (true) :
-		//	sz {v.sz},
-		//	space {v.space},
-		//	elem {v.elem}
-		//{
+		//	this -> sz = v.sz;
+		//	this -> space = v.space;
+		//	this -> elem = v.elem;
 		//	v.sz = v.space = 0;
 		//	v.elem = nullptr;
 		//}
 
-		~m_vector ()
-		{
-			//delete [] elem;		// keep delete or connect with alloc ?
-		}
-
 		//m_vector & operator = (const m_vector & v);
-		//m_vector & operator = (m_vector && v) noexcept (true);
-		
+		//m_vector & operator = (m_vector && v) noexcept (true);		
 
 		T & operator [] (int n) {return this -> elem [n];}
 		const T & operator [] (int n) const {return this -> elem [n];}
