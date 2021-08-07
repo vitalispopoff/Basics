@@ -232,6 +232,5 @@ namespace ch19
 	void main()
 	{
 		test_01();
-		//test();
 	}
 }

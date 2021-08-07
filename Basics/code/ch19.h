@@ -8,6 +8,24 @@
 using namespace std;
 namespace ch19
 {
+
+	template <typename T, typename A = allocator <T>>
+		struct vector_base
+	{
+		A alloc;
+		T * elem;
+		int sz;
+		int space;
+
+		vector_base (const A & a, int n) :
+			alloc {a},
+			elem {alloc.allocate (n)},
+			sz {n},
+			space {n}
+		{}
+		~vector_base () {alloc.deallocate (elem, space);}
+	};
+		
 	template <typename T, typename A = allocator <T>>	// T is Element <E>()
 	class m_vector
 	{
