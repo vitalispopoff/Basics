@@ -4,97 +4,56 @@ using namespace std;
 
 namespace ch19
 {
-	/// disposable
-	//template <typename T, typename A>
-	//	m_vector<T, A> & m_vector<T, A>::operator = (const m_vector & v)
-	//{
-	//	cout << "\n\t = copy oper\n";
-	//	if (this == & v)
-	//		return * this;
-	//	if (this -> space < v.sz)
-	//	{
-	//		delete [] this -> elem;
-	//		this -> elem = this -> alloc.allocate (v.sz);
-	//		this -> space = v.sz;
-	//	}
-	//	this -> sz = v.sz;			
-	//	copy (v.elem, v.elem + v.sz, this -> elem);
-	//	return * this;
-	//}
-	
-	/// disposable
-	//template <typename T, typename A>
-	//	m_vector<T, A> & m_vector<T, A>::operator = (m_vector && v) noexcept (true)
-	//{
-	//	if (true)
-	//		delete [] elem;
-	//	else
-	//	{
-	//		alloc.destroy (space, elem);
-	//		alloc.deallocate (elem);
-	//	}
-	//	sz = v.sz;
-	//	space = v.space;
-	//	elem = v.elem;
-	//	v.elem = nullptr;
-	//	v.sz = v.space = 0;
-	//	return * this;
-	//}
-	
 	template <typename T, typename A>
 		void m_vector<T, A>::reserve (int new_space)
 	{
 		if (new_space <= this -> space)
 			return;
-
-		//T * p = alloc.allocate(new_space);
-		vector_base<T, A> b (this -> alloc, new_space);
-
-		uninitialized_copy (b.elem, & b.elem [this -> sz], this -> elem);
+		vector_base<T, A> 
+			b (this -> alloc, new_space);
+		uninitialized_copy (this -> elem, & this -> elem [this -> sz], b.elem);
+		b.sz = this -> sz;
 		for (int i = 0; i < this -> sz; ++i)
-		{
-			//alloc.construct(& p [i], elem [i]);
 			this -> alloc.destroy (& this -> elem[i]);
-		}
-
-		
-		//alloc.deallocate (elem, space);
-		//elem = p;
-		//space = new_space;
 		swap <vector_base <T, A>> (* this, b);
 	}
 	
-	//template <typename T, typename A>
-	//	void m_vector<T, A>::resize (int new_size, T val)
-	//{		
-	//	if (new_size < 0)
-	//		return;
-
-	//	reserve (new_size);
-	//		for (int i = sz; i < new_size; ++i)
-	//			alloc.construct (&elem [i], val);
-	//		for (int i = new_size; i < sz; ++i)
-	//			alloc.destroy (&elem [i]);
-	//		sz = new_size;
-	//}
+	template <typename T, typename A>
+		void m_vector<T, A>::resize (int new_size, T val)
+	{		
+		if (new_size < 0)
+			return;
+		reserve (new_size);
+		for (int i = this -> sz; i < new_size; ++i)
+			this -> alloc.construct (& this -> elem [i], val);
+		for (int i = new_size; i < this -> sz; ++i)
+			this -> alloc.destroy (& this -> elem [i]);
+		this -> sz = new_size;
+	}
 	
-	//template <typename T, typename A>
-	//	void m_vector<T, A>::push_back (T val)
-	//{
-	//	if (space == 0)
-	//		reserve (8);		
-	//	/// is 'else' redundant?: if space==0 reserve(8) returns sz==0 && space==8
-	//	/// but if space!=0 then and only then space?=sz is to be checked
-	//	else
-	//		if (space == sz)
-	//			reserve (space * 2);
-	//	alloc.construct (& elem [sz], val);
-	//	++sz;
-	//}
+	template <typename T, typename A>
+		void m_vector<T, A>::push_back (T val)
+	{
+		if (this -> space == 0)
+			reserve (8);		
+		else
+			if (this -> space == this -> sz)
+				reserve (2 * this -> space);
+		this -> alloc.construct (& this -> elem [this -> sz], val);
+		++(this -> sz);
+	}
 
 //	----------------------------------------------------------
 	
 	// unit testing still not introduced - going for this ersatz
+	int test_no {0};
+
+	template <typename T>
+		void printing (m_vector<T> & v)
+	{
+		cout
+			<< "\nsz : " << v.size() <<",\tspace : " << v.capacity() << '\n';
+	}
 	template <typename U>
 		void testing (string name, U expected, U given)
 	{		
@@ -103,14 +62,14 @@ namespace ch19
 			<< name << "\tfailed\n";
 	}
 
+
 	void test_01()
 	{
-		int test_no {0};
 		if (true)
 		{
 			m_vector<int> v;
 			testing ("empty constr: size", v.size(), 0);
-			testing ("empty constr: space", v.capacity(), 1);
+			testing ("empty constr: space", v.capacity(), 0);
 			++test_no;
 		}
 		
@@ -196,6 +155,7 @@ namespace ch19
 			testing ("= move oper: space", v.capacity(), 1);
 			testing ("= move oper: elem", v[0], -1);			
 			testing ("= move oper: *", (int) ptr, (int) v.addr());
+			++test_no;
 		}
 		
 		if (true)
@@ -205,48 +165,69 @@ namespace ch19
 			v.reserve (4);
 			testing ("reserve: size", v.size(), 0);
 			testing ("reserve: space", v.capacity(), 4);
-			cout << '\n' << v.size() << '\t' << v.capacity() << '\n';
 			++test_no;
 		}
 		
-		//if (false)
-		//{
-		//	m_vector<int>
-		//		v {-1};
-		//	v.resize(2);
-		//	testing ("resize: size", v.size(), 2);
-		//	testing ("resize: space", v.capacity(), 2);
-		//	testing ("resize: elem", v[0], -1);
-		//}
+		if (true)
+		{
+			m_vector<int>
+				v {-1};
+			v.resize(2);
+			testing ("resize: size", v.size(), 2);
+			testing ("resize: space", v.capacity(), 2);
+			testing ("resize: elem", v[0], -1);
+			++test_no;
+		}
 
-		//if (false)
-		//{
-		//	auto skrt = [](const auto & v)	// 'auto' XD
-		//	{
-		//		for (int i = 0; i < v.size(); ++i)
-		//			cout
-		//				<< v[i] << ", ";
-		//		cout << '\n';
-		//	};
-		//	m_vector <double>
-		//		a {0, 1, 2, 3},
-		//		b;
-		//	skrt(a);
-		//
-		//	a.push_back(-1);
-		//	skrt(a);
-		//	a.resize (b.capacity());
-		//	a.reserve (16);
-		//	skrt(a);
-		//	a.resize (-1);
-		//	a.resize (4);
-		//	skrt (a);
-		//}
-		cout << "all tests done (" << test_no << ")\n";
+		if (true)
+		{
+			m_vector<int> v(0);
+			v.push_back (-1);
+			testing ("push_back", v.size(), 1);
+			testing ("push_back", v.capacity(), 8);
+			testing ("push_back", v[0], -1);
+			++test_no;
+		}
+	}
+
+	void test_02()
+	{
+		if (true)
+		{
+			m_vector<int> v;
+			v.reserve (1);
+			testing ("empty constr + 1 : size", v.size(), 0);
+			testing ("empty constr + 1 : space", v.capacity(), 1);
+			testing ("empty constr + 1 : *", int (v.addr()!= nullptr), 1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector<int> v;
+			v.reserve (0);
+			testing ("empty constr + 0 : size", v.size(), 0);
+			testing ("empty constr + 0 : space", v.capacity(), 0);
+			testing ("empty constr + 0 : *", int (v.addr()== nullptr), 1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector<int> v {-1};
+			v.reserve (0);
+			testing ("empty constr -1 : size", v.size(), 1);
+			testing ("empty constr -1 : space", v.capacity(), 1);
+			++test_no;
+		}
 	}
 
 	void main()
 	{		
-		test_01();
+		//test_01(); // basic functioning
+
+		test_02(); // reserve
+
+		cout << "all tests done (" << test_no << ")\n";
 	}
 }
