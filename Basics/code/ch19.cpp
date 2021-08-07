@@ -59,12 +59,15 @@ namespace ch19
 	template <typename T>
 		void m_vector<T>::resize (int new_size, T val)
 	{		
+		if (new_size < 0)
+			return;
+
 		reserve (new_size);
-		for (int i = sz; i < new_size; ++i)
-			alloc.construct (& elem [i], val);
-		for (int i = new_size; i < sz; ++i)
-			alloc.destroy (& elem [i]);
-		sz = new_size;
+			for (int i = sz; i < new_size; ++i)
+				alloc.construct (&elem [i], val);
+			for (int i = new_size; i < sz; ++i)
+				alloc.destroy (&elem [i]);
+			sz = new_size;
 	}
 	template <typename T>
 		void m_vector<T>::push_back (T val)
@@ -80,7 +83,9 @@ namespace ch19
 		++sz;
 	}
 
-	void main()
+//	----------------------------------------------------------
+
+	void test()
 	{		
 		auto skrt = [](const auto & v)	// 'auto' XD
 		{
@@ -102,11 +107,19 @@ namespace ch19
 
 		a.resize (b.capacity());
 
+		a.reserve (16);
+
 		skrt(a);
 	
 		a.resize (-1);
 
+		a.resize (4);
+
 		skrt (a);
 	}
 
+	void main()
+	{
+		test();
+	}
 }

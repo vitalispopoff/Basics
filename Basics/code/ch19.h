@@ -21,22 +21,26 @@ namespace ch19
 		m_vector () :
 			sz {0},
 			space {8},
-			elem {new T [space]}
+			//elem {new T [space]}
+			elem {alloc.allocate (space)}
 		{}
 
-		explicit m_vector (int i) :
+		explicit m_vector (int i, T val = T()) :
 			sz {i},
 			space {i},
-			elem {new T [space]}
+			//elem {new T [space]}
+			elem {alloc.allocate (space)}
 		{
 			for (int c = 0; c < sz; ++c) 
-				elem [c] = c; 
+				//elem [c] = c; 
+				alloc.construct (& elem [i], val);
 		}
 
 		m_vector (initializer_list <T> lst) :
 			sz {(int) lst.size()},
 			space {(int) lst.size()},
-			elem {new T [sz]}
+			//elem {new T [sz]}
+			elem {alloc.allocate (space)}
 		{
 			copy (lst.begin(), lst.end(), elem);
 		}
@@ -44,7 +48,8 @@ namespace ch19
 		m_vector (const m_vector & v) :
 			sz {v.sz},
 			space {sz},
-			elem {new T [sz]}
+			//elem {new T [sz]}
+			elem {alloc.allocate (space)}
 		{
 			copy (v.elem, v.elem + sz, elem);
 		}
@@ -61,7 +66,7 @@ namespace ch19
 		~m_vector ()
 		{
 			delete [] elem;		// keep delete or connect with alloc ?
-			elem = nullptr;
+			//elem = nullptr;	// redundant, innit?
 		}
 
 		m_vector & operator = (const m_vector & v);
