@@ -8,10 +8,10 @@
 using namespace std;
 namespace ch19
 {
-	template <typename T>	// T is Element <E>()
+	template <typename T, typename A = allocator <T>>	// T is Element <E>()
 	class m_vector
 	{
-		allocator<T> alloc;
+		A alloc;
 		int sz;
 		int space;
 		T * elem;
@@ -21,25 +21,21 @@ namespace ch19
 		m_vector () :
 			sz {0},
 			space {8},
-			//elem {new T [space]}
 			elem {alloc.allocate (space)}
 		{}
 
-		explicit m_vector (int i, T val = T()) :
-			sz {i},
-			space {i},
-			//elem {new T [space]}
+		explicit m_vector (int n, T val = T()) :
+			sz {max (0, n)},
+			space {max(1, n)},
 			elem {alloc.allocate (space)}
 		{
-			for (int c = 0; c < sz; ++c) 
-				//elem [c] = c; 
+			for (int i = 0; i < sz; ++i) 
 				alloc.construct (& elem [i], val);
 		}
 
 		m_vector (initializer_list <T> lst) :
 			sz {(int) lst.size()},
 			space {(int) lst.size()},
-			//elem {new T [sz]}
 			elem {alloc.allocate (space)}
 		{
 			copy (lst.begin(), lst.end(), elem);
@@ -48,8 +44,7 @@ namespace ch19
 		m_vector (const m_vector & v) :
 			sz {v.sz},
 			space {sz},
-			//elem {new T [sz]}
-			elem {alloc.allocate (space)}
+			elem {new T [sz]}
 		{
 			copy (v.elem, v.elem + sz, elem);
 		}
@@ -66,7 +61,6 @@ namespace ch19
 		~m_vector ()
 		{
 			delete [] elem;		// keep delete or connect with alloc ?
-			//elem = nullptr;	// redundant, innit?
 		}
 
 		m_vector & operator = (const m_vector & v);
@@ -82,6 +76,9 @@ namespace ch19
 
 		int size () const {return sz;}
 		int capacity () const {return space;}
+
+		/// for testing:
+		const T * addr () const {return elem;}
 	};
 
 
