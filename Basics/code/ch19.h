@@ -18,9 +18,9 @@ namespace ch19
 
 		vector_base (const A & a = A(), int n = 0) :			
 			alloc {a},
-			sz {max (0, n)},
-			space {sz},
-			elem {(bool) sz ? alloc.allocate(sz) : nullptr}
+			sz {0},
+			space {max (0, n)},
+			elem {(bool) space ? alloc.allocate (space) : nullptr}
 		{}
 
 		~vector_base () 
@@ -46,35 +46,35 @@ namespace ch19
 
 		m_vector (initializer_list <T> lst)
 		{
-			this -> sz = (int) lst.size();
-			this -> space = (int) lst.size();
+			this -> sz = this -> space = (int) lst.size();
 			this -> elem = this -> alloc.allocate (this -> space);
 			copy (lst.begin(), lst.end(), this -> elem);
 		}
 
-		//m_vector (const m_vector & v)
-		//{
-		//	this -> sz = this -> space = v.sz;			
-		//	this -> elem = this -> alloc.allocate (v.sz);
-		//	copy (v.elem, v.elem + v.sz, this -> elem);
-		//}
+		m_vector (const m_vector & v)
+		{
+			this -> sz = this -> space = v.sz;			
+			this -> elem = this -> alloc.allocate (v.sz);
+			copy (v.elem, v.elem + v.sz, this -> elem);
+		}
 
-		//m_vector (m_vector && v) noexcept (true)
-		//{
-		//	this -> sz = v.sz;
-		//	this -> space = v.space;
-		//	this -> elem = v.elem;
-		//	v.sz = v.space = 0;
-		//	v.elem = nullptr;
-		//}
+		m_vector (m_vector && v) noexcept (true)
+		{
+			this -> sz = v.sz;
+			this -> space = v.space;
+			this -> elem = v.elem;
+			//v.sz = v.space = 0;
+			//v.elem = nullptr;
+		}
 
+		/// disposable
 		//m_vector & operator = (const m_vector & v);
 		//m_vector & operator = (m_vector && v) noexcept (true);		
 
 		T & operator [] (int n) {return this -> elem [n];}
 		const T & operator [] (int n) const {return this -> elem [n];}
 
-		//void reserve (int new_space);
+		void reserve (int new_space);
 		//void resize(int new_size, T val = T());
 		//void push_back (T val);
 

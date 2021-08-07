@@ -4,22 +4,25 @@ using namespace std;
 
 namespace ch19
 {
+	/// disposable
 	//template <typename T, typename A>
 	//	m_vector<T, A> & m_vector<T, A>::operator = (const m_vector & v)
 	//{
+	//	cout << "\n\t = copy oper\n";
 	//	if (this == & v)
 	//		return * this;
-	//	if (space < v.sz)
+	//	if (this -> space < v.sz)
 	//	{
-	//		delete [] elem;
-	//		elem = alloc.allocate (v.sz);
-	//		space = v.sz;
+	//		delete [] this -> elem;
+	//		this -> elem = this -> alloc.allocate (v.sz);
+	//		this -> space = v.sz;
 	//	}
-	//	sz = v.sz;			
-	//	copy (v.elem, v.elem + sz, elem);
+	//	this -> sz = v.sz;			
+	//	copy (v.elem, v.elem + v.sz, this -> elem);
 	//	return * this;
 	//}
 	
+	/// disposable
 	//template <typename T, typename A>
 	//	m_vector<T, A> & m_vector<T, A>::operator = (m_vector && v) noexcept (true)
 	//{
@@ -38,21 +41,28 @@ namespace ch19
 	//	return * this;
 	//}
 	
-	//template <typename T, typename A>
-	//	void m_vector<T, A>::reserve (int new_space)
-	//{
-	//	if (new_space <= space)
-	//		return;
-	//	T * p = alloc.allocate(new_space);
-	//	for (int i = 0; i < sz; ++i)
-	//	{
-	//		alloc.construct(& p [i], elem [i]);
-	//		alloc.destroy (& elem[i]);
-	//	}
-	//	alloc.deallocate (elem, space);
-	//	elem = p;
-	//	space = new_space;
-	//}
+	template <typename T, typename A>
+		void m_vector<T, A>::reserve (int new_space)
+	{
+		if (new_space <= this -> space)
+			return;
+
+		//T * p = alloc.allocate(new_space);
+		vector_base<T, A> b (this -> alloc, new_space);
+
+		uninitialized_copy (b.elem, & b.elem [this -> sz], this -> elem);
+		for (int i = 0; i < this -> sz; ++i)
+		{
+			//alloc.construct(& p [i], elem [i]);
+			this -> alloc.destroy (& this -> elem[i]);
+		}
+
+		
+		//alloc.deallocate (elem, space);
+		//elem = p;
+		//space = new_space;
+		swap <vector_base <T, A>> (* this, b);
+	}
 	
 	//template <typename T, typename A>
 	//	void m_vector<T, A>::resize (int new_size, T val)
@@ -113,88 +123,91 @@ namespace ch19
 			++test_no;
 		}
 		
-		//if (false)
-		//{
-		//	m_vector<int> v {-1};
-		//	testing ("init constr: size", v.size(), 1);
-		//	testing ("init constr: space", v.capacity(), 1);
-		//	testing ("init constr: elem", v[0], -1);
-		//	++test_no;
-		//}
+		if (true)
+		{
+			m_vector<int> v {-1};
+			testing ("init constr: size", v.size(), 1);
+			testing ("init constr: space", v.capacity(), 1);
+			testing ("init constr: elem", v[0], -1);
+			++test_no;
+		}
 		
-		//if (false)
-		//{
-		//	m_vector<int> 
-		//		u {-1},
-		//		v {u};
-		//	testing ("copy constr: size", v.size(), 1);
-		//	testing ("copy constr: space", v.capacity(), 1);
-		//	testing ("copy constr: elem", v[0], -1);
-		//	++test_no;
-		//}
+		if (true)
+		{
+			m_vector<int> 
+				u {-1},
+				v {u};
+			testing ("copy constr: size", v.size(), 1);
+			testing ("copy constr: space", v.capacity(), 1);
+			testing ("copy constr: elem", v[0], -1);
+			++test_no;
+		}
 		
-		//if (false)
-		//{	
-		//	auto a = []() -> m_vector<int>
-		//	{
-		//		m_vector<int> temp {-1};
-		//		return temp;
-		//		 //return m_vector<int>(); //doesn't call the copy/move constr !!!
-		//	};
-		//	m_vector<int> v {a()};
-		//	
-		//	testing ("move constr: size", v.size(), 1);
-		//	testing ("move constr: space", v.capacity(), 1);
-		//	testing ("move constr: elem", v[0], -1);
-		//	++test_no;
-		//}
+		if (true)
+		{	
+			auto a = []() -> m_vector<int>
+			{
+				m_vector<int> temp {-1};
+				return temp;
+				 //return m_vector<int>(); //doesn't call the copy/move constr !!!
+			};
+			m_vector<int> v {a()};
+			
+			testing ("move constr: size", v.size(), 1);
+			testing ("move constr: space", v.capacity(), 1);
+			testing ("move constr: elem", v[0], -1);
+			++test_no;
+		}
 		
-		//if (false)
-		//{
-		//	m_vector<int>
-		//		v = m_vector<int> {-1};
-		//	testing ("= oper: size", v.size(), 1);
-		//	testing ("= oper: space", v.capacity(), 1);
-		//	testing ("= oper: elem", v[0], -1);
-		//	++test_no;
-		//}
+		if (true)
+		{
+			m_vector<int>
+				v = m_vector<int> {-1};
+			testing ("= oper: size", v.size(), 1);
+			testing ("= oper: space", v.capacity(), 1);
+			testing ("= oper: elem", v[0], -1);
+			++test_no;
+		}
 		
-		//if (false)
-		//{
-		//	m_vector<int> 
-		//		u {-1},
-		//		v = u;
-		//	testing ("= copy oper: size", u.size(), v.size());
-		//	testing ("= copy oper: space", u.capacity(), v.capacity());
-		//	testing ("= copy oper: elem", u[0], v[0]);
-		//}
+		if (true)
+		{
+			m_vector<int> 
+				u {-1},
+				v = u;
+			testing ("= copy oper: size", u.size(), v.size());
+			testing ("= copy oper: space", u.capacity(), v.capacity());
+			testing ("= copy oper: elem", u[0], v[0]);
+			++test_no;
+		}
 		
-		//if (false)
-		//{
-		//	void 
-		//		* ptr = nullptr;
-		//	auto a = [&]() -> m_vector<int>
-		//	{
-		//		m_vector<int> temp {-1};
-		//		ptr = (void *)temp.addr();
-		//		return temp;
-		//	};
-		//	m_vector<int>
-		//		v = a();
-		//	testing ("= move oper: size", v.size(), 1);
-		//	testing ("= move oper: space", v.capacity(), 1);
-		//	testing ("= move oper: elem", v[0], -1);			
-		//	testing ("= move oper: *", (int) ptr, (int) v.addr());
-		//}
+		if (true)
+		{
+			void 
+				* ptr = nullptr;
+			auto a = [&]() -> m_vector<int>
+			{
+				m_vector<int> temp {-1};
+				ptr = (void *)temp.addr();
+				return temp;
+			};
+			m_vector<int>
+				v = a();
+			testing ("= move oper: size", v.size(), 1);
+			testing ("= move oper: space", v.capacity(), 1);
+			testing ("= move oper: elem", v[0], -1);			
+			testing ("= move oper: *", (int) ptr, (int) v.addr());
+		}
 		
-		//if (false)
-		//{
-		//	m_vector<int>
-		//		v(0);
-		//	v.reserve (4);
-		//	testing ("reserve: size", v.size(), 0);
-		//	testing ("reserve: space", v.capacity(), 4);
-		//}
+		if (true)
+		{
+			m_vector<int>
+				v(0);
+			v.reserve (4);
+			testing ("reserve: size", v.size(), 0);
+			testing ("reserve: space", v.capacity(), 4);
+			cout << '\n' << v.size() << '\t' << v.capacity() << '\n';
+			++test_no;
+		}
 		
 		//if (false)
 		//{
