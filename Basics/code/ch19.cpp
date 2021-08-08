@@ -7,8 +7,19 @@ namespace ch19
 	template <typename T, typename A>
 		void m_vector<T, A>::reserve (int new_space)
 	{
-		if (new_space <= this -> space)
+		//if (new_space <= this -> space)
+		if (new_space < 0)
+			return;	
+		if (new_space == 0)
+		{
+			for (int i = 0; i < this -> sz; ++i)
+				this -> alloc.destroy (this -> elem + i);
+			this -> alloc.deallocate (this -> elem, this -> space);
+			this -> elem = nullptr;
+			this -> sz = this -> space = 0;
 			return;
+		}
+
 		vector_base<T, A> 
 			b (this -> alloc, new_space);
 		uninitialized_copy (this -> elem, & this -> elem [this -> sz], b.elem);
@@ -62,8 +73,9 @@ namespace ch19
 			<< name << "\tfailed\n";
 	}
 
+//	----------------------------------------------------------
 
-	void test_01()
+	void test_min()
 	{
 		if (true)
 		{
@@ -104,17 +116,19 @@ namespace ch19
 		
 		if (true)
 		{	
-			auto a = []() -> m_vector<int>
+			void * temp_ptr = nullptr;
+			auto a = [&]() -> m_vector<int>
 			{
 				m_vector<int> temp {-1};
+				temp_ptr = (void *) temp.addr();
 				return temp;
-				 //return m_vector<int>(); //doesn't call the copy/move constr !!!
 			};
 			m_vector<int> v {a()};
 			
 			testing ("move constr: size", v.size(), 1);
 			testing ("move constr: space", v.capacity(), 1);
 			testing ("move constr: elem", v[0], -1);
+			testing ("move constr: *", (int) temp_ptr, (int) v.addr());
 			++test_no;
 		}
 		
@@ -190,7 +204,7 @@ namespace ch19
 		}
 	}
 
-	void test_02()
+	void test_reserve()
 	{
 		if (true)
 		{
@@ -216,18 +230,195 @@ namespace ch19
 		{
 			m_vector<int> v {-1};
 			v.reserve (0);
-			testing ("empty constr -1 : size", v.size(), 1);
-			testing ("empty constr -1 : space", v.capacity(), 1);
+			testing ("init constr -1 : size", v.size(), 0);
+			testing ("init constr -1 : space", v.capacity(), 0);
+			testing ("init constr -1 : *", int (v.addr() == nullptr), 1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector<int> v {-1};
+			v.reserve (2);
+			testing ("init constr + 1 : size", v.size(), 1);
+			testing ("init constr + 1 : space", v.capacity(), 2);
+			testing ("init constr + 1 : elem", v[0], -1);
+			++test_no;
+		}
+	}
+
+	void test_resize()
+	{
+		if (true)
+		{
+			m_vector<int> v;
+			v.resize (0);
+			testing ("empty constr ,0 : size", v.size(), 0);
+			testing ("empty constr ,0 : space", v.capacity(), 0);
+			testing ("empty constr ,0 : *", int (v.addr() == nullptr), 1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector<int> v;
+			v.resize (-1);
+			testing ("empty constr ,-1 : size", v.size(), 0);
+			testing ("empty constr ,-1 : space", v.capacity(), 0);
+			testing ("empty constr ,-1 : *", int (v.addr() == nullptr), 1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector<int> v;
+			v.resize (1);
+			testing ("empty constr, 1 : size", v.size(), 1);
+			testing ("empty constr, 1 : space", v.capacity(), 1);
+			testing ("empty constr, 1 : *", int (v.addr() != nullptr), 1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector<int> v {-1, -2};
+			v.resize (1);
+			testing ("init constr 2, 1 : size", v.size(), 1);
+			testing ("init constr 2, 1 : space", v.capacity(), 1);
+			testing ("init constr 2, 1 : elem", v[0], -1);
+			++test_no;
+		}
+
+		if (false)
+		{
+			m_vector<int> v {-1};
+			v.resize (0);
+			testing ("init constr, 0 : size", v.size(), 0);
+			testing ("init constr, 0 : space", v.capacity(), 0);
+			testing ("init constr, 0 : *", int (v.addr() == nullptr), 1);
 			++test_no;
 		}
 	}
 
 	void main()
 	{		
-		//test_01(); // basic functioning
+		//test_min(); // basic functioning
 
-		test_02(); // reserve
+		test_reserve();
 
-		cout << "all tests done (" << test_no << ")\n";
+		test_resize();
+
+		cout << "\nAll tests done (" << test_no << ").\n";
 	}
+}
+
+namespace ch19_try_this
+{
+	template <typename T, typename A>
+		m_vector <T, A> & m_vector <T, A>::operator = (const m_vector & v)
+	{
+		if (this == & v
+			return * this;
+		if (space < v.sz)
+		{
+			delete [] elem;
+			elem = alloc.allocate (v.sz);
+			space = v.sz;
+		}
+		sz = v.sz;
+		copy (v.elem, v.elem + sz, elem);
+		return * this;
+	}
+
+	template <typename T, typename A>
+		m_vector <T, A> & m_vector <T, A>::operator = (m_vector && v) noexcept
+	{
+		if (true)
+			delete [] elem;
+		else
+		{
+			alloc.destroy (space, elem);
+			alloc.deallocate (elem);
+		}
+		sz = v.sz;
+		space = v.space;
+		elem = v.elem;
+		v.elem = nullptr;
+		v.sz = v.space = 0;
+		return * this;
+	}
+
+	template <typename T, typename A>
+		void m_vector <T, A>::reserve (int new_space)
+	{
+		if (new_space <= space)
+			return;
+		T * p = alloc.allocate (new_space);
+		for (int i = 0; i < sz; ++i)
+		{
+			alloc.construct (& p [i], elem [i]);
+			alloc.destroy (& elem [i]);
+		}
+		alloc.deallocate (elem, space);
+		elem = p;
+		space = new_space;
+	}
+
+	template <typename T, typename A>
+		void m_vector <T, A>::resize (int new_size, T val)
+	{
+		if (new_size < 0)
+			return;
+		reserve (new_size);
+		for (int i = sz; i < new_size; ++i)
+			alloc.construct (& elem [i], val);
+		for (int i = new_size; i < sz; ++i)
+			alloc.detroy (& elem [i])
+		sz = new_size;
+	}
+
+	template <typename T, typename A>
+		void m_vector <T, A>::push_back (T val)
+	{
+		if (space == 0)
+			reserve (8);
+		else 
+			if (space == sz)
+				reserve (space * 2);
+		alloc.construct (& elem [sz], val);
+		++sz;
+	}
+
+//	----------------------------------------------------------
+	
+	// unit testing still not introduced - going for this ersatz
+	int test_no {0};
+
+	template <typename T>
+		void printing (m_vector <T> & v)
+	{
+		cout
+			<< "\nsz : " << v.size() <<",\tspace : " << v.capacity() << '\n';
+	}
+	template <typename U>
+		void testing (string name, U expected, U given)
+	{		
+		if (given != expected)
+		cout
+			<< name << "\tfailed\n";
+	}
+
+//	----------------------------------------------------------	
+
+	void test_0()
+	{
+
+	}
+
+	void main()
+	{
+		test_0();
+		
+	}
+
 }
