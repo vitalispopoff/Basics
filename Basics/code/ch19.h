@@ -135,7 +135,7 @@ namespace ch19_try_this
 		T & operator [] (int n) {return elem [n];}
 		const T & operator [] (int n) const {return elem [n];}
 
-		void reserve (int s = space, int new_space = space);
+		void reserve (int new_space);
 		void resize (int new_size, T val = T());
 		void push_back (T val);
 

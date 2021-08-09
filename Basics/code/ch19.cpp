@@ -349,7 +349,7 @@ namespace ch19_try_this
 	}
 
 	template <typename T, typename A>
-		void m_vector <T, A>::reserve (int s, int new_space)
+		void m_vector <T, A>::reserve (int new_space)
 	{
 		if (new_space <= space)
 			return;
@@ -548,6 +548,41 @@ namespace ch19_try_this
 			testing ("resize : init, 1 : elem", v[0], -1);
 			++test_no;
 		}
+
+		if (true)
+		{
+			m_vector <int> v {-1, -2};
+			v.resize (1);
+			testing ("resize : init 2, 1 : size", v.size(), 1);
+			testing ("resize : init 2, 1 : space", v.capacity(), 2);
+			testing ("resize : init 2, 1 : elem", v[0], -1);
+			++test_no;	
+		}
+	}
+
+	void test_push_back()
+	{
+		if (true)
+		{
+			m_vector <int> v;
+			v.push_back (-1);
+			testing ("push_back, empty : size", v.size(), 1);
+			testing ("push_back, empty : space", v.capacity(), 8);
+			testing ("push_back, empty : elem", v[0], -1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector <int> v (8);
+			void * ptr = (void *) v.addr();
+			v.push_back (-1);
+			testing ("push_back, expl, 8 : size", v.size(), 9);
+			testing ("push_back, expl, 8 : space", v.capacity(), 16);
+			testing ("push_back, expl, 8 : elem", v[8], -1);
+			testing ("push_back, expl, 8 : *", int (ptr !=  (void *) v.addr()), 1);
+			++test_no;
+		}
 	}
 
 	void main()
@@ -555,6 +590,7 @@ namespace ch19_try_this
 		//test_min();
 		test_reserve();
 		test_resize();
+		test_push_back();
 
 		cout << "\nAll tests done (" << test_no << ").\n";		
 	}
