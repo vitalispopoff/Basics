@@ -80,7 +80,7 @@ namespace ch19_try_this
 	{
 		A alloc;
 		int sz, space;
-		T * elem;
+		unique_ptr<T> elem;
 	public :
 		m_vector () :
 			alloc {A ()},
@@ -95,7 +95,7 @@ namespace ch19_try_this
 			elem {alloc.allocate (space)}
 		{
 			for (int i = 0; i < sz; ++i)
-				alloc.construct (& elem [i], val);
+				alloc.construct (& elem.get() [i], val);
 		}
 
 		m_vector (initializer_list <T> lst) :
@@ -103,36 +103,36 @@ namespace ch19_try_this
 			space {(int) lst.size()},
 			elem {alloc.allocate (space)}
 		{
-			copy (lst.begin(), lst.end(), elem);
+			copy (lst.begin(), lst.end(), elem.get());
 		}
 
 		m_vector (const m_vector & v) :
 			sz {v.sz},
 			space {sz},
-			elem {new T [sz]}
+			elem {alloc.allocate (sz)}
 		{
-			copy (v.elem, v.elem + sz, elem);
+			copy (v.elem.get(), v.elem.get() + sz, elem.get());
 		}
 
 		m_vector (m_vector && v) noexcept :
 			sz {v.sz},
 			space {v.space},
-			elem {v.elem}
+			elem {}
 		{
 			v.sz = v.space = 0;
-			v.elem = nullptr;
+			elem.swap (v.elem);
 		}
 
 		~m_vector()
 		{
-			delete [] elem;	
+			elem.reset();	// reset deletes, release ... returns the owned pointer
 		}
 
 		m_vector & operator = (const m_vector & v);
 		m_vector & operator = (m_vector && v) noexcept;
 
-		T & operator [] (int n) {return elem [n];}
-		const T & operator [] (int n) const {return elem [n];}
+		T & operator [] (int n) {return elem.get() [n];}
+		const T & operator [] (int n) const {return elem.get() [n];}
 
 		void reserve (int new_space);
 		void resize (int new_size, T val = T());
@@ -142,7 +142,7 @@ namespace ch19_try_this
 		int capacity() const {return space;}
 
 		/// for testing
-		const T * addr () const {return elem;}
+		const T * addr () const {return & elem.get()[0];} // this is curious
 	};
 
 

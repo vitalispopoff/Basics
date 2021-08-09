@@ -321,29 +321,20 @@ namespace ch19_try_this
 			return * this;
 		if (space < v.sz)
 		{
-			delete [] elem;
 			elem = alloc.allocate (v.sz);
 			space = v.sz;
 		}
 		sz = v.sz;
-		copy (v.elem, v.elem + sz, elem);
+		copy (v.elem.get(), v.elem.get() + sz, elem.get());
 		return * this;
 	}
 
 	template <typename T, typename A>
 		m_vector <T, A> & m_vector <T, A>::operator = (m_vector && v) noexcept
 	{
-		if (true)
-			delete [] elem;
-		else
-		{
-			alloc.destroy (space, elem);
-			alloc.deallocate (elem);
-		}
 		sz = v.sz;
 		space = v.space;
-		elem = v.elem;
-		v.elem = nullptr;
+		elem.reset(v.elem);
 		v.sz = v.space = 0;
 		return * this;
 	}
@@ -353,15 +344,10 @@ namespace ch19_try_this
 	{
 		if (new_space <= space)
 			return;
-		//T * p = alloc.allocate (new_space);
 		unique_ptr<T> p {alloc.allocate (new_space)};
-		for (int i = 0; i < sz; ++i)
-		{
-			alloc.construct (& p.get()[i], elem [i]);
-			alloc.destroy (& elem [i]);
-		}
-		alloc.deallocate (elem, space);
-		elem = p.release();		
+		copy (elem.get(), elem.get() + sz, p.get());
+		elem.reset (p.release());
+		
 		space = new_space;
 	}
 
@@ -372,9 +358,9 @@ namespace ch19_try_this
 			return;
 		reserve (new_size);
 		for (int i = sz; i < new_size; ++i)
-			alloc.construct (& elem [i], val);
+			alloc.construct (& elem.get() [i], val);
 		for (int i = new_size; i < sz; ++i)
-			alloc.destroy (& elem [i]);
+			alloc.destroy (& elem.get() [i]);
 		sz = new_size;
 	}
 
@@ -386,7 +372,7 @@ namespace ch19_try_this
 		else 
 			if (space == sz)
 				reserve (space * 2);
-		alloc.construct (& elem [sz], val);
+		alloc.construct (& elem.get() [sz], val);
 		++sz;
 	}
 
@@ -431,13 +417,14 @@ namespace ch19_try_this
 
 		if (true)
 		{
-			m_vector <int> v {-1};
-			testing ("init : size", v.size(), 1);
-			testing ("init : space", v.capacity(), 1);
+			m_vector <int> v {-1, -2};
+			testing ("init : size", v.size(), 2);
+			testing ("init : space", v.capacity(), 2);
 			testing ("init : elem", v [0], -1);
+			testing ("init : elem", v [1], -2);
 			++test_no;
 		}
-
+	
 		if (true)
 		{
 			m_vector <int> 
