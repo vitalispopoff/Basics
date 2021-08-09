@@ -353,14 +353,15 @@ namespace ch19_try_this
 	{
 		if (new_space <= space)
 			return;
-		T * p = alloc.allocate (new_space);
+		//T * p = alloc.allocate (new_space);
+		unique_ptr<T> p {alloc.allocate (new_space)};
 		for (int i = 0; i < sz; ++i)
 		{
-			alloc.construct (& p [i], elem [i]);
+			alloc.construct (& p.get()[i], elem [i]);
 			alloc.destroy (& elem [i]);
 		}
 		alloc.deallocate (elem, space);
-		elem = p;
+		elem = p.release();		
 		space = new_space;
 	}
 
@@ -587,7 +588,7 @@ namespace ch19_try_this
 
 	void main()
 	{
-		//test_min();
+		test_min();
 		test_reserve();
 		test_resize();
 		test_push_back();

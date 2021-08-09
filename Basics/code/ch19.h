@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <initializer_list>
-#include <algorithm>	//for the copy function in initializer_list constructor
+#include <algorithm>	//for the copy() calls
 #include <memory>
 
 using namespace std;
@@ -68,7 +68,6 @@ namespace ch19
 		/// for testing:
 		const T * addr () const {return this -> elem;}
 	};
-
 
 	void main();
 }
