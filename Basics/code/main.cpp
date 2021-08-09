@@ -10,10 +10,10 @@ int main()
 	try
 	{
 		//ch19::main();
-		ch19_try_this::main();
+		ch19_go_deeper::main();
 		return 0;
 	}
-	catch (exception & e)
+	catch (exception e)
 	{
 		cerr
 			<< "";
