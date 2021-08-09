@@ -4,6 +4,10 @@
 
 namespace ch19_drill
 {
+	template <typename T>
+	T & S <T>::get() {return val;}
+
+
 	template <typename T> void show (S<T> in)
 	{
 		cout << in.val << '\n';

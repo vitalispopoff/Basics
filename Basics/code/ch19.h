@@ -224,12 +224,12 @@ namespace ch19_drill
 	template <typename T> 
 		struct S
 	{
-		T val;
+		T val;		
 		explicit S (T t) :
 			val {t}
 		{}
+		T & get();
 	};
-
 
 	void main();
 }
