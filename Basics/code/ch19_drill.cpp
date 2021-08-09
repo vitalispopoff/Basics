@@ -4,7 +4,16 @@
 
 namespace ch19_drill
 {
-	template <typename T> T & S <T>::get() {return val;}
+	template <typename T> 
+		T & S<T>::get() {return val;}
+	template <typename T> 
+		const T & S<T>::get() const {return val;}
+	template <typename T> 
+		S<T> S<T>::operator = (const T & t)
+	{		
+		val = t;
+		return * this;		
+	}
 	
 	template <typename T> void show (S<T> in) {cout << in.get() << '\n';}
 	
@@ -17,8 +26,11 @@ namespace ch19_drill
 		S <double> d {1.618};
 		show (d);
 		S <string> s {""};
+		const string str {"nope"};
+		s = str;
 		show (s);
-		S <vector<int>> v {{1,2,3}};
+		S <vector<int>> v {{}};
+		v.set ({1, 2, 3});
 		for (int x : v.get())
 			cout 
 				<< x << ", ";
