@@ -210,9 +210,9 @@ namespace ch19
 		{
 			m_vector<int> v;
 			v.reserve (1);
-			testing ("empty constr + 1 : size", v.size(), 0);
-			testing ("empty constr + 1 : space", v.capacity(), 1);
-			testing ("empty constr + 1 : *", int (v.addr()!= nullptr), 1);
+			testing ("reserve : empty, 1 : size", v.size(), 0);
+			testing ("reserve : empty, 1 : space", v.capacity(), 1);
+			testing ("reserve : empty, 1 : *", int (v.addr()!= nullptr), 1);
 			++test_no;
 		}
 
@@ -220,9 +220,9 @@ namespace ch19
 		{
 			m_vector<int> v;
 			v.reserve (0);
-			testing ("empty constr + 0 : size", v.size(), 0);
-			testing ("empty constr + 0 : space", v.capacity(), 0);
-			testing ("empty constr + 0 : *", int (v.addr()== nullptr), 1);
+			testing ("reserve : empty, 0 : size", v.size(), 0);
+			testing ("reserve : empty, 0 : space", v.capacity(), 0);
+			testing ("reserve : empty, 0 : *", int (v.addr()== nullptr), 1);
 			++test_no;
 		}
 
@@ -230,9 +230,9 @@ namespace ch19
 		{
 			m_vector<int> v {-1};
 			v.reserve (0);
-			testing ("init constr -1 : size", v.size(), 0);
-			testing ("init constr -1 : space", v.capacity(), 0);
-			testing ("init constr -1 : *", int (v.addr() == nullptr), 1);
+			testing ("reserve : init, 0 : size", v.size(), 0);
+			testing ("reserve : init, 0 : space", v.capacity(), 0);
+			testing ("reserve : init, 0 : *", int (v.addr() == nullptr), 1);
 			++test_no;
 		}
 
@@ -240,9 +240,9 @@ namespace ch19
 		{
 			m_vector<int> v {-1};
 			v.reserve (2);
-			testing ("init constr + 1 : size", v.size(), 1);
-			testing ("init constr + 1 : space", v.capacity(), 2);
-			testing ("init constr + 1 : elem", v[0], -1);
+			testing ("reserve : init, 2 : size", v.size(), 1);
+			testing ("reserve : init, 2 : space", v.capacity(), 2);
+			testing ("reserve : init, 2 : elem", v[0], -1);
 			++test_no;
 		}
 	}
@@ -253,9 +253,9 @@ namespace ch19
 		{
 			m_vector<int> v;
 			v.resize (0);
-			testing ("empty constr ,0 : size", v.size(), 0);
-			testing ("empty constr ,0 : space", v.capacity(), 0);
-			testing ("empty constr ,0 : *", int (v.addr() == nullptr), 1);
+			testing ("resize : empty,0 : size", v.size(), 0);
+			testing ("resize : empty,0 : space", v.capacity(), 0);
+			testing ("resize : empty,0 : *", int (v.addr() == nullptr), 1);
 			++test_no;
 		}
 
@@ -293,9 +293,9 @@ namespace ch19
 		{
 			m_vector<int> v {-1};
 			v.resize (0);
-			testing ("init constr, 0 : size", v.size(), 0);
-			testing ("init constr, 0 : space", v.capacity(), 0);
-			testing ("init constr, 0 : *", int (v.addr() == nullptr), 1);
+			testing ("resize : init, 0 : size", v.size(), 0);
+			testing ("resize : init, 0 : space", v.capacity(), 0);
+			testing ("resize : init, 0 : *", int (v.addr() == nullptr), 1);
 			++test_no;
 		}
 	}
@@ -317,7 +317,7 @@ namespace ch19_try_this
 	template <typename T, typename A>
 		m_vector <T, A> & m_vector <T, A>::operator = (const m_vector & v)
 	{
-		if (this == & v
+		if (this == & v)
 			return * this;
 		if (space < v.sz)
 		{
@@ -349,7 +349,7 @@ namespace ch19_try_this
 	}
 
 	template <typename T, typename A>
-		void m_vector <T, A>::reserve (int new_space)
+		void m_vector <T, A>::reserve (int s, int new_space)
 	{
 		if (new_space <= space)
 			return;
@@ -373,7 +373,7 @@ namespace ch19_try_this
 		for (int i = sz; i < new_size; ++i)
 			alloc.construct (& elem [i], val);
 		for (int i = new_size; i < sz; ++i)
-			alloc.detroy (& elem [i])
+			alloc.destroy (& elem [i]);
 		sz = new_size;
 	}
 
@@ -391,7 +391,6 @@ namespace ch19_try_this
 
 //	----------------------------------------------------------
 	
-	// unit testing still not introduced - going for this ersatz
 	int test_no {0};
 
 	template <typename T>
@@ -410,15 +409,153 @@ namespace ch19_try_this
 
 //	----------------------------------------------------------	
 
-	void test_0()
+	void test_min()
 	{
+		if (true)
+		{
+			m_vector <int> v;
+			testing ("empty : size", v.size(), 0);
+			testing ("empty : space", v.capacity(), 8);
+			++test_no;
+		}
 
+		if (true)
+		{
+			m_vector <int> v (1, -1);
+			testing ("expl : size", v.size(), 1);
+			testing ("expl : space", v.capacity(), 1);
+			testing ("expl : elem", v[0], -1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector <int> v {-1};
+			testing ("init : size", v.size(), 1);
+			testing ("init : space", v.capacity(), 1);
+			testing ("init : elem", v [0], -1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector <int> 
+				u {-1},
+				v {u};
+			testing ("copy : size", v.size(), 1);
+			testing ("copy : space", v.capacity(), 1);
+			testing ("copy : elem", v[0], -1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			void * temp_ptr = nullptr;
+			auto a = [&]() -> m_vector <int>
+			{
+				m_vector <int> temp {-1};
+				temp_ptr = (void *) temp.addr();
+				return temp;
+			};
+			m_vector <int> v {a()};
+
+			testing ("move : size", v.size(), 1);
+			testing ("move : space", v.capacity(), 1);
+			testing ("move : *", (int) temp_ptr, (int) v.addr());
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector <int>
+				v = m_vector <int> {-1};
+			testing ("= : size", v.size(), 1);
+			testing ("= : space", v.capacity(), 1);
+			testing ("= : elem", v[0], -1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector <int>
+				u {-1},
+				v = u;
+			testing ("= copy: size", u.size(), v.size());
+			testing ("= copy: space", u.capacity(), v.capacity());
+			testing ("= copy: elem", u[0], v[0]);
+			++test_no;
+		}
+
+		if (true)
+		{
+			void * ptr = nullptr;
+			auto a = [&]() -> m_vector <int>
+			{
+				m_vector <int> temp {-1};
+				ptr = (void *) temp.addr();
+				return temp;
+			};
+			m_vector <int>
+				v = a();
+			testing ("= move: size", v.size(), 1);
+			testing ("= move: space", v.capacity(), 1);
+			testing ("= move: *", (int) ptr, (int) v.addr());
+			++test_no;
+		}
+	}
+
+	void test_reserve()
+	{
+		if (true)
+		{
+			m_vector <int> v;
+			v.reserve (1);
+			testing ("reserve : empty, 1: size", v.size(), 0);
+			testing ("reserve : empty, 1: space", v.capacity(), 8);
+			testing ("reserve : empty, 1: *", int (v.addr() != nullptr), 1);
+			++test_no;
+		}
+	}
+
+	void test_resize()
+	{
+		if (true)
+		{
+			m_vector <int> v;
+				v.resize(0);
+			testing ("resize : init, 0 : size", v.size(), 0);
+			testing ("resize : init, 0 : space", v.capacity(), 8);
+			testing ("resize : init, 0 : *", int (v.addr() != nullptr), 1);
+			++test_no;
+		}
+
+		if (true)
+		{
+			m_vector <int> v;
+			v.resize(1);
+			testing ("resize : init, 1 : size", v.size(), 1);
+			testing ("resize : init, 1 : space", v.capacity(), 8);
+			testing ("resize : init, 1 : elem", v[0], 0);
+			++test_no;
+		}
+				
+		if (true)
+		{
+			m_vector <int> v;
+			v.resize(1, -1);
+			testing ("resize : init, 1 : size", v.size(), 1);
+			testing ("resize : init, 1 : space", v.capacity(), 8);
+			testing ("resize : init, 1 : elem", v[0], -1);
+			++test_no;
+		}
 	}
 
 	void main()
 	{
-		test_0();
-		
-	}
+		//test_min();
+		test_reserve();
+		test_resize();
 
+		cout << "\nAll tests done (" << test_no << ").\n";		
+	}
 }

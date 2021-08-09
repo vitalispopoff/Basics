@@ -133,9 +133,9 @@ namespace ch19_try_this
 		m_vector & operator = (m_vector && v) noexcept;
 
 		T & operator [] (int n) {return elem [n];}
-		const & operator [] (int n) const {return elem [n];}
+		const T & operator [] (int n) const {return elem [n];}
 
-		void reserve (int new_space);
+		void reserve (int s = space, int new_space = space);
 		void resize (int new_size, T val = T());
 		void push_back (T val);
 
@@ -144,7 +144,6 @@ namespace ch19_try_this
 
 		/// for testing
 		const T * addr () const {return elem;}
-
 	};
 
 

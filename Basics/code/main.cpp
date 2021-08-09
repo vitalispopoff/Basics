@@ -9,7 +9,8 @@ int main()
 {
 	try
 	{
-		ch19::main();
+		//ch19::main();
+		ch19_try_this::main();
 		return 0;
 	}
 	catch (exception & e)
