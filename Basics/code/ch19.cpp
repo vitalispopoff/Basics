@@ -845,7 +845,7 @@ namespace ch19_go_deeper
 		}
 	}
 
-	void main()
+	void tests()
 	{
 		test_min();
 		test_reserve();
@@ -853,5 +853,10 @@ namespace ch19_go_deeper
 		test_push_back();
 
 		cout << "\nAll tests done (" << test_no << ").\n";		
+	}
+
+	void main()
+	{
+		tests();
 	}
 }

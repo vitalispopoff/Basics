@@ -213,7 +213,13 @@ namespace ch19_go_deeper
 
 		/// for testing
 		const T * addr () const {return & this -> elem.get()[0];} // this is curious
+		unique_ptr<T> & get() {return this -> elem;}
 	};
 
 	void main();
+}
+
+namespace ch19_drill
+{
+
 }

@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\ch19.cpp" />
+    <ClCompile Include="code\ch19_drill.cpp" />
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="code\sketchbook.cpp" />
   </ItemGroup>
