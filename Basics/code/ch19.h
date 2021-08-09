@@ -230,8 +230,7 @@ namespace ch19_drill
 		T & get();
 		const T & get() const;
 		void set (T t) {val = t;}
-		S operator = (const T & t);
-
+		S operator = (const T & t);		
 	private : 
 		T val;		
 	};
