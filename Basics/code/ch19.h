@@ -221,5 +221,15 @@ namespace ch19_go_deeper
 
 namespace ch19_drill
 {
+	template <typename T> 
+		struct S
+	{
+		T val;
+		explicit S (T t) :
+			val {t}
+		{}
+	};
 
+
+	void main();
 }
