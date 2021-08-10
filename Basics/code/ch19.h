@@ -278,7 +278,7 @@ namespace ch19_exc
 			var_table (initializer_list<Pair<>> lst) :
 				table {lst}
 			{}
-			char get_value (string key);
+			char & get_value (string key);
 
 		};
 

@@ -52,12 +52,13 @@ namespace ch19_exc
 		{
 			return os << p.name << " : " << p.value << '\n';
 		}
-		char var_table::get_value (string key)
+		char & var_table::get_value (string key)
 		{
 			for (Pair<> p : table)
 				if (p.name == key)
 					return p.value;
-			return 0;
+			cerr << "\nno key found\n";
+			throw runtime_error ("no key found");
 		}
 
 
@@ -70,7 +71,8 @@ namespace ch19_exc
 				{"snowman", '&'},
 				{"sun", '*'}
 			};
-			cout << table.get_value("mailing");
+			//cout << table.get_value("mailing");
+			cout << table.get_value("nope");
 		}
 
 	}
