@@ -252,8 +252,37 @@ namespace ch19_exc
 	{
 		template <typename T, typename U>
 			double f (vector<T> v, vector<U> u);
+		void test();
+	}
 
+	namespace e03
+	{
+		template <typename T = string, typename U = char>
+			struct Pair
+		{
+			T name;
+			U value;
+			Pair () : name {""}, value {0} {}
+			Pair (T n, U v) : name {n}, value {v} {}
 
+			T & get_name() {return name;}
+			const T & get_name() const {return name;}
+			U & get_value() {return value;}
+			const U & get_value() const {return value;}
+		};
+		class var_table 
+		{
+			vector<Pair<>> table;
+		public :
+			var_table () : table {} {}
+			var_table (initializer_list<Pair<>> lst) :
+				table {lst}
+			{}
+			char get_value (string key);
+
+		};
+
+		void test();
 	}
 
 	 void main();

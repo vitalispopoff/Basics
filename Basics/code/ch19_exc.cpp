@@ -31,7 +31,7 @@ namespace ch19_exc
 		{
 			double result {0};
 			for (int i = 0; i < (int) v.size() && i < (int) u.size(); ++i)
-				result += (v [i] * u [i]);
+				result += ((double)v [i] * (double) u [i]);
 			return result;
 		}
 
@@ -45,9 +45,40 @@ namespace ch19_exc
 
 	}
 
+	namespace e03
+	{
+		template <typename T, typename U>
+		ostream & operator << (ostream & os, const Pair<T, U> & p)
+		{
+			return os << p.name << " : " << p.value << '\n';
+		}
+		char var_table::get_value (string key)
+		{
+			for (Pair<> p : table)
+				if (p.name == key)
+					return p.value;
+			return 0;
+		}
+
+
+
+		void test()
+		{
+			var_table table {
+				{"mailing", '@'},
+				{"surfing", '~'},
+				{"snowman", '&'},
+				{"sun", '*'}
+			};
+			cout << table.get_value("mailing");
+		}
+
+	}
+
 	void main()
 	{
 		//e01::test();
 		//e02::test();
+		e03::test();
 	}
 }
