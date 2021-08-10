@@ -4,6 +4,7 @@
 #include <initializer_list>
 #include <algorithm>	//for the copy() calls
 #include <memory>
+#include <vector>
 
 using namespace std;
 namespace ch19
@@ -236,4 +237,24 @@ namespace ch19_drill
 	};
 
 	void main();
+}
+
+namespace ch19_exc
+{
+	namespace e01
+	{		
+		template <typename T> 
+			void f (vector <T> & v1, vector<T> & v2);
+		void test();
+	}
+
+	namespace e02
+	{
+		template <typename T, typename U>
+			double f (vector<T> v, vector<U> u);
+
+
+	}
+
+	 void main();
 }
