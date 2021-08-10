@@ -79,7 +79,8 @@ namespace ch19_exc
 
 	namespace e04
 	{
-		Link * insert (Link * p, Link * n)
+		template <typename T>
+			Link<T> * insert (Link<T> * p, Link<T> * n)
 		{
 			if (n == nullptr)
 				return p;
@@ -93,8 +94,8 @@ namespace ch19_exc
 			}
 			return n;
 		}
-		
-		Link * erase (Link * p)
+		template <typename T>
+			Link<T> * erase (Link<T> * p)
 		{	
 			if (p == nullptr)
 				return nullptr;
@@ -105,7 +106,8 @@ namespace ch19_exc
 			return p -> succ;
 		}
 
-		Link * find (Link * p, const string & s)
+		template <typename T>
+		Link<T> * find (Link<T> * p, const T & s)
 		{
 			while (p)
 			{
@@ -116,7 +118,8 @@ namespace ch19_exc
 				return nullptr;
 		}
 
-		Link * advance (Link * p, int n)
+		template <typename T>
+		Link<T> * advance (Link<T> * p, int n)
 		{
 			if (p == nullptr)
 				return nullptr;
@@ -124,7 +127,7 @@ namespace ch19_exc
 			{
 				while (n--)
 				{
-					if (p -> succ = nullptr)
+					if (p -> succ == nullptr)
 						return nullptr;
 					p = p -> succ;
 				}
@@ -142,9 +145,30 @@ namespace ch19_exc
 			return p;
 		}
 
+		template <typename T>
+		void print_all (Link<T> * p)
+		{
+			cout << '\n';
+			while (p)
+			{
+				cout << p -> value;
+				if (p = p -> succ)
+					cout << ", ";
+			}
+			cout << '\n';
+		}
+
 		void test()
 		{
+			Link<int> 
+				l2 {2},
+				l1 {1},
+				l0 {0};
+			insert (& l2, & l1),
+			insert (& l1, & l0);
 
+			Link<int> * starter = & l0;
+			print_all (starter);
 		}
 	}
 
@@ -153,5 +177,6 @@ namespace ch19_exc
 		//e01::test();
 		//e02::test();
 		//e03::test();
+		e04::test();
 	}
 }

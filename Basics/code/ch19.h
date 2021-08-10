@@ -287,22 +287,25 @@ namespace ch19_exc
 
 	namespace e04
 	{
-		struct Link
+		template <typename T> 
+			struct Link
 		{
-			string value;
+			T value;
 			Link * prev;
 			Link * succ;
-			Link (const string & v, Link * p = nullptr, Link * s = nullptr) :
+			Link (const T & v, Link * p = nullptr, Link * s = nullptr) :
 				value {v},
 				prev {p},
 				succ {s}
 			{}
 		};
-
-		Link * insert (Link * p, Link * n);
+		template <typename T>
+			Link<T> * insert (Link<T> * p, Link<T> * n);
 		// p keeps the links
-		Link * erase (Link * p);
-		Link * advance (Link * p, int n);
+		template <typename T>
+			Link<T> * erase (Link<T> * p);
+		template <typename T>
+			Link<T> * advance (Link<T> * p, int n);
 
 		void test();
 	}
