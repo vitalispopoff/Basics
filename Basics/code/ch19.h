@@ -285,5 +285,27 @@ namespace ch19_exc
 		void test();
 	}
 
+	namespace e04
+	{
+		struct Link
+		{
+			string value;
+			Link * prev;
+			Link * succ;
+			Link (const string & v, Link * p = nullptr, Link * s = nullptr) :
+				value {v},
+				prev {p},
+				succ {s}
+			{}
+		};
+
+		Link * insert (Link * p, Link * n);
+		// p keeps the links
+		Link * erase (Link * p);
+		Link * advance (Link * p, int n);
+
+		void test();
+	}
+
 	 void main();
 }
