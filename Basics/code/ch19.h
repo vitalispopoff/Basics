@@ -278,7 +278,8 @@ namespace ch19_exc
 			var_table (initializer_list<Pair<>> lst) :
 				table {lst}
 			{}
-			char & get_value (string key);
+			char get_value (string key);
+
 
 		};
 
@@ -298,10 +299,14 @@ namespace ch19_exc
 				prev {p},
 				succ {s}
 			{}
-
 			/// insert n in front
 			void insert (Link * n);
 			Link * erase();
+			Link * head();
+
+			//Link * print_all();
+
+
 		};
 
 		template <typename T> 
@@ -310,12 +315,31 @@ namespace ch19_exc
 		// p keeps the links
 		template <typename T>
 			Link<T> * erase (Link<T> * p);
+
 		template <typename T>
 			Link<T> * advance (Link<T> * p, int n);
-
-
-
+	
 		void test();
+
+	// ----------------
+		
+		struct God
+		{
+			string
+				name, mythology, vehicle, weapon;
+			God () {}
+			God (string n, string m, string v, string w) :
+				name {n}, mythology {m}, vehicle {v}, weapon {w}
+			{}
+			void to_string ()
+			{
+				cout 
+					<< name << ", " 
+					<< mythology << ", "
+					<< vehicle << ", "
+					<< weapon << '\n';
+			}
+		};
 	}
 
 	 void main();

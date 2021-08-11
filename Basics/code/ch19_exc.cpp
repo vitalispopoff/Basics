@@ -52,7 +52,7 @@ namespace ch19_exc
 		{
 			return os << p.name << " : " << p.value << '\n';
 		}
-		char & var_table::get_value (string key)
+		char var_table::get_value (string key)
 		{
 			for (Pair<> p : table)
 				if (p.name == key)
@@ -111,12 +111,12 @@ namespace ch19_exc
 		template <typename T>
 			void Link<T>::insert (Link<T> * n)
 		{
-			if ((bool) n) 
+			if (/*(bool)*/ n) 
 			{
 				n -> succ = this;
 				if (prev)
-					prev -> succ = n;
-				n -> prev = prev;
+					n -> prev = prev;
+				prev = n;
 			}
 		}
 
@@ -133,6 +133,15 @@ namespace ch19_exc
 			return result;
 		}
 
+		template <typename T>
+			Link<T> * Link<T>::head()
+		{
+			Link 
+				* p = prev;
+			while (p->prev != nullptr)
+				p = p -> prev;				
+			return p;
+		}
 		template <typename T>
 		Link<T> * find (Link<T> * p, const T & s)
 		{
@@ -185,19 +194,38 @@ namespace ch19_exc
 			cout << '\n';
 		}
 
-		void test()
+		void test_01()
 		{
 			Link<int> 
 				l2 {2},
 				l1 {1},
 				l0 {0};
-			//insert (& l2, & l1);
 			l2.insert (& l1);
-			//insert (& l1, & l0);
 			l1.insert (& l0);
 
-			Link<int> * starter = & l0;
-			print_all (starter);
+			cout << l2.head() -> value;
+
+			//Link<int> * starter = & l0;
+			//print_all (starter);
+
+			//cout 
+			//	<< "\n* * *\n";
+			//cout 
+			//	<< (l2.head() != nullptr);
+		}
+
+		void test_02()
+		{
+			God
+				zeus {"Zeus", "greek", "", "lightning"},
+				odin {"Odin", "norse", "Sleipner", "Gungir"},
+				venus {"Venus", "roman", "", "Mars"};
+			Link<God>
+				z {zeus},
+				o {odin},
+				v {venus};
+
+
 		}
 	}
 
@@ -206,6 +234,6 @@ namespace ch19_exc
 		//e01::test();
 		//e02::test();
 		//e03::test();
-		e04::test();
+		e04::test_01();
 	}
 }
