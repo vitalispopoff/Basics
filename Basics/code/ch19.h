@@ -304,7 +304,7 @@ namespace ch19_exc
 			Link * erase();
 			Link * head();
 
-			//Link * print_all();
+			void print_all();
 
 
 		};

@@ -106,6 +106,31 @@ namespace ch19_exc
 				p -> prev -> succ = p -> succ;
 			return p -> succ;
 		}
+
+		template <typename T>
+		Link<T> * find (Link<T> * p, const T & s)
+		{
+			while (p)
+			{
+				if (p -> value == s)
+					return p;
+					p = p->succ;				
+			}
+				return nullptr;
+		}
+
+		template <typename T>
+		void print_all (Link<T> * p)
+		{
+			cout << '\n';
+			while (p)
+			{
+				cout << p -> value;
+				if (p = p -> succ)
+					cout << ", ";
+			}
+			cout << '\n';
+		}
 	// -----------------
 
 		template <typename T>
@@ -139,20 +164,16 @@ namespace ch19_exc
 			Link 
 				* p = prev;
 			while (p->prev != nullptr)
-				p = p -> prev;				
+			{
+				p = p -> prev;
+				if (p == this)
+					return this;
+			}
+
 			return p;
 		}
-		template <typename T>
-		Link<T> * find (Link<T> * p, const T & s)
-		{
-			while (p)
-			{
-				if (p -> value == s)
-					return p;
-					p = p->succ;				
-			}
-				return nullptr;
-		}
+
+
 
 		template <typename T>
 		Link<T> * advance (Link<T> * p, int n)
@@ -182,14 +203,21 @@ namespace ch19_exc
 		}
 
 		template <typename T>
-		void print_all (Link<T> * p)
+		void Link<T>::print_all (/*Link<T> * p*/)
 		{
-			cout << '\n';
+			Link 
+				* h = head(),
+				* p = h;
+			cout 
+				<< '\n';
 			while (p)
 			{
-				cout << p -> value;
+				cout 
+					<< p -> value;
 				if (p = p -> succ)
 					cout << ", ";
+				if (p == h)
+					break;
 			}
 			cout << '\n';
 		}
@@ -197,21 +225,15 @@ namespace ch19_exc
 		void test_01()
 		{
 			Link<int> 
-				l2 {2},
-				l1 {1},
-				l0 {0};
-			l2.insert (& l1);
-			l1.insert (& l0);
+				lnk2 {2},
+				lnk1 {1},
+				lnk0 {0};
+			lnk2.insert (& lnk1);
+			lnk1.insert (& lnk0);
 
-			cout << l2.head() -> value;
-
-			//Link<int> * starter = & l0;
-			//print_all (starter);
-
-			//cout 
-			//	<< "\n* * *\n";
-			//cout 
-			//	<< (l2.head() != nullptr);
+			lnk2.print_all();
+			lnk0.insert (& lnk2);
+			lnk2.print_all();
 		}
 
 		void test_02()
