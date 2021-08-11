@@ -298,14 +298,22 @@ namespace ch19_exc
 				prev {p},
 				succ {s}
 			{}
+
+			/// insert n in front
+			void insert (Link * n);
+			Link * erase();
 		};
-		template <typename T>
+
+		template <typename T> 
 			Link<T> * insert (Link<T> * p, Link<T> * n);
+
 		// p keeps the links
 		template <typename T>
 			Link<T> * erase (Link<T> * p);
 		template <typename T>
 			Link<T> * advance (Link<T> * p, int n);
+
+
 
 		void test();
 	}

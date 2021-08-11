@@ -94,6 +94,7 @@ namespace ch19_exc
 			}
 			return n;
 		}
+
 		template <typename T>
 			Link<T> * erase (Link<T> * p)
 		{	
@@ -104,6 +105,32 @@ namespace ch19_exc
 			if (p -> prev)
 				p -> prev -> succ = p -> succ;
 			return p -> succ;
+		}
+	// -----------------
+
+		template <typename T>
+			void Link<T>::insert (Link<T> * n)
+		{
+			if ((bool) n) 
+			{
+				n -> succ = this;
+				if (prev)
+					prev -> succ = n;
+				n -> prev = prev;
+			}
+		}
+
+		template <typename T>
+			Link<T> * Link<T>::erase ()
+		{				
+			if (succ)
+				succ -> prev = prev;
+			if (prev)
+				prev -> succ = succ;
+			Link 
+				* result = prev;
+			succ == prev == nullptr;
+			return result;
 		}
 
 		template <typename T>
@@ -164,8 +191,10 @@ namespace ch19_exc
 				l2 {2},
 				l1 {1},
 				l0 {0};
-			insert (& l2, & l1),
-			insert (& l1, & l0);
+			//insert (& l2, & l1);
+			l2.insert (& l1);
+			//insert (& l1, & l0);
+			l1.insert (& l0);
 
 			Link<int> * starter = & l0;
 			print_all (starter);
