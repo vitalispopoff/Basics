@@ -2,6 +2,36 @@
 
 namespace ch19_exc
 {
+	int 
+		test_no {0};
+	
+	template <typename U>
+		struct testing_bundle
+	{
+		string name;
+		U given, expected;
+		testing_bundle () : name {}, given{U ()}, expected {given} {}
+		testing_bundle (string n, U g, U e) : name {n}, given {g}, expected {e}
+		{
+			testing();
+		}		
+		void testing ()
+		{
+			++test_no;
+			if (given != expected)
+				cout
+				<<  test_no << ".\t" << name << "\tfailed\n";
+		}
+	};
+
+	void report (int no, string name)
+	{
+		cout 
+			<< '\t' << name << ":\ttests: " << no << " - " << --test_no << '\n';
+
+	}
+// --------------------------
+	
 	namespace e01
 	{
 		template <typename T> void f (vector<T> & v1, vector<T> & v2)
@@ -16,11 +46,14 @@ namespace ch19_exc
 				v1 {3, 2, 1},
 				v2 { -3, -2, -1, 0, 1};
 			f (v1, v2);
-			for (double d : v1)
-				cout
-					<< d << ", ";
-			cout 
-				<< '\n';
+			
+			string 
+				name {"exc 01"};
+			int 
+				no = test_no;
+			ch19_exc::testing_bundle <vector <double>> 
+				t {"exc 01", v1, vector<double> {0, 0, 0}};
+			report(no, name);
 		}
 	}
 
@@ -52,16 +85,16 @@ namespace ch19_exc
 		{
 			return os << p.name << " : " << p.value << '\n';
 		}
+
 		char var_table::get_value (string key)
 		{
 			for (Pair<> p : table)
 				if (p.name == key)
 					return p.value;
-			cerr << "\nno key found\n";
+			cerr 
+				<< "\nno key found\n";
 			throw runtime_error ("no key found");
 		}
-
-
 
 		void test()
 		{
@@ -74,7 +107,6 @@ namespace ch19_exc
 			//cout << table.get_value("mailing");
 			cout << table.get_value("nope");
 		}
-
 	}
 
 	namespace e04
@@ -108,7 +140,7 @@ namespace ch19_exc
 		}
 
 		template <typename T>
-		Link<T> * find (Link<T> * p, const T & s)
+			Link<T> * find (Link<T> * p, const T & s)
 		{
 			while (p)
 			{
@@ -120,7 +152,7 @@ namespace ch19_exc
 		}
 
 		template <typename T>
-		void print_all (Link<T> * p)
+			void print_all (Link<T> * p)
 		{
 			cout << '\n';
 			while (p)
@@ -163,20 +195,17 @@ namespace ch19_exc
 		{
 			Link 
 				* p = prev;
-			while (p->prev != nullptr)
+			while (p -> prev)
 			{
 				p = p -> prev;
 				if (p == this)
 					return this;
 			}
-
 			return p;
 		}
 
-
-
 		template <typename T>
-		Link<T> * advance (Link<T> * p, int n)
+			Link<T> * advance (Link<T> * p, int n)
 		{
 			if (p == nullptr)
 				return nullptr;
@@ -203,7 +232,7 @@ namespace ch19_exc
 		}
 
 		template <typename T>
-		void Link<T>::print_all (/*Link<T> * p*/)
+			void Link<T>::print_all ()
 		{
 			Link 
 				* h = head(),
@@ -219,7 +248,8 @@ namespace ch19_exc
 				if (p == h)
 					break;
 			}
-			cout << '\n';
+			cout 
+				<< '\n';
 		}
 
 		void test_01()
@@ -231,12 +261,31 @@ namespace ch19_exc
 			lnk2.insert (& lnk1);
 			lnk1.insert (& lnk0);
 
+			if (true)
+			{
+				//lnk2.prev == 
+
+			}
+
 			lnk2.print_all();
 			lnk0.insert (& lnk2);
 			lnk2.print_all();
 		}
 
-		void test_02()
+		void test()
+		{
+			Link<int> 
+				lnk2 {2},
+				lnk1 {1},
+				lnk0 {0};
+			lnk2.insert (& lnk1);
+			lnk1.insert (& lnk0);
+
+			cout << lnk1.forward() -> value << '\n';
+			cout << lnk1.backward() -> value << 'n';
+		}
+
+		void test_0n()
 		{
 			God
 				zeus {"Zeus", "greek", "", "lightning"},
@@ -253,9 +302,9 @@ namespace ch19_exc
 
 	void main()
 	{
-		//e01::test();
+		e01::test();
 		//e02::test();
 		//e03::test();
-		e04::test_01();
+		//e04::test();
 	}
 }

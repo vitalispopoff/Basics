@@ -305,8 +305,20 @@ namespace ch19_exc
 			Link * head();
 
 			void print_all();
-
-
+		
+			Link * forward()
+			{
+				if (succ)
+					return succ;
+				return this;
+			}
+			Link * backward()
+			{
+				if (prev)
+					return prev;
+				return this;
+			}
+			
 		};
 
 		template <typename T> 
