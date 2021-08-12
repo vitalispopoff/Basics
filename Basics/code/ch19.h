@@ -241,6 +241,50 @@ namespace ch19_drill
 
 namespace ch19_exc
 {
+	namespace testing
+	{
+		int test_no {0};
+
+	template <typename U>
+		struct testing_bundle
+	{
+		string name;
+		U given, expected;
+		testing_bundle () : 
+			name {}, given{U ()}, expected {given} 
+		{}
+		testing_bundle (string n, U g, U e) : 
+			name {n}, given {g}, expected {e}
+		{
+			testing();
+		}
+		void testing ()
+		{
+			++test_no;
+			if (given != expected)
+				cout
+				<<  test_no << ".\t" << name << "\tfailed\n";
+		}
+	};
+
+	void report (int no, string name)
+	{
+		cout 
+			<< '\t' << name << ":\ttests: " << no << " - " << test_no - 1 << '\n';
+	}
+
+		//template <typename T>
+	//	struct error_testing
+	//{
+	//	string name;
+	//	T func
+	//	error_testing () : name {}, func {T ()} {}
+	//	error_testing (string n, T f) : name {n}, func {f}
+	//	{
+	//	}
+	//};
+	}
+
 	namespace e01
 	{		
 		template <typename T> 

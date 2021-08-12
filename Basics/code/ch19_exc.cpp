@@ -2,47 +2,10 @@
 
 namespace ch19_exc
 {
-	int 
-		test_no {0};
-	
-	template <typename U>
-		struct testing_bundle
-	{
-		string name;
-		U given, expected;
-		testing_bundle () : 
-			name {}, given{U ()}, expected {given} 
-		{}
-		testing_bundle (string n, U g, U e) : 
-			name {n}, given {g}, expected {e}
-		{
-			testing();
-		}
-		void testing ()
-		{
-			++test_no;
-			if (given != expected)
-				cout
-				<<  test_no << ".\t" << name << "\tfailed\n";
-		}
-	};
+	using testing::testing_bundle;
+	using testing::test_no;
 
-	//template <typename T>
-	//	struct error_testing
-	//{
-	//	string name;
-	//	T func
-	//	error_testing () : name {}, func {T ()} {}
-	//	error_testing (string n, T f) : name {n}, func {f}
-	//	{
-	//	}
-	//};
 
-	void report (int no, string name)
-	{
-		cout 
-			<< '\t' << name << ":\ttests: " << no << " - " << test_no - 1 << '\n';
-	}
 // --------------------------
 	
 	namespace e01
@@ -160,6 +123,8 @@ namespace ch19_exc
 
 	namespace e04
 	{
+		//using ch19_exc::testing_bundle;
+
 		//template <typename T>
 		//	Link<T> * insert (Link<T> * p, Link<T> * n)
 		//{
@@ -326,15 +291,17 @@ namespace ch19_exc
 			lnk2.insert (& lnk1);
 			lnk1.insert (& lnk0);
 
-			ch19_exc::testing_bundle <Link<int> *> t0 {name, lnk1.prev, & lnk0};
-			ch19_exc::testing_bundle <Link<int> *> t1 {name, lnk1.forward(), & lnk2};
-			ch19_exc::testing_bundle <Link<int> *> t2 {name, lnk1.backward(), & lnk0};
+			testing_bundle <Link<int> *> t0 {name, lnk1.prev, & lnk0};
+			testing_bundle <Link<int> *> t1 {name, lnk1.forward(), & lnk2};
+			testing_bundle <Link<int> *> t2 {name, lnk1.backward(), & lnk0};
 
 			Link<int> lnk3 {1};
 
-			ch19_exc::testing_bundle <bool> t3 {name, (lnk1 == lnk2), false};
-			ch19_exc::testing_bundle <bool> t4 {name, (lnk1 == lnk3), true};
+			testing_bundle <bool> t3 {name, (lnk1 == lnk2), false};
+			testing_bundle <bool> t4 {name, (lnk1 == lnk3), true};
 
+			testing_bundle <bool> t5 {name, (lnk0 < lnk1), true};
+			testing_bundle <bool> 
 			report(no, name);
 		}
 
