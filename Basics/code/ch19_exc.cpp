@@ -14,7 +14,7 @@ namespace ch19_exc
 		testing_bundle (string n, U g, U e) : name {n}, given {g}, expected {e}
 		{
 			testing();
-		}		
+		}
 		void testing ()
 		{
 			++test_no;
@@ -24,11 +24,21 @@ namespace ch19_exc
 		}
 	};
 
+	//template <typename T>
+	//	struct error_testing
+	//{
+	//	string name;
+	//	T func
+	//	error_testing () : name {}, func {T ()} {}
+	//	error_testing (string n, T f) : name {n}, func {f}
+	//	{
+	//	}
+	//};
+
 	void report (int no, string name)
 	{
 		cout 
-			<< '\t' << name << ":\ttests: " << no << " - " << --test_no << '\n';
-
+			<< '\t' << name << ":\ttests: " << no << " - " << test_no - 1 << '\n';
 	}
 // --------------------------
 	
@@ -42,17 +52,18 @@ namespace ch19_exc
 
 		void test()
 		{
-			vector<double> 
-				v1 {3, 2, 1},
-				v2 { -3, -2, -1, 0, 1};
-			f (v1, v2);
-			
 			string 
 				name {"exc 01"};
 			int 
 				no = test_no;
+			vector<double> 
+				v1 {3, 2, 1},
+				v2 { -3, -2, -1, 0, 1};
+
+			f (v1, v2);
+			
 			ch19_exc::testing_bundle <vector <double>> 
-				t {"exc 01", v1, vector<double> {0, 0, 0}};
+				t {name, v1, vector<double> {0, 0, 0}};
 			report(no, name);
 		}
 	}
@@ -70,22 +81,25 @@ namespace ch19_exc
 
 		void test()
 		{
-			vector<char> v {0, 2, 10, 50, 127};
-			vector<bool> u {true, false, false, true, true, false};
-			cout << f (v, u);
+			string 
+				name {"exc 02"};
+			int 
+				no = test_no;
+			vector<char> 
+				v {0, 2, 10, 50, 127};
+			vector<bool> 
+				u {true, false, false, true, true, false};
 
+			double
+				result = f (v, u);
+			ch19_exc::testing_bundle <double>
+				t {name, result, 0. + 0. + 50. + 127.};
+			report (no, name);
 		}
-
 	}
 
 	namespace e03
 	{
-		template <typename T, typename U>
-		ostream & operator << (ostream & os, const Pair<T, U> & p)
-		{
-			return os << p.name << " : " << p.value << '\n';
-		}
-
 		char var_table::get_value (string key)
 		{
 			for (Pair<> p : table)
@@ -96,17 +110,43 @@ namespace ch19_exc
 			throw runtime_error ("no key found");
 		}
 
+		template <typename T, typename U>
+			ostream & operator << (ostream & os, const Pair<T, U> & p)
+		{
+			return os << p.name << " : " << p.value << '\n';
+		}
+
 		void test()
 		{
+			string 
+				name {"exc 03"};
+			int
+				no = test_no;
+
 			var_table table {
 				{"mailing", '@'},
 				{"surfing", '~'},
 				{"snowman", '&'},
 				{"sun", '*'}
 			};
-			//cout << table.get_value("mailing");
-			cout << table.get_value("nope");
+
+			char
+				result = table.get_value("surfing");
+			ch19_exc::testing_bundle<char> 
+				t {name, result, '~'};
+			
+			var_table
+				* tmp = & table;
+			char 
+				(e03::var_table:: * get_value) (string) = nullptr;
+			get_value = & e03::var_table::get_value;
+
+
+			//try {table.get_value("nope");} catch (exception & e) {}
+			report (no, name);
 		}
+
+
 	}
 
 	namespace e04
@@ -302,9 +342,12 @@ namespace ch19_exc
 
 	void main()
 	{
-		e01::test();
+		//e01::test();
 		//e02::test();
 		//e03::test();
 		//e04::test();
+
+		/// definition of non-static method pointer w/ initialization
+		//char (e03::var_table:: * get_value) (string) = nullptr;
 	}
 }

@@ -262,14 +262,16 @@ namespace ch19_exc
 		{
 			T name;
 			U value;
-			Pair () : name {""}, value {0} {}
-			Pair (T n, U v) : name {n}, value {v} {}
-
+			Pair () : name {""}, value {0} 
+			{}
+			Pair (T n, U v) : name {n}, value {v} 
+			{}
 			T & get_name() {return name;}
 			const T & get_name() const {return name;}
 			U & get_value() {return value;}
 			const U & get_value() const {return value;}
 		};
+
 		class var_table 
 		{
 			vector<Pair<>> table;
@@ -279,8 +281,6 @@ namespace ch19_exc
 				table {lst}
 			{}
 			char get_value (string key);
-
-
 		};
 
 		void test();
