@@ -343,9 +343,16 @@ namespace ch19_exc
 				prev {p},
 				succ {s}
 			{}
+			~ Link ()
+			{
+				delete [] value;
+			}
 			/// insert n in front
 			void insert (Link * n);
 			Link * erase();
+			/// returns Link {t}
+			Link * add_ordered (T t);
+
 			Link * head();
 			Link * forward()
 			{
@@ -359,6 +366,7 @@ namespace ch19_exc
 					return prev;
 				return this;
 			}
+
 
 			void print_all();
 		};

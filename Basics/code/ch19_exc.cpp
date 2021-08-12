@@ -4,6 +4,7 @@ namespace ch19_exc
 {
 	using testing::testing_bundle;
 	using testing::test_no;
+	using testing::report;
 
 
 // --------------------------
@@ -123,62 +124,6 @@ namespace ch19_exc
 
 	namespace e04
 	{
-		//using ch19_exc::testing_bundle;
-
-		//template <typename T>
-		//	Link<T> * insert (Link<T> * p, Link<T> * n)
-		//{
-		//	if (n == nullptr)
-		//		return p;
-		//	if (p != n && p != nullptr)
-		//	{
-		//		n -> succ = p;
-		//		if (p -> prev) 
-		//			p -> prev -> succ = n;
-		//		n -> prev = p -> prev;
-		//		p -> prev = n;
-		//	}
-		//	return n;
-		//}
-
-		//template <typename T>
-		//	Link<T> * erase (Link<T> * p)
-		//{	
-		//	if (p == nullptr)
-		//		return nullptr;
-		//	if (p -> succ)
-		//		p -> succ -> prev = p -> prev;
-		//	if (p -> prev)
-		//		p -> prev -> succ = p -> succ;
-		//	return p -> succ;
-		//}
-
-		//template <typename T>
-		//	Link<T> * find (Link<T> * p, const T & s)
-		//{
-		//	while (p)
-		//	{
-		//		if (p -> value == s)
-		//			return p;
-		//			p = p->succ;				
-		//	}
-		//		return nullptr;
-		//}
-
-		//template <typename T>
-		//	void print_all (Link<T> * p)
-		//{
-		//	cout << '\n';
-		//	while (p)
-		//	{
-		//		cout << p -> value;
-		//		if (p = p -> succ)
-		//			cout << ", ";
-		//	}
-		//	cout << '\n';
-		//}
-	// -----------------
-
 	/// --- Link ---
 
 		template <typename T>
@@ -205,6 +150,18 @@ namespace ch19_exc
 			succ == prev == nullptr;
 			return result;
 		}
+
+		template <typename T>
+			Link<T> * Link<T>::add_ordered(T t)
+		{
+			Link * h = head();
+			while (t > h -> value)
+				h -> forward();
+			h -> insert (Link {t});
+			return h -> prev;
+		}
+
+
 
 		template <typename T>
 			Link<T> * Link<T>::head()
@@ -268,15 +225,8 @@ namespace ch19_exc
 				<< '\n';
 		}
 
-		/// --- God ---
-
-
-
-
-
-
-
-		/// --- Test ---
+	/// --- God --
+	/// --- Test ---
 
 		void test()
 		{
@@ -287,21 +237,23 @@ namespace ch19_exc
 			Link<int> 
 				lnk2 {2},
 				lnk1 {1},
-				lnk0 {0};
+				lnk0 {0},
+				lnk3 {1};
+
 			lnk2.insert (& lnk1);
 			lnk1.insert (& lnk0);
 
-			testing_bundle <Link<int> *> t0 {name, lnk1.prev, & lnk0};
-			testing_bundle <Link<int> *> t1 {name, lnk1.forward(), & lnk2};
-			testing_bundle <Link<int> *> t2 {name, lnk1.backward(), & lnk0};
-
-			Link<int> lnk3 {1};
-
-			testing_bundle <bool> t3 {name, (lnk1 == lnk2), false};
-			testing_bundle <bool> t4 {name, (lnk1 == lnk3), true};
-
-			testing_bundle <bool> t5 {name, (lnk0 < lnk1), true};
+			testing_bundle<Link<int> *> 
+				t0 {name, lnk1.prev, & lnk0},
+				t1 {name, lnk1.forward(), & lnk2},
+				t2 {name, lnk1.backward(), & lnk0};
 			testing_bundle <bool> 
+				t3 {name, (lnk1 == lnk2), false},
+				t4 {name, (lnk1 == lnk3), true},
+				t5 {name, (lnk0 < lnk1), true},
+				t6 {name, (lnk2 > lnk1), true},
+				t7 {name, (lnk1 != lnk2), true};
+
 			report(no, name);
 		}
 
