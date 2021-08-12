@@ -160,59 +160,61 @@ namespace ch19_exc
 
 	namespace e04
 	{
-		template <typename T>
-			Link<T> * insert (Link<T> * p, Link<T> * n)
-		{
-			if (n == nullptr)
-				return p;
-			if (p != n && p != nullptr)
-			{
-				n -> succ = p;
-				if (p -> prev) 
-					p -> prev -> succ = n;
-				n -> prev = p -> prev;
-				p -> prev = n;
-			}
-			return n;
-		}
+		//template <typename T>
+		//	Link<T> * insert (Link<T> * p, Link<T> * n)
+		//{
+		//	if (n == nullptr)
+		//		return p;
+		//	if (p != n && p != nullptr)
+		//	{
+		//		n -> succ = p;
+		//		if (p -> prev) 
+		//			p -> prev -> succ = n;
+		//		n -> prev = p -> prev;
+		//		p -> prev = n;
+		//	}
+		//	return n;
+		//}
 
-		template <typename T>
-			Link<T> * erase (Link<T> * p)
-		{	
-			if (p == nullptr)
-				return nullptr;
-			if (p -> succ)
-				p -> succ -> prev = p -> prev;
-			if (p -> prev)
-				p -> prev -> succ = p -> succ;
-			return p -> succ;
-		}
+		//template <typename T>
+		//	Link<T> * erase (Link<T> * p)
+		//{	
+		//	if (p == nullptr)
+		//		return nullptr;
+		//	if (p -> succ)
+		//		p -> succ -> prev = p -> prev;
+		//	if (p -> prev)
+		//		p -> prev -> succ = p -> succ;
+		//	return p -> succ;
+		//}
 
-		template <typename T>
-			Link<T> * find (Link<T> * p, const T & s)
-		{
-			while (p)
-			{
-				if (p -> value == s)
-					return p;
-					p = p->succ;				
-			}
-				return nullptr;
-		}
+		//template <typename T>
+		//	Link<T> * find (Link<T> * p, const T & s)
+		//{
+		//	while (p)
+		//	{
+		//		if (p -> value == s)
+		//			return p;
+		//			p = p->succ;				
+		//	}
+		//		return nullptr;
+		//}
 
-		template <typename T>
-			void print_all (Link<T> * p)
-		{
-			cout << '\n';
-			while (p)
-			{
-				cout << p -> value;
-				if (p = p -> succ)
-					cout << ", ";
-			}
-			cout << '\n';
-		}
+		//template <typename T>
+		//	void print_all (Link<T> * p)
+		//{
+		//	cout << '\n';
+		//	while (p)
+		//	{
+		//		cout << p -> value;
+		//		if (p = p -> succ)
+		//			cout << ", ";
+		//	}
+		//	cout << '\n';
+		//}
 	// -----------------
+
+	/// --- Link ---
 
 		template <typename T>
 			void Link<T>::insert (Link<T> * n)
@@ -301,11 +303,15 @@ namespace ch19_exc
 				<< '\n';
 		}
 
-		template <typename T>
-			bool operator == (const Link<T> & lnk1, const Link<T> & lnk2)
-		{
-			return lnk1.value == lnk2.value;
-		}
+		/// --- God ---
+
+
+
+
+
+
+
+		/// --- Test ---
 
 		void test()
 		{

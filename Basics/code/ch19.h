@@ -320,17 +320,35 @@ namespace ch19_exc
 		};
 
 		template <typename T>
-			bool operator == (const Link<T> & lnk1, const Link<T> & lnk2);
-
-		template <typename T> 
-			Link<T> * insert (Link<T> * p, Link<T> * n);
-
-		// p keeps the links
+			bool operator < (const Link<T> & lnk1, const Link<T> & lnk2)
+		{
+			return lnk1.value < lnk2.value;
+		}
 		template <typename T>
-			Link<T> * erase (Link<T> * p);
-
+			bool operator > (const Link<T> & lnk1, const Link<T> & lnk2)
+		{
+			return lnk1.value > lnk2.value;
+		}
 		template <typename T>
-			Link<T> * advance (Link<T> * p, int n);
+			bool operator == (const Link<T> & lnk1, const Link<T> & lnk2)
+		{
+			return lnk1.value == lnk2.value;
+		}		
+		template <typename T>
+			bool operator != (const Link<T> & lnk1, const Link<T> & lnk2)
+		{
+			return lnk1.value != lnk2.value;
+		}
+
+		//template <typename T> 
+		//	Link<T> * insert (Link<T> * p, Link<T> * n);
+
+		//// p keeps the links
+		//template <typename T>
+		//	Link<T> * erase (Link<T> * p);
+
+		//template <typename T>
+		//	Link<T> * advance (Link<T> * p, int n);
 	
 		void test();
 
@@ -353,6 +371,26 @@ namespace ch19_exc
 					<< weapon << '\n';
 			}
 		};
+		bool operator < (God g1, God g2)
+		{
+			return g1.name < g2.name;
+		}
+		bool operator > (God g1, God g2)
+		{
+			return g1.name > g2.name;
+		}
+		bool operator == (God g1, God g2)
+		{
+			return g1.name == g2.name;
+		}
+		bool operator != (God g1, God g2)
+		{
+			return 
+				g1.name != g2.name
+				|| g1.mythology != g2.mythology
+				|| g1.vehicle != g2.vehicle
+				|| g1.weapon != g2.weapon;
+		}
 	}
 
 	 void main();
