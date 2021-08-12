@@ -10,8 +10,11 @@ namespace ch19_exc
 	{
 		string name;
 		U given, expected;
-		testing_bundle () : name {}, given{U ()}, expected {given} {}
-		testing_bundle (string n, U g, U e) : name {n}, given {g}, expected {e}
+		testing_bundle () : 
+			name {}, given{U ()}, expected {given} 
+		{}
+		testing_bundle (string n, U g, U e) : 
+			name {n}, given {g}, expected {e}
 		{
 			testing();
 		}
@@ -135,18 +138,24 @@ namespace ch19_exc
 			ch19_exc::testing_bundle<char> 
 				t {name, result, '~'};
 			
-			var_table
-				* tmp = & table;
-			char 
-				(e03::var_table:: * get_value) (string) = nullptr;
-			get_value = & e03::var_table::get_value;
+			//var_table
+			//	* input_ptr = & table;
+			//char 
+			//	(e03::var_table:: * get_value) (string) = nullptr;
+			//get_value = & e03::var_table::get_value;
 
-
-			//try {table.get_value("nope");} catch (exception & e) {}
+			try 
+			{
+				table.get_value("nope");
+				cout 
+					<< "\ne03 : error_test failed\n";
+			} 
+			catch (exception & e) 
+			{
+				++test_no;
+			}
 			report (no, name);
 		}
-
-
 	}
 
 	namespace e04
@@ -292,28 +301,18 @@ namespace ch19_exc
 				<< '\n';
 		}
 
-		void test_01()
+		template <typename T>
+			bool operator == (const Link<T> & lnk1, const Link<T> & lnk2)
 		{
-			Link<int> 
-				lnk2 {2},
-				lnk1 {1},
-				lnk0 {0};
-			lnk2.insert (& lnk1);
-			lnk1.insert (& lnk0);
-
-			if (true)
-			{
-				//lnk2.prev == 
-
-			}
-
-			lnk2.print_all();
-			lnk0.insert (& lnk2);
-			lnk2.print_all();
+			return lnk1.value == lnk2.value;
 		}
 
 		void test()
 		{
+			string 
+				name {"exc e04 Link"};
+			int 
+				no = test_no;
 			Link<int> 
 				lnk2 {2},
 				lnk1 {1},
@@ -321,8 +320,16 @@ namespace ch19_exc
 			lnk2.insert (& lnk1);
 			lnk1.insert (& lnk0);
 
-			cout << lnk1.forward() -> value << '\n';
-			cout << lnk1.backward() -> value << 'n';
+			ch19_exc::testing_bundle <Link<int> *> t0 {name, lnk1.prev, & lnk0};
+			ch19_exc::testing_bundle <Link<int> *> t1 {name, lnk1.forward(), & lnk2};
+			ch19_exc::testing_bundle <Link<int> *> t2 {name, lnk1.backward(), & lnk0};
+
+			Link<int> lnk3 {1};
+
+			ch19_exc::testing_bundle <bool> t3 {name, (lnk1 == lnk2), false};
+			ch19_exc::testing_bundle <bool> t4 {name, (lnk1 == lnk3), true};
+
+			report(no, name);
 		}
 
 		void test_0n()
@@ -335,8 +342,6 @@ namespace ch19_exc
 				z {zeus},
 				o {odin},
 				v {venus};
-
-
 		}
 	}
 
@@ -345,7 +350,7 @@ namespace ch19_exc
 		//e01::test();
 		//e02::test();
 		//e03::test();
-		//e04::test();
+		e04::test();
 
 		/// definition of non-static method pointer w/ initialization
 		//char (e03::var_table:: * get_value) (string) = nullptr;

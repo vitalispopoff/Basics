@@ -303,9 +303,6 @@ namespace ch19_exc
 			void insert (Link * n);
 			Link * erase();
 			Link * head();
-
-			void print_all();
-		
 			Link * forward()
 			{
 				if (succ)
@@ -318,8 +315,12 @@ namespace ch19_exc
 					return prev;
 				return this;
 			}
-			
+
+			void print_all();
 		};
+
+		template <typename T>
+			bool operator == (const Link<T> & lnk1, const Link<T> & lnk2);
 
 		template <typename T> 
 			Link<T> * insert (Link<T> * p, Link<T> * n);
