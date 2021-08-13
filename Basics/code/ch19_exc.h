@@ -32,21 +32,21 @@ namespace testing
 
 namespace ch19_exc
 {
-	/*namespace e01
+	namespace e01
 	{		
 		template <typename T> 
 			void f (vector <T> & v1, vector<T> & v2);
 		void test();
-	}*/
+	}
 
-	/*namespace e02
+	namespace e02
 	{
 		template <typename T, typename U>
 			double f (vector<T> v, vector<U> u);
 		void test();
-	}*/
+	}
 
-	/*namespace e03
+	namespace e03
 	{
 		template <typename T = string, typename U = char>
 			struct Pair
@@ -75,13 +75,26 @@ namespace ch19_exc
 		};
 	
 		void test();
-	}*/
+	}
 
 	namespace e04
 	{
 		template <typename T> 
 			struct Link
 		{
+			static Link * make_link (initializer_list<T> lst)
+			{
+				Link 
+					* temp = new Link {T ()};
+				for (T t : lst)
+					temp -> add_ordered(t);
+				Link
+					* result = temp -> head();
+				temp -> erase();
+				delete temp;
+				return result;
+			}
+
 			T value;
 			Link * prev;
 			Link * succ;
@@ -122,11 +135,11 @@ namespace ch19_exc
 		template <typename T>
 			bool operator != (const Link<T> & lnk1, const Link<T> & lnk2);
 	
-		void test();
+		void test_Link();
 	
 	// ----------------
 		
-		/*struct God
+		struct God
 		{
 			string
 				name, mythology, vehicle, weapon;
@@ -146,7 +159,7 @@ namespace ch19_exc
 		bool operator < (God g1, God g2);
 		bool operator > (God g1, God g2);
 		bool operator == (God g1, God g2);
-		bool operator != (God g1, God g2);*/
+		bool operator != (God g1, God g2);
 	}
 
 	 void main();

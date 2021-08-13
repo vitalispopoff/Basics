@@ -27,7 +27,7 @@ namespace ch19_exc
 {
 	using namespace testing;
 	
-	/*namespace e01
+	namespace e01
 	{
 		template <typename T> void f (vector<T> & v1, vector<T> & v2)
 		{
@@ -49,9 +49,9 @@ namespace ch19_exc
 				t {name, v1, vector<double> {0, 0, 0}};
 			report(no, name);
 		}
-	}*/
+	}
 
-	/*namespace e02
+	namespace e02
 	{
 		template <typename T, typename U>
 			double f (vector<T> v, vector<U> u)
@@ -78,9 +78,9 @@ namespace ch19_exc
 				t {name, result, 0. + 0. + 50. + 127.};
 			report (no, name);
 		}
-	}*/
+	}
 
-	/*namespace e03
+	namespace e03
 	{
 		char var_table::get_value (string key)
 		{
@@ -126,7 +126,7 @@ namespace ch19_exc
 			}
 			report (no, name);
 		}
-	}*/
+	}
 
 	namespace e04
 	{
@@ -158,7 +158,7 @@ namespace ch19_exc
 			Link<T> & Link<T>::add_ordered(const T t)
 		{
 			Link * h = head();
-			while (t > h -> value)
+			while (h -> succ && t > h -> value)
 				h = h -> succ;
 			Link
 				* lnk = new Link (t, h -> prev, h);
@@ -171,7 +171,7 @@ namespace ch19_exc
 			Link<T> * Link<T>::head()
 		{
 			Link 
-				* p = prev;
+				* p = this;
 			while (p -> prev)
 			{
 				p = p -> prev;
@@ -225,7 +225,7 @@ namespace ch19_exc
 
 	/// --- God --
 
-		/*bool operator < (God g1, God g2)
+		bool operator < (God g1, God g2)
 		{
 			return g1.name < g2.name;
 		}
@@ -244,7 +244,7 @@ namespace ch19_exc
 				|| g1.mythology != g2.mythology
 				|| g1.vehicle != g2.vehicle
 				|| g1.weapon != g2.weapon;
-		}*/
+		}
 
 	/// --- Test ---
 
@@ -286,17 +286,22 @@ namespace ch19_exc
 				t2_5 {name, (lnk1 != lnk2), true};
 			Link <int> 
 				* rslt0 = & lnk2.add_ordered (1);
-			//cout << "\nlnk.s\t" << lnk0.succ << '\n';
-			//cout << "rslt0\t" << rslt0 << '\n';
-
 			testing_bundle<Link<int> *>
 				t3_1{name, rslt0 -> prev, &lnk0},
 				t3_2{name, rslt0 -> succ, &lnk1},
 				t3_3 {name, lnk0.succ, rslt0},
 				t3_4 {name, lnk1.prev, rslt0};
 			report(no, name);
+			
+			Link<int> 
+				lnk4 = * Link<int>::make_link({0, 1, 2, 3, 4, 5, 6});
+			cout 
+				<< '\n';
+			lnk4.to_string();
 		}
-		/*void test_God()
+
+
+		void test_God()
 		{
 			string
 				name {"e04 : God"};
@@ -310,19 +315,13 @@ namespace ch19_exc
 				o {odin},
 				v {venus};
 			testing_bundle <bool>
-				t13 {name, zeus == odin, false},
-				t14 {name, zeus == zeus, true},
-				t15 {name, zeus != venus, true},
-				t16 {name, zeus != zeus, false},
-				t17 {name, zeus > odin, true},
-				t18 {name, odin < venus, true};
+				t10_0 {name, zeus == odin, false},
+				t10_1 {name, zeus == zeus, true},
+				t10_2 {name, zeus != venus, true},
+				t10_3 {name, zeus != zeus, false},
+				t10_4 {name, zeus > odin, true},
+				t10_5 {name, odin < venus, true};
 			report(no, name);
-		}*/
-
-		void excercise()
-		{
-
-
 		}
 	}
 
