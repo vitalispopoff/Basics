@@ -142,6 +142,7 @@ namespace ch19_exc
 				prev = n;
 			}
 		}
+
 		template <typename T>
 			Link<T> * Link<T>::erase ()
 		{				
@@ -154,10 +155,12 @@ namespace ch19_exc
 			succ = prev = nullptr;
 			return result;
 		}
+
 		template <typename T>
 			Link<T> & Link<T>::add_ordered(const T t)
 		{
-			Link * h = head();
+			Link 
+				* h = head();
 			while (h -> succ && t > h -> value)
 				h = h -> succ;
 			Link
@@ -167,6 +170,7 @@ namespace ch19_exc
 			h -> prev = lnk;
 			return * lnk;
 		}
+
 		template <typename T>
 			Link<T> * Link<T>::head()
 		{
@@ -271,6 +275,7 @@ namespace ch19_exc
 				t0_1 {name, lnk1.prev, & lnk0},
 				t0_2 {name, lnk1.forward(), & lnk2},
 				t0_3 {name, lnk1.backward(), & lnk0};
+			report (no, name + ": constr, traverse");
 			lnk2.insert (& lnk3);
 			lnk3.erase();
 			testing_bundle <Link<int> *>
@@ -284,6 +289,7 @@ namespace ch19_exc
 				t2_3 {name, (lnk0 < lnk1), true},
 				t2_4 {name, (lnk2 > lnk1), true},
 				t2_5 {name, (lnk1 != lnk2), true};
+			report (no, name + ": insert, erase");
 			Link <int> 
 				* rslt0 = & lnk2.add_ordered (1);
 			testing_bundle<Link<int> *>
@@ -291,13 +297,18 @@ namespace ch19_exc
 				t3_2{name, rslt0 -> succ, &lnk1},
 				t3_3 {name, lnk0.succ, rslt0},
 				t3_4 {name, lnk1.prev, rslt0};
-			report(no, name);
-			
+			report (no, name + ": add_ordered");
 			Link<int> 
-				lnk4 = * Link<int>::make_link({0, 1, 2, 3, 4, 5, 6});
-			cout 
-				<< '\n';
-			lnk4.to_string();
+				lnk4 = * Link<int>::make_link({0, 1, 2, 3, 4, 5, 6}),
+				* lnk_ptr = & lnk4;
+			for (int i = 0; i < 7; ++i)
+			{
+				testing_bundle<int> 
+					t4_ {name, lnk_ptr -> value, i};
+				lnk_ptr = lnk_ptr -> succ;					
+			}
+			report (no, name + ": make_link");
+			report(no, name);
 		}
 
 
