@@ -24,6 +24,9 @@
     <ClInclude Include="code\sketchbook.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="code\ch19_exc.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\ch19.cpp">
