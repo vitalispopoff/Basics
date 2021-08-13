@@ -32,21 +32,21 @@ namespace testing
 
 namespace ch19_exc
 {
-	namespace e01
+	/*namespace e01
 	{		
 		template <typename T> 
 			void f (vector <T> & v1, vector<T> & v2);
 		void test();
-	}
+	}*/
 
-	namespace e02
+	/*namespace e02
 	{
 		template <typename T, typename U>
 			double f (vector<T> v, vector<U> u);
 		void test();
-	}
+	}*/
 
-	namespace e03
+	/*namespace e03
 	{
 		template <typename T = string, typename U = char>
 			struct Pair
@@ -75,7 +75,7 @@ namespace ch19_exc
 		};
 	
 		void test();
-	}
+	}*/
 
 	namespace e04
 	{
@@ -90,11 +90,12 @@ namespace ch19_exc
 				prev {p},
 				succ {s}
 			{}
+
 			/// insert n in front
 			void insert (Link * n);
 			Link * erase();
 			/// returns Link {t}
-			Link * add_ordered (T t);
+			Link & add_ordered (const T t);
 	
 			Link * head();
 			Link * forward()
@@ -109,71 +110,43 @@ namespace ch19_exc
 					return prev;
 				return this;
 			}
-			void print_all();
+			void to_string();
 		};
 	
 		template <typename T>
-			bool operator < (const Link<T> & lnk1, const Link<T> & lnk2)
-		{
-			return lnk1.value < lnk2.value;
-		}
+			bool operator < (const Link<T> & lnk1, const Link<T> & lnk2);
 		template <typename T>
-			bool operator > (const Link<T> & lnk1, const Link<T> & lnk2)
-		{
-			return lnk1.value > lnk2.value;
-		}
+			bool operator > (const Link<T> & lnk1, const Link<T> & lnk2);
 		template <typename T>
-			bool operator == (const Link<T> & lnk1, const Link<T> & lnk2)
-		{
-			return lnk1.value == lnk2.value;
-		}		
+			bool operator == (const Link<T> & lnk1, const Link<T> & lnk2);
 		template <typename T>
-			bool operator != (const Link<T> & lnk1, const Link<T> & lnk2)
-		{
-			return lnk1.value != lnk2.value;
-		}
+			bool operator != (const Link<T> & lnk1, const Link<T> & lnk2);
 	
 		void test();
 	
 	// ----------------
 		
-		//struct God
-		//{
-		//	string
-		//		name, mythology, vehicle, weapon;
-		//	God () {}
-		//	God (string n, string m, string v, string w) :
-		//		name {n}, mythology {m}, vehicle {v}, weapon {w}
-		//	{}
-		//	void to_string ()
-		//	{
-		//		cout 
-		//			<< name << ", " 
-		//			<< mythology << ", "
-		//			<< vehicle << ", "
-		//			<< weapon << '\n';
-		//	}
-		//};
-		//bool operator < (God g1, God g2)
-		//{
-		//	return g1.name < g2.name;
-		//}
-		//bool operator > (God g1, God g2)
-		//{
-		//	return g1.name > g2.name;
-		//}
-		//bool operator == (God g1, God g2)
-		//{
-		//	return g1.name == g2.name;
-		//}
-		//bool operator != (God g1, God g2)
-		//{
-		//	return 
-		//		g1.name != g2.name
-		//		|| g1.mythology != g2.mythology
-		//		|| g1.vehicle != g2.vehicle
-		//		|| g1.weapon != g2.weapon;
-		//}
+		/*struct God
+		{
+			string
+				name, mythology, vehicle, weapon;
+			God () {}
+			God (string n, string m, string v, string w) :
+				name {n}, mythology {m}, vehicle {v}, weapon {w}
+			{}
+			void to_string ()
+			{
+				cout 
+					<< name << ", " 
+					<< mythology << ", "
+					<< vehicle << ", "
+					<< weapon << '\n';
+			}
+		};
+		bool operator < (God g1, God g2);
+		bool operator > (God g1, God g2);
+		bool operator == (God g1, God g2);
+		bool operator != (God g1, God g2);*/
 	}
 
 	 void main();
