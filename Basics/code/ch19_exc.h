@@ -127,7 +127,7 @@ namespace ch19_exc
 					return prev;
 				return this;
 			}
-			void to_string();
+			void to_string(bool line_break = false);
 		};
 	
 		template <typename T>
@@ -149,15 +149,18 @@ namespace ch19_exc
 				name, mythology, vehicle, weapon;
 			God () {}
 			God (string n, string m, string v, string w) :
-				name {n}, mythology {m}, vehicle {v}, weapon {w}
+				name {n}, 
+				mythology {m}, 
+				vehicle {v}, 
+				weapon {w}
 			{}
 			ostream & to_string (ostream & os = cout)
 			{				
 				os
 					<< name << ", " 
-					<< mythology << ", "
-					<< vehicle << ", "
-					<< weapon << '\n';
+					<< (mythology == "" ? "n/a" : mythology) << ", "
+					<< (vehicle == "" ? "n/a" : vehicle) << ", "
+					<< (weapon == "" ? "n/a" : weapon);
 				return os;
 			}
 		};

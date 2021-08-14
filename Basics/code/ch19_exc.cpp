@@ -175,8 +175,12 @@ namespace ch19_exc
 				* h = head();
 			while (h -> succ && lnk.value > h ->value)
 				h = h -> succ;
-			//if (h -> prev)
-				h -> insert (& lnk);
+				//h -> insert (& lnk); // doesn't work
+			lnk.prev = h -> prev;
+			lnk.succ = h;
+			if (h -> prev)
+				h -> prev -> succ = & lnk;
+			h -> prev = & lnk;
 			return lnk;
 		}
 
@@ -198,7 +202,7 @@ namespace ch19_exc
 		template <typename T>
 			Link<T> * Link<T>::head()
 		{
-				if (!(this->prev))
+				if (!(this -> prev))
 				return this;
 			Link 
 				* p = this;
@@ -212,19 +216,17 @@ namespace ch19_exc
 		}
 
 		template <typename T>
-			void Link<T>::to_string ()
+			void Link<T>::to_string (bool line_break)
 		{
 			Link 
 				* h = head(),
 				* p = h;
-			cout 
-				<< '\n';
 			while (p)
 			{
 				cout 
 					<< (T) p -> value;
 				if (p = p -> succ)
-					cout << ", ";
+					cout << (line_break ? "\n" : ", ");
 				if (p == h)
 					break;
 			}
@@ -398,32 +400,25 @@ namespace ch19_exc
 				gods = gods -> succ;
 				if (myth == "greek")
 					greek -> add_ordered (tmp);
-				if (myth == "roman")
+				else if (myth == "roman")
 					roman -> add_ordered (tmp);
-				if (myth == "norse")
+				else if (myth == "norse")
 					norse -> add_ordered (tmp);
 			}
-			roman = r.erase() -> head();
-			greek = g.erase() -> head();
-			norse = n.erase() -> head();
+			roman = r.erase();
+			roman = roman -> head();
+			greek = g.erase();
+			greek = greek -> head();
+			norse = n.erase();
+			norse = norse -> head();
 
-			cout << roman -> value.name;
-
-			cout << "\n\texcercise :\n";
-			//cout << "roman :\n";
-			//roman -> to_string();
-			//cout << "greek :\n";
-			//greek -> to_string();
-			//cout << "norse :\n";
-			//norse -> to_string();
-			//cout << "gode :\n";
-			//gods -> to_string();
-
-			while (roman)
-			{
-				cout << roman -> value.name;
-				roman = roman -> succ;
-			}
+			cout << "\nexcercise :\n";
+			cout << "\nroman :\n";
+			roman -> to_string(true);
+			cout << "\ngreek :\n";
+			greek -> to_string(true);
+			cout << "\nnorse :\n";
+			norse -> to_string(true);
 		}
 	}
 
