@@ -131,6 +131,7 @@ namespace ch19_exc
 	namespace e04
 	{
 	/// --- Link ---
+
 		template <typename T>
 			void Link<T>::insert (Link<T> * n)
 		{
@@ -144,7 +145,7 @@ namespace ch19_exc
 		}
 
 		template <typename T>
-			Link<T> * Link<T>::erase ()
+			Link<T> * Link<T>::erase ()	// & instead of * ?
 		{				
 			if (succ)
 				succ -> prev = prev;
@@ -197,6 +198,8 @@ namespace ch19_exc
 		template <typename T>
 			Link<T> * Link<T>::head()
 		{
+				if (!(this->prev))
+				return this;
 			Link 
 				* p = this;
 			while (p -> prev)
@@ -337,7 +340,10 @@ namespace ch19_exc
 				lnk_ptr = lnk_ptr -> succ;					
 			}
 			report (no, name + ": make_link");
+			cout << "to_string test\n";
+			lnk4.to_string();
 			report(no, name);
+
 		}
 
 		void test_God()
@@ -397,13 +403,15 @@ namespace ch19_exc
 				if (myth == "norse")
 					norse -> add_ordered (tmp);
 			}
-			roman = r.erase();
-			greek = g.erase();
-			norse = n.erase();
+			roman = r.erase() -> head();
+			greek = g.erase() -> head();
+			norse = n.erase() -> head();
+
+			cout << roman -> value.name;
 
 			cout << "\n\texcercise :\n";
-			cout << "roman :\n";
-			roman -> to_string();
+			//cout << "roman :\n";
+			//roman -> to_string();
 			//cout << "greek :\n";
 			//greek -> to_string();
 			//cout << "norse :\n";
@@ -411,7 +419,11 @@ namespace ch19_exc
 			//cout << "gode :\n";
 			//gods -> to_string();
 
-
+			while (roman)
+			{
+				cout << roman -> value.name;
+				roman = roman -> succ;
+			}
 		}
 	}
 

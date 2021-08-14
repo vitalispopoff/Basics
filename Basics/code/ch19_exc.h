@@ -82,19 +82,6 @@ namespace ch19_exc
 		template <typename T> 
 			struct Link
 		{
-			static Link * make_link (initializer_list<T> lst)
-			{
-				Link 
-					* temp = new Link {T ()};
-				for (T t : lst)
-					temp -> add_ordered(t);
-				Link
-					* result = temp -> head();
-				temp -> erase();
-				delete temp;
-				return result;
-			}
-
 			T value;
 			Link * prev;
 			Link * succ;
@@ -105,6 +92,19 @@ namespace ch19_exc
 				prev {p},
 				succ {s}
 			{}
+			/// returns ordered list based on init_lst
+		static Link<T> * make_link (initializer_list<T> lst)
+		{
+			Link 
+				* temp = new Link {T ()};
+			for (T t : lst)
+				temp -> add_ordered(t);
+			Link
+				* result = temp -> head();
+			temp -> erase();
+			delete temp;
+			return result;
+		}
 
 			/// insert n in front
 			void insert (Link * n);
