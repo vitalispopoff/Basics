@@ -109,6 +109,7 @@ namespace ch19_exc
 			/// insert n in front
 			void insert (Link * n);
 			Link * erase();
+			void extract();
 			/// returns Link {t}
 			Link & add_ordered (const T t);
 			Link & add_ordered (Link & lnk);
@@ -159,7 +160,6 @@ namespace ch19_exc
 					<< weapon << '\n';
 				return os;
 			}
-
 		};
 		bool operator < (God g1, God g2);
 		bool operator > (God g1, God g2);

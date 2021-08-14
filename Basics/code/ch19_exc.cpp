@@ -157,6 +157,29 @@ namespace ch19_exc
 		}
 
 		template <typename T>
+			void Link<T>::extract ()
+		{
+			if (succ)
+				succ -> prev = prev;
+			if (prev)
+				prev -> succ = succ;
+			succ = prev = nullptr;
+		}
+
+		template <typename T>
+			Link<T> & Link<T>::add_ordered (Link<T> & lnk)
+		{
+			lnk.extract();
+			Link
+				* h = head();
+			while (h -> succ && lnk.value > h ->value)
+				h = h -> succ;
+			//if (h -> prev)
+				h -> insert (& lnk);
+			return lnk;
+		}
+
+		template <typename T>
 			Link<T> & Link<T>::add_ordered(const T t)
 		{
 			Link 
@@ -169,19 +192,6 @@ namespace ch19_exc
 				h -> prev -> succ = lnk;
 			h -> prev = lnk;
 			return * lnk;
-		}
-
-		template <typename T>
-			Link<T> & Link<T>::add_ordered (Link<T> & lnk)
-		{
-			lnk.erase();
-			Link
-				* h = head();
-			while (h -> succ && lnk.value > h ->value)
-				h = h -> succ;
-			if (h -> prev)
-				h -> insert (& lnk);
-			return lnk;
 		}
 
 		template <typename T>
@@ -377,20 +387,22 @@ namespace ch19_exc
 			{
 				string 
 					myth = gods -> value.mythology;
-				if (myth == "greek")
-					greek -> add_ordered (* gods);
-				if (myth == "roman")
-					roman -> add_ordered (* gods);
-				if (myth == "norse")
-					norse -> add_ordered (* gods);
+				Link<God> 
+					& tmp = * gods;
 				gods = gods -> succ;
+				if (myth == "greek")
+					greek -> add_ordered (tmp);
+				if (myth == "roman")
+					roman -> add_ordered (tmp);
+				if (myth == "norse")
+					norse -> add_ordered (tmp);
 			}
 			roman = r.erase();
 			greek = g.erase();
 			norse = n.erase();
 
-			//cout << "\n\texcercise :\n";
-			//cout << "roman :\n";
+			cout << "\n\texcercise :\n";
+			cout << "roman :\n";
 			roman -> to_string();
 			//cout << "greek :\n";
 			//greek -> to_string();
@@ -398,6 +410,8 @@ namespace ch19_exc
 			//norse -> to_string();
 			//cout << "gode :\n";
 			//gods -> to_string();
+
+
 		}
 	}
 
