@@ -98,6 +98,8 @@ namespace ch19_exc
 			T value;
 			Link * prev;
 			Link * succ;
+			Link () : value {T ()}, prev {nullptr}, succ {nullptr} 
+			{}				
 			explicit Link (const T & v, Link * p = nullptr, Link * s = nullptr) :
 				value {v},
 				prev {p},
@@ -109,6 +111,7 @@ namespace ch19_exc
 			Link * erase();
 			/// returns Link {t}
 			Link & add_ordered (const T t);
+			Link & add_ordered (Link & lnk);
 	
 			Link * head();
 			Link * forward()
@@ -147,19 +150,22 @@ namespace ch19_exc
 			God (string n, string m, string v, string w) :
 				name {n}, mythology {m}, vehicle {v}, weapon {w}
 			{}
-			void to_string ()
-			{
-				cout 
+			ostream & to_string (ostream & os = cout)
+			{				
+				os
 					<< name << ", " 
 					<< mythology << ", "
 					<< vehicle << ", "
 					<< weapon << '\n';
+				return os;
 			}
+
 		};
 		bool operator < (God g1, God g2);
 		bool operator > (God g1, God g2);
 		bool operator == (God g1, God g2);
 		bool operator != (God g1, God g2);
+		ostream & operator << (ostream & os, God g);
 	}
 
 	 void main();

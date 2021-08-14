@@ -151,7 +151,7 @@ namespace ch19_exc
 			if (prev)
 				prev -> succ = succ;
 			Link 
-				* result = prev;
+				* result = prev ? prev : succ;
 			succ = prev = nullptr;
 			return result;
 		}
@@ -169,6 +169,19 @@ namespace ch19_exc
 				h -> prev -> succ = lnk;
 			h -> prev = lnk;
 			return * lnk;
+		}
+
+		template <typename T>
+			Link<T> & Link<T>::add_ordered (Link<T> & lnk)
+		{
+			lnk.erase();
+			Link
+				* h = head();
+			while (h -> succ && lnk.value > h ->value)
+				h = h -> succ;
+			if (h -> prev)
+				h -> insert (& lnk);
+			return lnk;
 		}
 
 		template <typename T>
@@ -196,7 +209,7 @@ namespace ch19_exc
 			while (p)
 			{
 				cout 
-					<< p -> value;
+					<< (T) p -> value;
 				if (p = p -> succ)
 					cout << ", ";
 				if (p == h)
@@ -248,6 +261,12 @@ namespace ch19_exc
 				|| g1.mythology != g2.mythology
 				|| g1.vehicle != g2.vehicle
 				|| g1.weapon != g2.weapon;
+		}
+		
+		ostream & operator << (ostream & os, God g)
+		{
+			g.to_string (os);
+			return os;
 		}
 
 	/// --- Test ---
@@ -311,7 +330,6 @@ namespace ch19_exc
 			report(no, name);
 		}
 
-
 		void test_God()
 		{
 			string
@@ -334,6 +352,53 @@ namespace ch19_exc
 				t10_5 {name, odin < venus, true};
 			report(no, name);
 		}
+
+		void excercise()
+		{
+			Link <God> 
+				* gods = Link<God>::make_link (
+					{
+						God {"Zeus", "greek", "", "lightning"},
+						God {"Odin", "norse", "Sleipner", "Gungir"},
+						God {"Venus", "roman", "", "Mars"},
+						God {"Apollo", "greek", "chariot", ""},
+						God {"Thor", "norse", "", "Mjolnir"},
+						God {"Loki", "norse", "", "" },
+						God {"Athene", "greek", "", "Aegis"},
+						God {"Vulcan", "roman", "", "Titans"},
+						God {"Bacchus", "roman", "", "wine"}
+					}
+				),
+				r {}, g{}, n {},
+				* roman = & r,
+				* greek = & g,
+				* norse = & n;
+			while (gods)
+			{
+				string 
+					myth = gods -> value.mythology;
+				if (myth == "greek")
+					greek -> add_ordered (* gods);
+				if (myth == "roman")
+					roman -> add_ordered (* gods);
+				if (myth == "norse")
+					norse -> add_ordered (* gods);
+				gods = gods -> succ;
+			}
+			roman = r.erase();
+			greek = g.erase();
+			norse = n.erase();
+
+			//cout << "\n\texcercise :\n";
+			//cout << "roman :\n";
+			roman -> to_string();
+			//cout << "greek :\n";
+			//greek -> to_string();
+			//cout << "norse :\n";
+			//norse -> to_string();
+			//cout << "gode :\n";
+			//gods -> to_string();
+		}
 	}
 
 	void main()
@@ -342,6 +407,7 @@ namespace ch19_exc
 		//e02::test();
 		//e03::test();
 		e04::test_Link();
-		//e04::test_God();
+		e04::test_God();
+		e04::excercise();
 	}
 }
