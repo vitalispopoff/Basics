@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdexcept>	// for the testing namespace
 #include <iostream>
 #include <initializer_list>
 #include <memory>
@@ -24,6 +25,7 @@ namespace testing
 		{
 			testing();
 		}
+
 		void testing();
 	};
 
@@ -169,6 +171,42 @@ namespace ch19_exc
 		bool operator == (God g1, God g2);
 		bool operator != (God g1, God g2);
 		ostream & operator << (ostream & os, God g);
+	}
+
+	namespace e05
+	{
+		class Int
+		{
+			int value;
+
+		public : 
+			Int () : value {0} 
+			{}
+			explicit Int (int v) : value {v}
+			{}
+			Int (Int & i) : value {i.value}
+			{}
+			Int (Int && i) noexcept : value {i.value}
+			{}
+			int get () {return value;}
+			void set (int v) {value = v;}
+		};
+
+		Int operator + (Int & v1, Int & v2);
+		Int operator - (Int & v1, Int & v2);
+		Int operator * (Int & v1, Int & v2);
+		Int operator / (Int & v1, Int & v2);
+		Int operator % (Int & v1, Int & v2);
+		bool operator == (Int & v1, Int & v2);
+		bool operator != (Int & v1, Int & v2);
+		bool operator > (Int & v1, Int & v2);
+		bool operator < (Int & v1, Int & v2);
+
+		ostream & operator << (ostream & os, Int & v);
+
+		istream & operator >> (istream & is, Int & v);
+
+		void testing();
 	}
 
 	 void main();

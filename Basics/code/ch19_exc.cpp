@@ -10,8 +10,7 @@ namespace testing
 		if (given != expected)
 		{			
 			cout
-				<<  test_no 
-				<< ".\t" << name << "\tfailed\n";
+				<<  test_no  << ".\t" << name << "\tfailed\n";
 		}
 		++test_no;
 	}
@@ -130,8 +129,6 @@ namespace ch19_exc
 
 	namespace e04
 	{
-	/// --- Link ---
-
 		template <typename T>
 			void Link<T>::insert (Link<T> * n)
 		{
@@ -420,6 +417,130 @@ namespace ch19_exc
 			cout << "\nnorse :\n";
 			norse -> to_string(true);
 		}
+
+		void e04_run()
+		{
+			e04::test_Link();
+			e04::test_God();
+			e04::excercise();
+		}
+	}
+
+	namespace e05
+	{
+		Int operator + (Int & v1, Int & v2)
+		{
+			return Int {v1.get() + v2.get()};
+		}
+
+		Int operator - (Int & v1, Int & v2)
+		{
+			return Int {v1.get() - v2.get()};
+		}
+		
+		Int operator * (Int & v1, Int & v2)
+		{
+			return Int {v1.get() * v2.get()};
+		}
+
+		Int operator / (Int & v1, Int & v2)
+		{
+			if (v2.get() == 0)
+				throw runtime_error ("Dividing by 0.");
+			return Int {v1.get() / v2.get()};
+		}
+
+		Int operator % (Int & v1, Int & v2)
+		{
+			return Int {v1.get() & v2.get()};
+		}
+
+		bool operator == (Int & v1, Int & v2)
+		{
+			return v1.get() == v2.get();
+		}
+
+		bool operator != (Int & v1, Int & v2)
+		{
+			return v1.get() != v2.get();
+		}
+
+		bool operator > (Int & v1, Int & v2)
+		{
+			return v1.get() > v2.get();
+		}
+
+		bool operator < (Int & v1, Int & v2)
+		{
+			return v1.get() < v1.get();
+		}
+
+		ostream & operator << (ostream & os, Int & v)
+		{
+			os << v.get();
+			return os;
+		}
+
+		istream & operator >> (istream & is, Int & v)
+		{
+			for (int i; is >> i ;)
+			{
+				v.set(i);
+				return is;
+			}
+			throw runtime_error ("Wrong input.");
+		}
+
+
+	// --- testing
+
+		void testing()
+		{
+			string
+				name {"e05"};
+			int
+				no = test_no;
+			Int 
+				i0 {0},
+				i1 {1},
+				i2 {2},
+				i3 {1};
+			testing_bundle <int>
+				t0_0{name, (i1 + i2).get(), i1.get() + i2.get()},
+				t0_1 {name, (i1 - i2).get(), i1.get() - i2.get()},
+				t0_2 {name, (i1 * i2).get(), i1.get() * i2.get()},
+				t0_3 {name, (i1 / i2).get(), i1.get() / i2.get()},
+				t0_4 {name, (i1 % i2).get(), i1.get() % i2.get()};
+			string error {};
+			try
+			{
+				i1 / i0;
+			}
+			catch (runtime_error & e)
+			{
+				error = e.what();
+			}
+			testing_bundle <string>
+				t1_0 {name, error, "Dividing by 0"};
+			testing_bundle <bool>
+				t2_0 {name, i1 == i3, true},
+				t2_1 {name, i1 != i2, true},
+				t2_2 {name, i1 > i0, true},
+				t2_3 {name, i1 < i2, true};
+			try
+			{
+				Int i {};
+				cout << "write a non-integer input, please.";
+				cin >> i; 
+			}
+			catch (runtime_error & e)
+			{
+				error = e.what();
+			}
+			testing_bundle<string>
+				t3_0 {name, error, "Wrong input."};				
+			report (no, name);
+		}
 	}
 
 	void main()
@@ -427,8 +548,7 @@ namespace ch19_exc
 		//e01::test();
 		//e02::test();
 		//e03::test();
-		e04::test_Link();
-		e04::test_God();
-		e04::excercise();
+		//e04::e04_run();
+		e05::testing();
 	}
 }
