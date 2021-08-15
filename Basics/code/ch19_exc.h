@@ -212,7 +212,7 @@ namespace ch19_exc
 
 	namespace e06
 	{
-		template <typename T>
+		template <typename T = double>
 			class Number
 		{
 			T value;
@@ -220,9 +220,9 @@ namespace ch19_exc
 		public : 
 			Number () : value {0} 
 			{}
-			explicit Number (T v) : value {v}
+			Number (T v) : value {v}
 			{}
-			Number (Number & i) : value {i.value}
+			Number (const Number & i) : value {i.value}
 			{}
 			Number (Number && i) noexcept : value {i.value}
 			{}
@@ -255,5 +255,15 @@ namespace ch19_exc
 
 		void testing(bool inputs = false);
 	}
+
+	namespace e07
+	{
+		using e06::Number;
+		template <typename T = Number<double>, typename U = Number<double>>
+			Number<> f (vector<T> t, vector<U> u);
+
+		void testing();
+	}
+
 	 void main();
 }

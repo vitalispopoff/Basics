@@ -717,6 +717,45 @@ namespace ch19_exc
 		}
 	}
 
+	namespace e07
+	{
+		template <typename T, typename U>
+		Number<double> f (vector<T> t, vector<U> u)
+		{
+			double result {0};
+			for (int i = 0; i < (int) t.size() && i < (int) u.size(); ++i)
+				result += ((double) t[i].get() * (double) u[i].get());
+			return Number<double> {result};
+		}
+
+
+		void testing()
+		{
+			string
+				name {"e07"};
+			int
+				no = test_no;
+			vector<Number<int>>
+				v1 {
+					{
+						Number<int> {0},
+						Number<int> {1},
+						Number<int> {2}
+					}
+				};
+			vector<Number<>>
+				v2 {
+					{
+						Number<> {2.},
+						Number<> {1.}
+					}
+				};
+			testing_bundle<double>
+				t0_0 {name, f (v1, v2).get(), 1.};
+			report (no, name);
+		}	
+	}
+
 	void main()
 	{
 		//e01::test();
@@ -725,5 +764,6 @@ namespace ch19_exc
 		//e04::e04_run();
 		//e05::testing();
 		//e06::testing();
+		//e07::testing();
 	}
 }
