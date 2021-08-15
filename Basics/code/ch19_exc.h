@@ -30,7 +30,7 @@ namespace testing
 		void testing();
 	};
 
-	void report (int no, string name);
+	void report (int & no, string name);
 }
 
 namespace ch19_exc
@@ -227,7 +227,7 @@ namespace ch19_exc
 			Number (Number && i) noexcept : value {i.value}
 			{}
 			T get () {return value;}
-			void set (Number v) {value = v;}
+			void set (T v) {value = v;}
 		};
 
 		template <typename T>
@@ -253,7 +253,7 @@ namespace ch19_exc
 		template <typename T>
 			istream & operator >> (istream & is, Number<T> & v);
 
-		void testing();
+		void testing(bool inputs = false);
 	}
 	 void main();
 }

@@ -11,14 +11,16 @@ namespace testing
 		{			
 			cout
 				<<  test_no  << ".\t" << name << "\tfailed\n";
+				//<< "exp: " << given << "\texp: " << expected; 
 		}
 		++test_no;
 	}
 
-	void report (int no, string name)
+	void report (int & n, string name)
 	{
 		cout 
-			<< '\t' << name << ":\ttests: " << no << " - " << test_no - 1 << '\n';
+			<< '\t' << name << ":\ttests: " << n << " - " << test_no - 1 << '\n';
+			n = test_no;
 	}
 }
 
@@ -562,16 +564,19 @@ namespace ch19_exc
 		{
 			return Number<T> {v1.get() + v2.get()};
 		}
+
 		template <typename T>
 			Number<T> operator - (Number<T> & v1, Number<T> & v2)
 		{
 			return Number<T> {v1.get() - v2.get()};
 		}
+
 		template <typename T>
 			Number<T> operator * (Number<T> & v1, Number<T> & v2)
 		{
 			return Number<T> {v1.get() * v2.get()};
 		}
+
 		template <typename T>
 			Number<T> operator / (Number<T> & v1, Number<T> & v2)
 		{
@@ -587,13 +592,12 @@ namespace ch19_exc
 		{
 			if (v2.get() == 0)
 				throw runtime_error ("Dividing by 0.");
-			string
-				v_type {typeid(v2).name()};
-			if (v_type == "float" || v_type == "double")
-			{
-				throw runtime_error ("Couldn't perform the operation. Sorry.");
-			}		 
-			return Number<T> {v1.get() % v2.get()};
+
+			double 
+				d1 = v1.get(),
+				d2 = v2.get(),
+				rslt = d1 - d2 * floor(d1 / d2);
+			return Number<T> {(T) rslt};
 		}
 
 		template <typename T>
@@ -614,7 +618,7 @@ namespace ch19_exc
 		template <typename T>
 			bool operator < (Number<T> & v1, Number<T> & v2)
 		{
-			return v1.get() < v1.get();
+			return v1.get() < v2.get();
 		}
 		template <typename T>
 			ostream & operator << (ostream & os, Number<T> & v)
@@ -625,9 +629,9 @@ namespace ch19_exc
 		template <typename T>
 			istream & operator >> (istream & is, Number<T> & v)
 		{
-			for (Number<T> i; is >> i ;)
+			for (T t; is >> t;)
 			{
-				v.set(i);
+				v.set(t);
 				return is;
 			}
 			throw runtime_error ("Wrong input.");
@@ -636,7 +640,7 @@ namespace ch19_exc
 
 	// --- testing
 
-		void testing()
+		void testing(bool inputs)
 		{
 			string
 				name {"e06"};
@@ -647,61 +651,68 @@ namespace ch19_exc
 				i1 {1},
 				i2 {2},
 				i3 {1};
+			Number<double>
+				d_i {(double)INFINITY},
+				d0 {0},
+				d1 {1},
+				d2 {2},
+				pi {3.5};
 			testing_bundle <int>
 				t0_0{name, (i1 + i2).get(), i1.get() + i2.get()},
 				t0_1 {name, (i1 - i2).get(), i1.get() - i2.get()},
 				t0_2 {name, (i1 * i2).get(), i1.get() * i2.get()},
 				t0_3 {name, (i1 / i2).get(), i1.get() / i2.get()},
 				t0_4 {name, (i1 % i2).get(), i1.get() % i2.get()};
-			string error {};
-			try
-			{
-				i1 / i0;
-			}
-			catch (runtime_error & e)
-			{
-				error = e.what();
-			}
+			testing_bundle<double>
+				t6_0{name + ": 6_0", (pi % d2).get(), 1.5};
+			report (no, name + ": basic arithmetic");
+			testing_bundle <bool>
+				t2_0 {name + ": 2_0", i1 == i3, true},
+				t2_1 {name + ": 2_1", i1 != i2, true},
+				t2_2 {name + ": 2_2", i1 > i0, true},
+				t2_3 {name + ": 2_3", i1 < i2, true};
+			report (no, name + ": comparison ops");
+			string 
+				error {};
+																// division
+			try {i1 / i0;}
+			catch (runtime_error & e) {error = e.what();}
 			testing_bundle <string>
 				t1_0 {name, error, "Dividing by 0."};
-			try
-			{
-				i1 % i0;
-			}
-			catch (runtime_error & e)
-			{
-				error = e.what();
-			}
+																// modulo
+			try {i1 % i0;}											
+			catch (runtime_error & e) {error = e.what();}
 			testing_bundle <string>
 				t1_1 {name, error, "Dividing by 0."};
-			testing_bundle <bool>
-				t2_0 {name, i1 == i3, true},
-				t2_1 {name, i1 != i2, true},
-				t2_2 {name, i1 > i0, true},
-				t2_3 {name, i1 < i2, true};
+																// istream
+			if (inputs)
+			{
+				try
+				{
+					Number<int> i {};
+					cout << "write a non-integer input, please.";
+					cin >> i; 
+				}
+				catch (runtime_error & e)
+				{
+					error = e.what();
+				}
+				testing_bundle<string>
+					t3_0 {name, error, "Wrong input."};		
+			}
+			testing_bundle<double>
+				t4_0 {name, (d1 / d0).get(), d_i.get()};
+																// modulo
 			try
 			{
-				Number<int> i {};
-				cout << "write a non-integer input, please.";
-				cin >> i; 
+				d1 % d0;
 			}
-			catch (runtime_error & e)
+			catch (exception & e)
 			{
-				error = e.what();
-			}
-			testing_bundle<string>
-				t3_0 {name, error, "Wrong input."};		
-			Number<double>
-				d_i {(double)INFINITY},
-				d0 {0},
-				d1 {1},
-				d2 {2};
-
-			testing_bundle<double>
-				t4_0 {name, (d1 / d0).get(), d_i.get()}/*,
-				t4_1 {name, (d2 % d1).get(), */;
-
-
+				testing_bundle<string>
+					t5_0 {name, e.what(), "Dividing by 0."};
+			}			
+			report (no, name + ": errors");
 			report (no, name);
 		}
 	}
@@ -713,6 +724,6 @@ namespace ch19_exc
 		//e03::test();
 		//e04::e04_run();
 		//e05::testing();
-		e06::testing();
+		//e06::testing();
 	}
 }
