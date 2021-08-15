@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include <typeinfo>
+#include <cstdlib>		// for the e08::m_allocator
 
 using namespace std;
 
@@ -267,6 +268,19 @@ namespace ch19_exc
 
 	namespace e08
 	{
+		template <typename T>
+			class m_allocator
+		{			
+		public : 
+												// reserves memory 
+			T * allocate (int n = 1);
+												// frees empty memory
+			void deallocate(T * p/*, int n*/);
+												// fills reserved memory
+			void construct (T * p, const T & v);
+			
+			void destroy (T * p, int n = 1);
+		};
 		template <typename T, typename A = allocator <T>>	// T is Element <E>()
 			class m_vector
 		{

@@ -90,7 +90,7 @@ namespace ch19_exc
 					return p.value;
 			//cerr 
 			//	<< "\nno key found\n";
-			throw runtime_error ("no key found");
+			throw runtime_error ("Key not found.");
 		}
 
 		template <typename T, typename U>
@@ -114,7 +114,7 @@ namespace ch19_exc
 			char
 				result = table.get_value("surfing");
 			testing_bundle<char> 
-				t {name, result, '~'};		
+				t0_0 {name, result, '~'};		
 			try 
 			{
 				table.get_value("nope");
@@ -123,6 +123,8 @@ namespace ch19_exc
 			} 
 			catch (exception & e) 
 			{
+				testing_bundle <string>
+					t1_0 {name, e.what(), "Key not found."};
 				++test_no;
 			}
 			report (no, name);
@@ -758,6 +760,41 @@ namespace ch19_exc
 
 	namespace e08
 	{
+		template <typename T>
+			T * m_allocator<T>::allocate(int n)
+		{
+			//T * result = malloc(sizeof (T) * n);
+			//return result;
+			int len = sizeof (T);
+			return (T *) malloc(len * n);
+		}
+		
+		template <typename T>
+			void m_allocator<T>::deallocate (T * p/*, int n*/)
+		{			
+			//delete [] p;
+			//p = nullptr;
+			free (p);
+		}
+
+		template <typename T>
+			void m_allocator<T>::construct (T * p, const T & v)
+		{
+			::new (p) T (v);
+		}
+
+		template <typename T>
+			void m_allocator<T>::destroy (T * p, int n)
+		{
+			if (n == 1)
+				delete (p);
+			else if (n > 1)
+				delete [] p;
+		}
+
+
+	//	--------------------
+	
 		template <typename T, typename A>
 			m_vector<T, A> & m_vector<T, A>::operator = (const m_vector & v)
 		{
@@ -836,12 +873,38 @@ namespace ch19_exc
 			++sz;
 		}
 
-//	----------------------------------------------------------
+	//	--------------------
 	
-		void testing()
+		void testing_m_allocator()
 		{
 			string
-				name {"e08"};
+				name {"e08 m_allocator"};
+			int 
+				no = test_no;
+			m_allocator<int>
+				m_a {};
+			int
+				val {1},
+				* i = m_a.allocate (1);
+			
+			//testing_bundle<bool>
+			//	t0_0 {name + ": 0_0", i != nullptr, true};
+			m_a.construct (i, val);
+			//testing_bundle <int>
+			//	t0_1 {name + ": 0_1", * i, val};
+			m_a.destroy (i);
+			m_a.deallocate(i);
+			//testing_bundle <bool>
+			//	t0_2 {name + ": 0_2", tmp == nullptr, true};
+			//testing_bundle <bool>
+			//	t0_3 {name + ": 0_3", i == nullptr, true};
+			report (no, name);
+		}
+
+		void testing_m_vector()
+		{
+			string
+				name {"e08 m_vector"};
 			int
 				no = test_no;
 			m_vector <int> 
@@ -943,6 +1006,6 @@ namespace ch19_exc
 		//e05::testing();
 		//e06::testing();
 		//e07::testing();
-		e08::testing();
+		e08::testing_m_allocator();
 	}
 }
