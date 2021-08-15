@@ -756,6 +756,184 @@ namespace ch19_exc
 		}	
 	}
 
+	namespace e08
+	{
+		template <typename T, typename A>
+			m_vector<T, A> & m_vector<T, A>::operator = (const m_vector & v)
+		{
+			if (this == & v)
+				return * this;
+			if (space < v.sz)
+			{
+				delete [] elem;
+				elem = alloc.allocate (v.sz);
+				space = v.sz;
+			}
+			sz = v.sz;			
+			copy (v.elem, v.elem + sz, elem);
+			return * this;
+		}
+	
+		template <typename T, typename A>
+			m_vector<T, A> & m_vector<T, A>::operator = (m_vector && v) noexcept (true)
+		{
+			if (true)
+				delete [] elem;
+			else
+			{
+				alloc.destroy (space, elem);
+				alloc.deallocate (elem);
+			}
+
+			sz = v.sz;
+			space = v.space;
+			elem = v.elem;
+			v.elem = nullptr;
+			v.sz = v.space = 0;
+			return * this;
+		}
+	
+		template <typename T, typename A>
+			void m_vector<T, A>::reserve (int new_space)
+		{
+			if (new_space <= space)
+				return;
+			T * p = alloc.allocate(new_space);
+
+			for (int i = 0; i < sz; ++i)
+			{
+				alloc.construct(& p [i], elem [i]);
+				alloc.destroy (& elem[i]);
+			}
+			alloc.deallocate (elem, space);
+			elem = p;
+			space = new_space;
+		}
+	
+		template <typename T, typename A>
+			void m_vector<T, A>::resize (int new_size, T val)
+		{		
+			if (new_size < 0)
+				return;
+
+			reserve (new_size);
+				for (int i = sz; i < new_size; ++i)
+					alloc.construct (&elem [i], val);
+				for (int i = new_size; i < sz; ++i)
+					alloc.destroy (&elem [i]);
+				sz = new_size;
+		}
+	
+		template <typename T, typename A>
+			void m_vector<T, A>::push_back (T val)
+		{
+			if (space == 0)
+				reserve (8);		
+			else
+				if (space == sz)
+					reserve (space * 2);
+			alloc.construct (& elem [sz], val);
+			++sz;
+		}
+
+//	----------------------------------------------------------
+	
+		void testing()
+		{
+			string
+				name {"e08"};
+			int
+				no = test_no;
+			m_vector <int> 
+				v0 {};
+			testing_bundle<int>
+				t0_0 {name + ": 0_0", v0.size(), 0},
+				t0_1 {name + ": 0_1", v0.capacity(), 8};
+			report (no, name + ": empty cnstr");
+			m_vector <int> 
+				v1 (1, -1);
+			testing_bundle <int>
+				t1_0 {name + ": 1_0", v1.size(), 1},
+				t1_1 {name + ": 1_1", v1.capacity(), 1},
+				t1_2 {name + ": 1_2", v1 [0], -1};
+			report (no, name + ": expl cnstr");
+			m_vector <int>
+				v2 {-1};
+			testing_bundle <int>
+				t2_0 {name + ": 2_0", v2.size(), 1},
+				t2_1 {name + ": 2_1", v2.capacity(), 1},
+				t2_2 {name + ": 2_2", v2 [0], -1};
+			report (no, name + ": init cnstr");
+			m_vector <int>
+				u3 {-1},
+				v3 {u3};
+			testing_bundle <int>
+				t3_0 {name + ":3_0", v3.size(), 1},
+				t3_1 {name + ":3_1", v3.capacity(), 1},
+				t3_2 {name + ":3_2", v3 [0], -1};
+			report (no, name + ": copy cnstr");
+			auto a4 = []() -> m_vector <int>
+			{
+				m_vector <int> temp {-1};
+				return temp;
+			};
+			m_vector <int> 
+				v4 {a4()};
+			testing_bundle <int>
+				t4_0 {name + ": 4_0", v4.size(), 1},
+				t4_1 {name + ": 4_1", v4.capacity(), 1},
+				t4_2 {name + ": 4_2", v4 [0], -1};
+			report (no, name + ": move cnstr");
+			m_vector<int>
+				v5 = m_vector<int> {-1};
+			testing_bundle <int>
+				t5_0 {name + ":5_0", v5.size(), 1},
+				t5_1 {name + ":5_1", v5.capacity(), 1},
+				t5_2 {name + ":5_2", v5 [0], -1};
+			report (no, name + ": std assgn");
+			m_vector<int> 
+				u6 {-1},
+				v6 = u6;
+			testing_bundle <int>
+				t6_0 {name + ": 6_0", u6.size(), v6.size()},
+				t6_1 {name + ": 6_1", u6.capacity(), v6.capacity()},
+				t6_2 {name + ": 6_2", u6 [0], v6 [0]};
+			report (no, name + ": copy assgn");
+			void 
+				* ptr7 = nullptr;
+			auto a7 = [&]() -> m_vector<int>
+			{
+				m_vector<int> temp {-1};
+				ptr7 = (void *)temp.addr();
+				return temp;
+			};
+			m_vector<int>
+				v7 = a7();
+			testing_bundle <int>
+				t7_0 {name + ": 7_0", v7.size(), 1},
+				t7_1 {name + ": 7_1", v7.capacity(), 1},
+				t7_2 {name + ": 7_2", v7 [0], -1},
+				t7_3 {name + ": 7_3", (int) ptr7, (int) v7.addr()};
+			report (no, name + ": move assgn");
+			m_vector<int>
+				v8(0);
+			v8.reserve (4);
+			testing_bundle <int>
+				t8_0 {name + ": 8_0", v8.size(), 0},
+				t8_1 {name + ": 8_1", v8.capacity(), 4};
+			report (no, name + ": reserve");
+			m_vector<int>
+				v9 {-1};
+			v9.resize(2);
+			testing_bundle <int>
+				t9_0 {name + ": 9_0", v9.size(), 2},
+				t9_1 {name + ": 9_1", v9.capacity(), 2},
+				t9_2 {name + ": 9_2", v9 [0], -1};
+			report (no, name + ": resize");
+			report (no, name + ": m_vector");
+		}
+	}
+
 	void main()
 	{
 		//e01::test();
@@ -765,5 +943,6 @@ namespace ch19_exc
 		//e05::testing();
 		//e06::testing();
 		//e07::testing();
+		e08::testing();
 	}
 }
