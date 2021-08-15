@@ -452,7 +452,9 @@ namespace ch19_exc
 
 		Int operator % (Int & v1, Int & v2)
 		{
-			return Int {v1.get() & v2.get()};
+			if (v2.get() == 0)
+				throw runtime_error ("Dividing by 0.");
+			return Int {v1.get() % v2.get()};
 		}
 
 		bool operator == (Int & v1, Int & v2)
@@ -521,7 +523,17 @@ namespace ch19_exc
 				error = e.what();
 			}
 			testing_bundle <string>
-				t1_0 {name, error, "Dividing by 0"};
+				t1_0 {name, error, "Dividing by 0."};
+			try
+			{
+				i1 % i0;
+			}
+			catch (runtime_error & e)
+			{
+				error = e.what();
+			}
+			testing_bundle <string>
+				t1_1 {name, error, "Dividing by 0."};
 			testing_bundle <bool>
 				t2_0 {name, i1 == i3, true},
 				t2_1 {name, i1 != i2, true},
@@ -543,12 +555,164 @@ namespace ch19_exc
 		}
 	}
 
+	namespace e06
+	{
+		template <typename T>
+			Number<T> operator + (Number<T> & v1, Number<T> & v2)
+		{
+			return Number<T> {v1.get() + v2.get()};
+		}
+		template <typename T>
+			Number<T> operator - (Number<T> & v1, Number<T> & v2)
+		{
+			return Number<T> {v1.get() - v2.get()};
+		}
+		template <typename T>
+			Number<T> operator * (Number<T> & v1, Number<T> & v2)
+		{
+			return Number<T> {v1.get() * v2.get()};
+		}
+		template <typename T>
+			Number<T> operator / (Number<T> & v1, Number<T> & v2)
+		{
+			string 
+				v_type {typeid(v2).name()};
+			if (v2.get() == 0 && !(v_type == "float" || v_type == "double"))
+				throw runtime_error ("Dividing by 0.");
+			return Number<T> {v1.get() / v2.get()};
+		}
+
+		template <typename T>
+			Number<T> operator % (Number<T> & v1, Number<T> & v2)
+		{
+			if (v2.get() == 0)
+				throw runtime_error ("Dividing by 0.");
+			string
+				v_type {typeid(v2).name()};
+			if (v_type == "float" || v_type == "double")
+			{
+				throw runtime_error ("Couldn't perform the operation. Sorry.");
+			}		 
+			return Number<T> {v1.get() % v2.get()};
+		}
+
+		template <typename T>
+			bool operator == (Number<T> & v1, Number<T> & v2)
+		{
+			return v1.get() == v2.get();
+		}
+		template <typename T>
+			bool operator != (Number<T> & v1, Number<T> & v2)
+		{
+			return v1.get() != v2.get();
+		}
+		template <typename T>
+			bool operator > (Number<T> & v1, Number<T> & v2)
+		{
+			return v1.get() > v2.get();
+		}
+		template <typename T>
+			bool operator < (Number<T> & v1, Number<T> & v2)
+		{
+			return v1.get() < v1.get();
+		}
+		template <typename T>
+			ostream & operator << (ostream & os, Number<T> & v)
+		{
+			os << v.get();
+			return os;
+		}
+		template <typename T>
+			istream & operator >> (istream & is, Number<T> & v)
+		{
+			for (Number<T> i; is >> i ;)
+			{
+				v.set(i);
+				return is;
+			}
+			throw runtime_error ("Wrong input.");
+		}
+
+
+	// --- testing
+
+		void testing()
+		{
+			string
+				name {"e06"};
+			int
+				no = test_no;
+			Number<int>
+				i0 {0},
+				i1 {1},
+				i2 {2},
+				i3 {1};
+			testing_bundle <int>
+				t0_0{name, (i1 + i2).get(), i1.get() + i2.get()},
+				t0_1 {name, (i1 - i2).get(), i1.get() - i2.get()},
+				t0_2 {name, (i1 * i2).get(), i1.get() * i2.get()},
+				t0_3 {name, (i1 / i2).get(), i1.get() / i2.get()},
+				t0_4 {name, (i1 % i2).get(), i1.get() % i2.get()};
+			string error {};
+			try
+			{
+				i1 / i0;
+			}
+			catch (runtime_error & e)
+			{
+				error = e.what();
+			}
+			testing_bundle <string>
+				t1_0 {name, error, "Dividing by 0."};
+			try
+			{
+				i1 % i0;
+			}
+			catch (runtime_error & e)
+			{
+				error = e.what();
+			}
+			testing_bundle <string>
+				t1_1 {name, error, "Dividing by 0."};
+			testing_bundle <bool>
+				t2_0 {name, i1 == i3, true},
+				t2_1 {name, i1 != i2, true},
+				t2_2 {name, i1 > i0, true},
+				t2_3 {name, i1 < i2, true};
+			try
+			{
+				Number<int> i {};
+				cout << "write a non-integer input, please.";
+				cin >> i; 
+			}
+			catch (runtime_error & e)
+			{
+				error = e.what();
+			}
+			testing_bundle<string>
+				t3_0 {name, error, "Wrong input."};		
+			Number<double>
+				d_i {(double)INFINITY},
+				d0 {0},
+				d1 {1},
+				d2 {2};
+
+			testing_bundle<double>
+				t4_0 {name, (d1 / d0).get(), d_i.get()}/*,
+				t4_1 {name, (d2 % d1).get(), */;
+
+
+			report (no, name);
+		}
+	}
+
 	void main()
 	{
 		//e01::test();
 		//e02::test();
 		//e03::test();
 		//e04::e04_run();
-		e05::testing();
+		//e05::testing();
+		e06::testing();
 	}
 }

@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <memory>
 #include <vector>
+#include <typeinfo>
 
 using namespace std;
 
@@ -209,5 +210,50 @@ namespace ch19_exc
 		void testing();
 	}
 
+	namespace e06
+	{
+		template <typename T>
+			class Number
+		{
+			T value;
+
+		public : 
+			Number () : value {0} 
+			{}
+			explicit Number (T v) : value {v}
+			{}
+			Number (Number & i) : value {i.value}
+			{}
+			Number (Number && i) noexcept : value {i.value}
+			{}
+			T get () {return value;}
+			void set (Number v) {value = v;}
+		};
+
+		template <typename T>
+			Number<T> operator + (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			Number<T> operator - (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			Number<T> operator * (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			Number<T> operator / (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			Number<T> operator % (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			bool operator == (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			bool operator != (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			bool operator > (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			bool operator < (Number<T> & v1, Number<T> & v2);
+		template <typename T>
+			ostream & operator << (ostream & os, Number<T> & v);
+		template <typename T>
+			istream & operator >> (istream & is, Number<T> & v);
+
+		void testing();
+	}
 	 void main();
 }
