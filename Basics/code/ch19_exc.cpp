@@ -790,8 +790,8 @@ namespace ch19_exc
 				delete (p);
 			else if (n > 1)
 				delete [] p;
+			//free ((void *) p);		// read access violation
 		}
-
 
 	//	--------------------
 	
@@ -877,28 +877,12 @@ namespace ch19_exc
 	
 		void testing_m_allocator()
 		{
-			string
-				name {"e08 m_allocator"};
-			int 
-				no = test_no;
-			m_allocator<int>
-				m_a {};
-			int
-				val {1},
-				* i = m_a.allocate (1);
-			
-			//testing_bundle<bool>
-			//	t0_0 {name + ": 0_0", i != nullptr, true};
-			m_a.construct (i, val);
-			//testing_bundle <int>
-			//	t0_1 {name + ": 0_1", * i, val};
-			m_a.destroy (i);
-			m_a.deallocate(i);
-			//testing_bundle <bool>
-			//	t0_2 {name + ": 0_2", tmp == nullptr, true};
-			//testing_bundle <bool>
-			//	t0_3 {name + ": 0_3", i == nullptr, true};
-			report (no, name);
+			{
+				Int * i = nullptr;
+				Int a{};
+
+			}
+
 		}
 
 		void testing_m_vector()
