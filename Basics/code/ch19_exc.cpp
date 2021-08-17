@@ -763,17 +763,13 @@ namespace ch19_exc
 		template <typename T>
 			T * m_allocator<T>::allocate(int n)
 		{
-			//T * result = malloc(sizeof (T) * n);
-			//return result;
 			int len = sizeof (T);
-			return (T *) malloc(len * n);
+			return (T *) malloc(sizeof (T) * n);
 		}
 		
 		template <typename T>
-			void m_allocator<T>::deallocate (T * p/*, int n*/)
+			void m_allocator<T>::deallocate (T * p)
 		{			
-			//delete [] p;
-			//p = nullptr;
 			free (p);
 		}
 
@@ -785,12 +781,10 @@ namespace ch19_exc
 
 		template <typename T>
 			void m_allocator<T>::destroy (T * p, int n)
-		{
-			if (n == 1)
-				delete (p);
-			else if (n > 1)
-				delete [] p;
-			//free ((void *) p);		// read access violation
+		{	
+
+			p -> ~T();
+			free (p);
 		}
 
 	//	--------------------
@@ -875,14 +869,71 @@ namespace ch19_exc
 
 	//	--------------------
 	
+		void testing_allocations ()
+		{
+			string 
+				name {"e08 : allocations"};
+			int 
+				no = test_no,
+				* ptr = nullptr;
+			ptr = (int *) malloc (sizeof (int));
+			testing_bundle <bool>
+				t0_0 {name + ": malloc", ptr == nullptr, false};
+			::new (ptr) int (-1);
+			testing_bundle <int>
+				t0_1 {name + ": init", * ptr, -1};
+			free (ptr);
+			testing_bundle <bool>
+				t0_2 {name + ": free", ptr == nullptr, false};
+			report (no, name);
+		}
+
 		void testing_m_allocator()
 		{
+			string 
+				name {"e08: allocator"};
+			int 
+				no = test_no;
+			struct Int
 			{
-				Int * i = nullptr;
-				Int a{};
+				m_allocator<int>
+					alloc ;
+				int 
+					* i;
+				bool
+					initialized;
+				explicit Int (int v = 0) :
+					alloc {m_allocator<int> ()},
+					i {alloc.allocate (max (v, 1))},
+					initialized {v > 0}
+				{
+					if (initialized)
+						alloc.construct (i, v);
+				}
+				~Int ()
+				{
+					if (initialized)
+						alloc.destroy (i);
+					else 
+						alloc.deallocate (i);
+				}
+			};
 
+			int * ptr = nullptr;
+			{
+				Int
+					o{0};
+				ptr = o.i;
+				testing_bundle<bool>
+					t0_0{name + ": alloc", o.i == nullptr, false};
 			}
+			testing_bundle<bool>
+				t0_1{name + ": alloc", ptr == nullptr, false};			
 
+
+			
+
+			report (no, name);
 		}
 
 		void testing_m_vector()
@@ -990,6 +1041,7 @@ namespace ch19_exc
 		//e05::testing();
 		//e06::testing();
 		//e07::testing();
+		//e08::testing_allocations();
 		e08::testing_m_allocator();
 	}
 }

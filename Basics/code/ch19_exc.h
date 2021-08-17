@@ -282,34 +282,6 @@ namespace ch19_exc
 			void destroy (T * p, int n = 1);
 		};
 
-		struct Int
-		{
-			m_allocator<int>
-				alloc ;
-			int * i;
-
-			//Int () : 
-			//	alloc {m_allocator<int> ()}, 
-			//	i {alloc.allocate (sizeof (int))}
-			//{}
-			explicit Int (int v = 0) :
-				alloc {m_allocator<int> ()},
-				i {alloc.allocate (sizeof (int))}
-			{
-				alloc.construct (i, v);
-			}
-
-			~Int ()
-			{
-				alloc.destroy (i);
-			}
-
-
-
-		};
-
-
-
 	// -----------------------
 
 		template <typename T, typename A = allocator <T>>	// T is Element <E>()
