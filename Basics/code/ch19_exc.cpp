@@ -782,9 +782,9 @@ namespace ch19_exc
 		template <typename T>
 			void m_allocator<T>::destroy (T * p, int n)
 		{	
-
+			for ( ; p < p + n; ++p)
 			p -> ~T();
-			free (p);
+			free (p -= n);
 		}
 
 	//	--------------------
@@ -1041,7 +1041,7 @@ namespace ch19_exc
 		//e05::testing();
 		//e06::testing();
 		//e07::testing();
-		//e08::testing_allocations();
+		e08::testing_allocations();
 		e08::testing_m_allocator();
 	}
 }
