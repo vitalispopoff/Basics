@@ -796,7 +796,7 @@ namespace ch19_exc
 				return * this;
 			if (space < v.sz)
 			{
-				delete [] elem;
+				alloc.detroy (elem, space);
 				elem = alloc.allocate (v.sz);
 				space = v.sz;
 			}
