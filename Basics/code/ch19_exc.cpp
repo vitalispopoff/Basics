@@ -730,7 +730,6 @@ namespace ch19_exc
 			return Number<double> {result};
 		}
 
-
 		void testing()
 		{
 			string
@@ -928,10 +927,7 @@ namespace ch19_exc
 					t0_0{name + ": alloc", o.i == nullptr, false};
 			}
 			testing_bundle<bool>
-				t0_1{name + ": alloc", ptr == nullptr, false};			
-
-
-			
+				t0_1{name + ": alloc", ptr == nullptr, false};
 
 			report (no, name);
 		}
@@ -1032,6 +1028,33 @@ namespace ch19_exc
 		}
 	}
 
+	namespace e10
+	{
+		void testing()
+		{
+			string
+				name {"e10"};
+			int
+				no = test_no;
+			int 
+				i {-1},
+				* p = nullptr;
+			{
+				m_pointer <int> m {i};
+				testing_bundle <int>
+					t0_0 {name + ": init", * m.ptr, -1};
+				p = m.ptr;
+			}
+			testing_bundle <bool>
+				t1_0 {name + ": ~", * p == -1, false};
+			m_pointer<int> m {i};
+			testing_bundle <int>
+				t2_0 {name + ": ->", * m, -1};
+
+			report (no, name);
+		}
+	}
+
 	void main()
 	{
 		//e01::test();
@@ -1041,8 +1064,9 @@ namespace ch19_exc
 		//e05::testing();
 		//e06::testing();
 		//e07::testing();
-		e08::testing_allocations();
-		e08::testing_m_allocator();
-		e08::testing_m_vector();
+		//e08::testing_allocations();
+		//e08::testing_m_allocator();
+		//e08::testing_m_vector();
+		e10::testing();
 	}
 }

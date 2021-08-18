@@ -337,5 +337,37 @@ namespace ch19_exc
 		void testing();		
 	}
 
+	namespace e10
+	{
+		template <typename T>
+		struct m_pointer
+		{
+			T * ptr = nullptr;
+			m_pointer () {}
+			explicit m_pointer (T t, int i = 1)				
+			{
+				ptr = (T *) malloc (sizeof (T) * max (1, i));
+				::new (ptr) T (t);
+			}
+			~ m_pointer ()
+			{
+				ptr -> ~T();
+				free (ptr);
+			}
+			const int operator * ()
+			{
+				return * ptr;
+			}
+			T * release ()
+			{
+				T * result = ptr;
+				ptr = nullptr;
+				return result;
+			}
+		};
+
+		void testing();
+	}
+
 	 void main();
 }
