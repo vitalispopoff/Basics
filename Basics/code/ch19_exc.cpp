@@ -1043,5 +1043,6 @@ namespace ch19_exc
 		//e07::testing();
 		e08::testing_allocations();
 		e08::testing_m_allocator();
+		e08::testing_m_vector();
 	}
 }
