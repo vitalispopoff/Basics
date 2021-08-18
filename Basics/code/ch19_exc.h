@@ -430,5 +430,48 @@ namespace ch19_exc
 		void testing();
 	}
 
+	namespace e13
+	{
+		struct Tracer
+		{
+			using S = string;
+			S
+				* str;
+			explicit Tracer (string s = "") :
+				str {new string (s)}
+			{
+				cout << "\nconstructor";
+				print_st();
+
+			}
+			Tracer (Tracer & t) :
+				str {t.str}
+			{
+				cout << "\ncopy constr";
+				print_st();
+			}
+			Tracer (Tracer && t) noexcept :
+				str {t.str}
+			{
+				cout << "\nmove constr";
+				print_st();
+			}
+
+			~Tracer ()
+			{
+				cout << "\ndestructor";
+				print_st();
+				str -> ~S();
+			}
+
+			void print_st ()
+			{
+				if (str -> size())
+					cout << '\t' << * str;
+				cout << '\n';
+			}
+		};
+	}
+
 	 void main();
 }

@@ -1110,7 +1110,6 @@ namespace ch19_exc
 
 	namespace e12
 	{
-
 		void testing()
 		{
 			string
@@ -1131,6 +1130,22 @@ namespace ch19_exc
 		}
 	}
 
+	namespace e13
+	{
+		void testing()
+		{
+			string
+				name {"e13"};
+			int
+				no = test_no;
+			{
+				Tracer
+					t {"\nbulk of this excercise is in \n\tch19, \n\tch19_try_this, \n\tch19_go_deeper\n"};
+			}
+			report (no, name);
+		}
+	}
+
 	void main()
 	{
 		//e01::test();
@@ -1145,6 +1160,6 @@ namespace ch19_exc
 		//e08::testing_m_vector();
 		//e10::testing();
 		//e11::testing();
-		e12::testing();
+		e13::testing();
 	}
 }
