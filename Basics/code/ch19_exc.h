@@ -358,6 +358,8 @@ namespace ch19_exc
 			{
 				return * ptr;
 			}
+
+
 			T * release ()
 			{
 				T * result = ptr;
@@ -367,6 +369,45 @@ namespace ch19_exc
 		};
 
 		void testing();
+	}
+
+	namespace e11
+	{
+		template <typename T>
+		struct counted_ptr
+		{
+			using U = int;
+			T * ptr = nullptr;
+			U * counter = nullptr;
+			counted_ptr (T t = T())
+			{				
+				ptr = new T (t);
+				counter = new  U (1);
+			}
+			counted_ptr (counted_ptr & c)						
+			{
+				ptr = c.ptr;
+				counter = c.counter;
+				++counter;
+			}
+
+
+
+			void destroy ()
+			{
+				if (--counter == 0)
+				{
+					counter -> ~U();
+					ptr -> ~T();
+					free (counter);
+					free (ptr);
+				}
+			}
+				
+
+		};
+
+		void testing();			
 	}
 
 	 void main();

@@ -1032,6 +1032,14 @@ namespace ch19_exc
 	{
 		void testing()
 		{
+			struct Int
+			{
+				int
+					val;
+				explicit Int (int v = 0) : val {v} {}
+
+			};
+
 			string
 				name {"e10"};
 			int
@@ -1047,10 +1055,35 @@ namespace ch19_exc
 			}
 			testing_bundle <bool>
 				t1_0 {name + ": ~", * p == -1, false};
+
 			m_pointer<int> m {i};
 			testing_bundle <int>
-				t2_0 {name + ": ->", * m, -1};
+				t2_0 {name + ": *", * m, -1};
 
+			int
+				* v = m.release();
+			testing_bundle <bool>
+				t3_0 {name + ": rel", m.ptr == nullptr, true};
+			testing_bundle <int>
+				t3_1 {name + ": rel", * v, -1};
+			report (no, name);
+		}
+	}
+
+	namespace e11
+	{
+		void testing()
+		{
+			string
+				name {"e11"};
+			int
+				no = test_no;
+			{
+				counted_ptr <int> c {-1};
+				testing_bundle <int>
+					t0_0 {name + ": init", *c.ptr, -1},
+					t0_1 {name + ": init", *c.counter, 1};
+			}
 			report (no, name);
 		}
 	}
@@ -1067,6 +1100,7 @@ namespace ch19_exc
 		//e08::testing_allocations();
 		//e08::testing_m_allocator();
 		//e08::testing_m_vector();
-		e10::testing();
+		//e10::testing();
+		e11::testing();
 	}
 }
