@@ -386,25 +386,23 @@ namespace ch19_exc
 			}
 			counted_ptr (counted_ptr & c)						
 			{
-				ptr = c.ptr;
+				ptr = c.ptr;			
 				counter = c.counter;
-				++counter;
+				++ * counter;
 			}
-
-
 
 			void destroy ()
 			{
-				if (--counter == 0)
+				if (-- * counter == 0)
 				{
 					counter -> ~U();
 					ptr -> ~T();
 					free (counter);
 					free (ptr);
 				}
-			}
-				
-
+				ptr = nullptr;
+				counter = nullptr;
+			}			
 		};
 
 		void testing();			

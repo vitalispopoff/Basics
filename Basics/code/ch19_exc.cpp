@@ -1084,6 +1084,26 @@ namespace ch19_exc
 					t0_0 {name + ": init", *c.ptr, -1},
 					t0_1 {name + ": init", *c.counter, 1};
 			}
+			counted_ptr <int> 
+				c {-1},
+				d = c;
+			testing_bundle <bool>
+				t1_0 {name + ": =", c.ptr == d.ptr, true},
+				t1_1 {name + ": =", c.counter == d.counter, true};
+			testing_bundle <int>
+				t1_2 {name + ": =", * c.counter, 2};
+
+			c.destroy();
+			testing_bundle <bool>
+				t2_0 {name + ": dstr", c.ptr == nullptr, true},
+				t2_1 {name + ": dstr", c.counter == nullptr, true},
+				t2_2 {name + ": dstr", d.ptr == nullptr, false},
+				t2_3 {name + ": dstr", * d.counter == 1, true};
+			d.destroy();
+			testing_bundle <bool>
+				t3_1 {name + ": dstr", d.ptr == nullptr, true},
+				t3_2 {name + ": dstr", d.counter == nullptr, true};
+
 			report (no, name);
 		}
 	}
