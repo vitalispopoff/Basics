@@ -151,6 +151,9 @@
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="code\sketchbook.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\e12_test.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

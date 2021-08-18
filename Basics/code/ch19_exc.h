@@ -7,6 +7,7 @@
 #include <vector>
 #include <typeinfo>
 #include <cstdlib>		// for the e08::m_allocator
+#include <fstream>		// for the e12
 
 using namespace std;
 
@@ -406,6 +407,27 @@ namespace ch19_exc
 		};
 
 		void testing();			
+	}
+
+	namespace e12
+	{
+		struct File_handle
+		{
+			string 
+				name;
+			fstream 
+				* fs = nullptr;
+			File_handle (string n) :
+				name {n}
+			{
+				fs = new fstream (name);
+			}
+			~File_handle()
+			{
+				fs -> ~fstream();
+			}
+		};		
+		void testing();
 	}
 
 	 void main();

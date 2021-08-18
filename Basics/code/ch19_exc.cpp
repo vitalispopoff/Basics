@@ -1108,6 +1108,29 @@ namespace ch19_exc
 		}
 	}
 
+	namespace e12
+	{
+
+		void testing()
+		{
+			string
+				name {"e12"};
+			int 
+				no = test_no;
+
+			string
+				file {"e12_test.txt"};
+			{
+				File_handle
+					f {file};
+				testing_bundle <bool>
+					t0_0 {name + ": init", f.name == file, true},
+					t0_1 {name + ": init", f.fs == nullptr, false};
+			}
+			report (no, name);
+		}
+	}
+
 	void main()
 	{
 		//e01::test();
@@ -1121,6 +1144,7 @@ namespace ch19_exc
 		//e08::testing_m_allocator();
 		//e08::testing_m_vector();
 		//e10::testing();
-		e11::testing();
+		//e11::testing();
+		e12::testing();
 	}
 }
