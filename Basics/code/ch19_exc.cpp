@@ -1146,6 +1146,21 @@ namespace ch19_exc
 		}
 	}
 
+	namespace e16
+	{
+		void testing()
+		{
+			string
+				name {"e16"};
+			int
+				no = test_no;
+			vector_base<int> v {1};
+			testing_bundle <bool>
+				t0_0 {name, v.elem == nullptr, false};
+			report (no, name);
+		}
+	}
+
 	void main()
 	{
 		//e01::test();
@@ -1160,6 +1175,6 @@ namespace ch19_exc
 		//e08::testing_m_vector();
 		//e10::testing();
 		//e11::testing();
-		e13::testing();
+		e16::testing();
 	}
 }

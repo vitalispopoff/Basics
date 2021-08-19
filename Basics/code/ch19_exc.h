@@ -473,5 +473,42 @@ namespace ch19_exc
 		};
 	}
 
+	namespace e16
+	{
+		template <typename T>
+			struct vector_base
+		{
+			int sz;
+			int sp;
+			T * elem = nullptr;
+
+			explicit vector_base (int size = 0, T val = T(), int space = 8) :
+				sz {max (0, size)},
+				sp {space}
+			{
+				elem = (T *) malloc (sizeof (T) * max (1, space));
+				for (T * ptr = elem; ptr < elem + sz; ++ptr)
+					ptr = new T (val);
+			}
+			~vector_base()
+			{				
+				for (T * ptr = elem ; ptr < elem + sz; ++ptr)
+					elem -> ~T();
+				free (elem);
+			}
+		};
+
+		template <typename T>
+			struct m_vector : vector_base <T>
+		{
+			explicit m_vector (int size = 0, T val = T()) :
+				vector_base <T> :: vector_base {size, val}
+			{}
+
+		};
+
+		void testing();
+	}
+
 	 void main();
 }
