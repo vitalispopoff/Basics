@@ -1,32 +1,34 @@
 #include "ch19_exc.h"
+#include "testing.h"
 
-namespace testing
-{
-	int test_no = 1;
-
-	template <typename U>
-		void testing_bundle<U>::testing ()
-	{
-		if (given != expected)
-		{			
-			cout
-				<<  test_no  << ".\t" << name << "\tfailed\n";
-				//<< "exp: " << given << "\texp: " << expected; 
-		}
-		++test_no;
-	}
-
-	void report (int & n, string name)
-	{
-		cout 
-			<< '\t' << name << ":\ttests: " << n << " - " << test_no - 1 << '\n';
-			n = test_no;
-	}
-}
+//namespace testing
+//{
+//	int test_no = 1;
+//
+//	template <typename U>
+//		void testing_bundle<U>::testing ()
+//	{
+//		if (given != expected)
+//		{			
+//			cout
+//				<<  test_no  << ".\t" << name << "\tfailed\n";
+//				//<< "exp: " << given << "\texp: " << expected; 
+//		}
+//		++test_no;
+//	}
+//
+//	void report (int & n, string name)
+//	{
+//		cout 
+//			<< '\t' << name << ":\ttests: " << n << " - " << test_no - 1 << '\n';
+//			n = test_no;
+//	}
+//}
 
 namespace ch19_exc
 {
-	using namespace testing;
+	using namespace testing_space;
+	using testing_space::testing_bundle;
 	
 	namespace e01
 	{

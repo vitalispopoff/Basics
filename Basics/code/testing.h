@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 namespace testing_space
 {
@@ -19,10 +20,11 @@ namespace testing_space
 		testing_bundle (string n, U g, U e) : 
 			name {n}, given {g}, expected {e}
 		{
-			testing();
+			if (given != expected)
+				cout
+					<<  test_no  << ".\t" << name << "\tfailed\n";
+			++test_no;
 		}
-
-		void testing();
 	};
 
 	void report (int & no, string name);
