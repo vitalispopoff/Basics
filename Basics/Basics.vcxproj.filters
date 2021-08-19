@@ -13,42 +13,54 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\ch19">
+      <UniqueIdentifier>{7f3dced6-718b-4137-ba12-6af4f81ec27d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\ch20">
+      <UniqueIdentifier>{a209557d-6bc8-4013-865d-8b081a77e5c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ch19">
+      <UniqueIdentifier>{9c5cbcc8-8f32-4a63-9c3b-eae8ff76e0ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ch20">
+      <UniqueIdentifier>{441caca2-d6c5-4344-bfae-35795dad675d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="code\ch19.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="code\main.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="code\sketchbook.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="code\ch19.h">
+      <Filter>Pliki nagłówkowe\ch19</Filter>
+    </ClInclude>
     <ClInclude Include="code\ch19_exc.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\ch19</Filter>
     </ClInclude>
     <ClInclude Include="code\ch20.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\ch20</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="code\ch19.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="code\main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="code\sketchbook.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="code\ch19.cpp">
+      <Filter>Pliki źródłowe\ch19</Filter>
+    </ClCompile>
     <ClCompile Include="code\ch19_drill.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\ch19</Filter>
     </ClCompile>
     <ClCompile Include="code\ch19_exc.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\ch19</Filter>
     </ClCompile>
     <ClCompile Include="code\ch20.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\ch20</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
