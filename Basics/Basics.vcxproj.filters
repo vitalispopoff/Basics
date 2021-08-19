@@ -42,6 +42,9 @@
     <ClInclude Include="code\ch20.h">
       <Filter>Pliki nagłówkowe\ch20</Filter>
     </ClInclude>
+    <ClInclude Include="code\testing.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\main.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="code\ch20.cpp">
       <Filter>Pliki źródłowe\ch20</Filter>
+    </ClCompile>
+    <ClCompile Include="code\testing.cpp">
+      <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

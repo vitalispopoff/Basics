@@ -144,6 +144,7 @@
     <ClInclude Include="code\ch20.h" />
     <ClInclude Include="code\main.h" />
     <ClInclude Include="code\sketchbook.h" />
+    <ClInclude Include="code\testing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\ch19.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="code\ch20.cpp" />
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="code\sketchbook.cpp" />
+    <ClCompile Include="code\testing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\e12_test.txt" />
