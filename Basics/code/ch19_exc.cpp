@@ -1157,6 +1157,12 @@ namespace ch19_exc
 			vector_base<int> v {1};
 			testing_bundle <bool>
 				t0_0 {name, v.elem == nullptr, false};
+			
+			m_vector<int> v1 (1);
+			testing_bundle <bool>
+				t1_0 {name, v1.elem == nullptr, false},
+				t1_1 {name, * v1.elem == 0, true};
+			
 			report (no, name);
 		}
 	}

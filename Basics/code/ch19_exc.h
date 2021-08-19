@@ -484,11 +484,13 @@ namespace ch19_exc
 
 			explicit vector_base (int size = 0, T val = T(), int space = 8) :
 				sz {max (0, size)},
-				sp {space}
+				sp {max (sz, space)}
 			{
 				elem = (T *) malloc (sizeof (T) * max (1, space));
-				for (T * ptr = elem; ptr < elem + sz; ++ptr)
-					ptr = new T (val);
+				T * temp = elem;
+				for (; elem < temp + sz; ++elem)
+					::new (elem) T (val);
+				elem = temp;
 			}
 			~vector_base()
 			{				
