@@ -420,9 +420,9 @@ namespace ch20
 				vD;
 			vD.push_back (-1);
 			testing_bundle <int>
-				tD_0 {name + ": empty : size", vD.size(), 1},
-				tD_1 {name + ": empty : space", vD.capacity(), 8},
-				tD_2 {name + ": empty : elem", vD[0], -1};
+				tD_0 {name + ": empty size", vD.size(), 1},
+				tD_1 {name + ": empty space", vD.capacity(), 8},
+				tD_2 {name + ": empty elem", vD[0], -1};
 			report (no, name);
 
 			m_vector <int> 
@@ -431,10 +431,10 @@ namespace ch20
 				* ptrE = (void *) vE.addr();
 			vE.push_back (-1);
 			testing_bundle <int>
-				tE_0 {name + ": expl, 8 : size", vE.size(), 9},
-				tE_1 {name + ": expl, 8 : space", vE.capacity(), 16},
-				tE_2 {name + ": expl, 8 : elem", vE [8], -1},
-				tE_3 {name + ": expl, 8 : *", int (ptrE !=  (void *) vE.addr()), 1};
+				tE_0 {name + ": expl 8 size", vE.size(), 9},
+				tE_1 {name + ": expl 8 space", vE.capacity(), 16},
+				tE_2 {name + ": expl 8 elem", vE [8], -1},
+				tE_3 {name + ": expl 8 *", int (ptrE !=  (void *) vE.addr()), 1};
 			report (no, name);
 		}
 
@@ -447,12 +447,24 @@ namespace ch20
 			
 			m_vector <int>
 				vF;
+
 			vF.push_front (-1);
 			testing_bundle <int>
-				tF_0 {name + ": empty : size", vF.size(), 1},
-				tF_1 {name + ": empty : space", vF.capacity(), 8},
-				tF_2 {name + ": empty : elem", vF [0], -1};
+				tF_0 {name + ": empty size", vF.size(), 1},
+				tF_1 {name + ": empty space", vF.capacity(), 8},
+				tF_2 {name + ": empty elem", vF [0], -1};
 
+			vF = m_vector <int> {};		
+			for (int i = 0; i < vF.capacity() - 1; ++i)
+				vF.push_back(i + 1);
+			
+			vF.push_front(0);
+			testing_bundle <int>
+				tF_3 {name + ": full size", vF.size(), 8},
+				tF_4 {name + ": full space", vF.capacity(), 8};
+			for (int i = 0; i < vF.size(); ++i)
+				testing_bundle <int>
+					tF_5 {name + ": full elem", vF [i], i};
 			report (no, name);
 		}
 
