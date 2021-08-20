@@ -54,7 +54,7 @@ namespace ch20
 			delete & jill_data;
 		}
 
-		void test_01()
+		void test()
 		{
 			string 
 				name {"e20: try_this"};
@@ -83,10 +83,35 @@ namespace ch20
 			fct();
 		}
 	}
+
+	namespace try_this_3
+	{
+		void copy (int * f1, int * e1, int * f2)
+		{
+			for (int * i = f1; i != e1; ++i, ++f2)
+				* f2 = * i;
+		}
+
+		void test()
+		{
+			string
+				name {"ch20 : try_this_3"};
+			int
+				no = test_no;
+			int 
+				* ptr1 = new int [3] {0, 1, 2},
+				* ptr2 = (int *) malloc (sizeof (int) * 3);
+			copy (ptr1, & (ptr1 [3]), ptr2);
+			for (int i = 0; i < 3; ++i)
+				testing_bundle <int>
+					t0_0 {name, ptr2 [i], i};
+			report (no, name);
+		}
+	}
 	
 
 	void main()
 	{
-		try_this_1::test_01();
+		try_this_3::test();
 	}
 }
