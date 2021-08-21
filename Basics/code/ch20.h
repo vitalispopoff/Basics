@@ -97,5 +97,11 @@ namespace ch20
 
 	}
 
+	namespace try_this_6
+	{
+		
+
+	}
+
 	void main();
 }

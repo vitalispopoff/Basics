@@ -482,11 +482,25 @@ namespace ch20
 		void main()
 		{
 			tests();
-		}		
+		}	
+	}
+
+	namespace try_this_6
+	{
+		template <typename Iter>
+			void advance (Iter & p, int n)
+		{
+			while (0 < n)
+			{
+				++p;
+				--n;
+			}
+		}
+
 	}
 
 	void main()
 	{
-		try_this_5::tests();
+		//try_this_5::tests();
 	}
 }
