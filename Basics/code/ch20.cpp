@@ -490,17 +490,42 @@ namespace ch20
 		template <typename Iter>
 			void advance (Iter & p, int n)
 		{
-			while (0 < n)
-			{
-				++p;
-				--n;
+			int 
+				direction {get_direction(n)};
+			while (n)			
+			{				
+				p += direction;
+				n -= direction;
 			}
 		}
 
+		int get_direction (int n) 
+		{
+			return (n > 0) - (n < 0);
+		}
+
+		void test()
+		{
+			string
+				name {"try this 6"};
+			int
+				no = test_no;
+			int
+				i {2},
+				j {-2},
+				k {0};
+			testing_bundle <int>
+				t0_0 {name, get_direction (i), 1},
+				t0_1 {name, get_direction (j), -1},
+				t0_2 {name, get_direction (k), 0};
+			report (no, name);
+
+		}
 	}
 
 	void main()
 	{
 		//try_this_5::tests();
+		try_this_6::test();
 	}
 }

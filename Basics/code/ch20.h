@@ -99,8 +99,11 @@ namespace ch20
 
 	namespace try_this_6
 	{
-		
+		template <typename Iter>
+			void advance (Iter & p, int n);
+		int get_direction (int n);
 
+		void test();
 	}
 
 	void main();
