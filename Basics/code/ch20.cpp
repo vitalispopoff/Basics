@@ -523,9 +523,42 @@ namespace ch20
 		}
 	}
 
+	namespace try_this_7
+	{	
+		template <typename T>
+			int len (T & t)
+		{
+			return t.size();
+		}
+		template <typename T>
+			bool is_hello (T & t)
+		{
+			return t == "Hello";
+		}
+
+		void test()
+		{
+			auto len = [] (string s) -> int {
+				return s.size();
+			};
+			auto is_hello = [] (string s) -> bool{
+				return s == "Hello";
+			};
+			string
+				hello {"Hello"};
+			cout 
+				<< '\n' << len(hello) 
+				<< '\t' << (is_hello(hello) ? "yep" : "nah") 
+				<< '\n';
+		}
+
+
+	}
+
 	void main()
 	{
 		//try_this_5::tests();
-		try_this_6::test();
+		//try_this_6::test();
+		try_this_7::test();
 	}
 }
