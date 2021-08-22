@@ -2,9 +2,12 @@
 
 #include <string>
 #include <iostream>
+#include <regex>
+
 
 namespace ch20
 {
+	using namespace std;
 	using namespace testing_space;
 
 	namespace try_this_1
@@ -535,21 +538,27 @@ namespace ch20
 		{
 			return t == "Hello";
 		}
+		template <typename T>
+		int array_len (T t)
+		{
+			return sizeof(t) / sizeof(t[0]);
+		}
 
 		void test()
 		{
-			auto len = [] (string s) -> int {
-				return s.size();
-			};
-			auto is_hello = [] (string s) -> bool{
-				return s == "Hello";
-			};
+			string 
+				name {"try this 7"};
+			int
+				no = test_no;
 			string
 				hello {"Hello"};
-			cout 
-				<< '\n' << len(hello) 
-				<< '\t' << (is_hello(hello) ? "yep" : "nah") 
-				<< '\n';
+			testing_bundle <int>
+				t0_0 {name, len (hello), 5},
+				t0_1 {name, is_hello (hello), 1};
+			report (no, name);
+
+			char 
+				hello_arr [6] = {};
 		}
 
 
