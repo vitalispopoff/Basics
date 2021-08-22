@@ -2,8 +2,7 @@
 
 #include <string>
 #include <iostream>
-#include <regex>
-
+#include <list>
 
 namespace ch20
 {
@@ -539,9 +538,56 @@ namespace ch20
 			return t == "Hello";
 		}
 		template <typename T>
-		int array_len (T t)
+			int array_len (T * t)	// changed from value pass
 		{
-			return sizeof(t) / sizeof(t[0]);
+			//return sizeof (t); // surprisingly returns wrong value
+			int c {0};
+			while (* t != 0)
+			{
+				++t;
+				++c;
+			}
+			return c;
+		}
+		template <typename T>
+			bool is_array_hello (T t)
+		{
+			string
+				hello {"Hello"};
+			int 
+				i {0};
+			while (t [i] != 0 && hello [i] == t [i])
+				++i;
+			return i == hello.size() && t [i] == 0;
+		}
+		template <typename T>
+			bool is_vector_hello (vector <T> t)
+		{
+			string 
+				hello {"Hello"};
+			if (hello.size() != t.size())
+				return false;
+			int 
+				i {0};
+			for (; i < hello.size(); ++i)
+				hello [i] == t [i];
+			return i == hello.size();
+		}
+		template <typename T>
+			bool is_list_hello (list <T> t)
+		{
+			string
+				hello {"Hello"};
+			auto 
+				iter = t.begin();
+			int
+				i {0};
+			while (iter != t.end() && * iter == hello [i])
+			{				
+				++iter ;
+				++i;
+			}
+			return i == t.size();
 		}
 
 		void test()
@@ -559,9 +605,30 @@ namespace ch20
 
 			char 
 				hello_arr [6] = {};
+			strcpy_s (hello_arr, hello.c_str());	// recomended over strcpy : err C4996
+			testing_bundle <int>
+				t1_0 {name, array_len (hello_arr), 5},
+				t1_1 {name, is_array_hello (hello_arr), 1};
+			report (no, name);
+
+			vector <char>
+				hello_v {};
+			for (char c : hello)
+				hello_v.push_back (c);
+			testing_bundle <int>
+				t2_0 {name, len(hello_v), 5},
+				t2_1 {name, is_vector_hello (hello_v), 1};
+			report (no, name);
+
+			list <char>
+				hello_l {};
+			for (char c: hello)
+				hello_l.push_back (c);
+			testing_bundle <int>
+				t3_0 {name, len (hello_l), 5},
+				t3_1 {name, is_list_hello (hello_l), 1};
+			report (no, name);
 		}
-
-
 	}
 
 	void main()
