@@ -533,11 +533,6 @@ namespace ch20
 			return t.size();
 		}
 		template <typename T>
-			bool is_hello (T & t)
-		{
-			return t == "Hello";
-		}
-		template <typename T>
 			int array_len (T * t)	// changed from value pass
 		{
 			//return sizeof (t); // surprisingly returns wrong value
@@ -550,39 +545,37 @@ namespace ch20
 			return c;
 		}
 		template <typename T>
-			bool is_array_hello (T t)
+			bool is_equal (T & t, string s = "Hello")
 		{
-			string
-				hello {"Hello"};
-			int 
-				i {0};
-			while (t [i] != 0 && hello [i] == t [i])
-				++i;
-			return i == hello.size() && t [i] == 0;
+			return t == s;
 		}
 		template <typename T>
-			bool is_vector_hello (vector <T> t)
+			bool is_array_equal (T t, string s = "Hello")
 		{
-			string 
-				hello {"Hello"};
-			if (hello.size() != t.size())
+			int 
+				i {0};
+			while (t [i] != 0 && s [i] == t [i])
+				++i;
+			return i == s.size() && t [i] == 0;
+		}
+		template <typename T>
+			bool is_vector_equal (vector <T> t, string s = "Hello")
+		{
+			if (s.size() != t.size())
 				return false;
 			int 
 				i {0};
-			for (; i < hello.size(); ++i)
-				hello [i] == t [i];
-			return i == hello.size();
+			for (; i < s.size() && s [i] == t [i]; ++i);				
+			return i == s.size();
 		}
 		template <typename T>
-			bool is_list_hello (list <T> t)
+			bool is_list_equal (list <T> t, string s = "Hello")
 		{
-			string
-				hello {"Hello"};
 			auto 
 				iter = t.begin();
 			int
 				i {0};
-			while (iter != t.end() && * iter == hello [i])
+			while (iter != t.end() && * iter == s [i])
 			{				
 				++iter ;
 				++i;
@@ -597,10 +590,12 @@ namespace ch20
 			int
 				no = test_no;
 			string
+				howdy {"Howdy"},
 				hello {"Hello"};
 			testing_bundle <int>
 				t0_0 {name, len (hello), 5},
-				t0_1 {name, is_hello (hello), 1};
+				t0_1 {name, is_equal (hello), 1},
+				t0_2 {name, is_equal (hello, howdy), 0};
 			report (no, name);
 
 			char 
@@ -608,7 +603,8 @@ namespace ch20
 			strcpy_s (hello_arr, hello.c_str());	// recomended over strcpy : err C4996
 			testing_bundle <int>
 				t1_0 {name, array_len (hello_arr), 5},
-				t1_1 {name, is_array_hello (hello_arr), 1};
+				t1_1 {name, is_array_equal (hello_arr), 1},
+				t1_2 {name, is_array_equal (hello_arr, howdy), 0};
 			report (no, name);
 
 			vector <char>
@@ -617,7 +613,8 @@ namespace ch20
 				hello_v.push_back (c);
 			testing_bundle <int>
 				t2_0 {name, len(hello_v), 5},
-				t2_1 {name, is_vector_hello (hello_v), 1};
+				t2_1 {name, is_vector_equal (hello_v), 1},
+				t2_2 {name, is_vector_equal (hello_v, howdy), 0};
 			report (no, name);
 
 			list <char>
@@ -626,7 +623,8 @@ namespace ch20
 				hello_l.push_back (c);
 			testing_bundle <int>
 				t3_0 {name, len (hello_l), 5},
-				t3_1 {name, is_list_hello (hello_l), 1};
+				t3_1 {name, is_list_equal (hello_l), 1},
+				t3_2 {name, is_list_equal (hello_l, howdy), 0};
 			report (no, name);
 		}
 	}
