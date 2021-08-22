@@ -68,6 +68,9 @@
     <ClCompile Include="code\testing.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="code\ch20_drill.cpp">
+      <Filter>Pliki źródłowe\ch20</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\e12_test.txt">

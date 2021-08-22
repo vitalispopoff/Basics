@@ -107,10 +107,16 @@ namespace ch20
 	}
 
 	namespace try_this_7
-	{
-
-
-	}
+	{}
 
 	void main();
 }
+
+namespace ch20_drill
+{
+
+
+
+	void main();
+}
+

@@ -633,6 +633,6 @@ namespace ch20
 	{
 		//try_this_5::tests();
 		//try_this_6::test();
-		try_this_7::test();
+		//try_this_7::test();		
 	}
 }

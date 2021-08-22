@@ -151,6 +151,7 @@
     <ClCompile Include="code\ch19_drill.cpp" />
     <ClCompile Include="code\ch19_exc.cpp" />
     <ClCompile Include="code\ch20.cpp" />
+    <ClCompile Include="code\ch20_drill.cpp" />
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="code\sketchbook.cpp" />
     <ClCompile Include="code\testing.cpp" />
