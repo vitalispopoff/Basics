@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 
 namespace ch20_exc
@@ -17,6 +18,17 @@ namespace ch20_exc
 	{
 		double * get_from_jack (int * count);
 		vector <double> * get_from_jill();
+		template <typename Iterator>
+			Iterator high (Iterator first, Iterator last);
+		void fct();
+	}
+
+	namespace e05
+	{
+		void test();
+
+		template <typename T>
+			istream & operator >> (istream & is, vector <T> & v);
 	}
 
 	void main();

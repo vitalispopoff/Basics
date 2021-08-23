@@ -1,12 +1,15 @@
 #include "ch20_exc.h"
 #include "testing.h"
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
+//#include <vector>
 
 namespace ch20_exc
 {
+	using namespace std;
 	using namespace testing_space;
+	
 
 	namespace e02
 	{
@@ -96,10 +99,6 @@ namespace ch20_exc
 		{
 			return nullptr;
 		}
-
-		//using e02::get_from_jack;
-		//using e02::get_from_jill;
-
 		template <typename Iterator>
 			Iterator high (Iterator first, Iterator last)
 		{			
@@ -144,9 +143,38 @@ namespace ch20_exc
 		}
 	}
 
+	namespace e05
+	{
+		template <typename T>
+			istream & operator >> (istream & is, vector <T> & v)
+		{
+			T temp;
+			if (is >> temp)
+				v.push_back(temp);
+			return is;
+		}
+
+		template <typename T>
+			ostream & operator << (ostream & os, vector <T> & v) 
+		{
+			for (T & t : v)
+				os << t << '\n';
+			return os;
+		}
+
+		void test()
+		{
+			vector <char>
+				v {};
+			for (int i = 0; i < 10 && cin >> v ; ++i); // can't force safe quit from loop for vector <char>
+			cout << v;
+		}
+	}
+
 	void main()
 	{
 		//e02::fct();
-		e04::fct();
+		//e04::fct();
+		e05::test();
 	}
 }
