@@ -88,21 +88,23 @@ namespace ch20_exc
 
 	namespace e04
 	{
-		//double * get_from_jack (int * count) 
-		//{
-		//	return nullptr;
-		//}
-		//vector <double> * get_from_jill()
-		//{
-		//	return nullptr;
-		//}
+		double * get_from_jack (int * count) 
+		{
+			return nullptr;
+		}
+		vector <double> * get_from_jill()
+		{
+			return nullptr;
+		}
 
-		using e02::get_from_jack;
-		using e02::get_from_jill;
+		//using e02::get_from_jack;
+		//using e02::get_from_jill;
 
 		template <typename Iterator>
 			Iterator high (Iterator first, Iterator last)
 		{			
+			if (! first || first == last)
+				return first;
 			Iterator 
 				high = first;
 			for (Iterator p = first; p != last; ++p)
@@ -113,25 +115,33 @@ namespace ch20_exc
 
 		void fct()
 		{
+			string
+				name {"ch20 : e04"};
+			int
+				no = test_no;
+
 			int
 				jack_count {0};
 			double
 				* jack_data = get_from_jack (& jack_count);
-			vector <double> 
-				* jill_data {get_from_jill()};
 			double 
 				* jack_high {high (jack_data, jack_data + jack_count)};
-			vector <double> 
-				& v = * jill_data;
-			double
-				* jill_high {high (& v [0], & v [0] + v.size())};
-				
-
+			testing_bundle <bool>
+				t0_0 {name, jack_high == jack_data, true};
 			delete [] jack_data;
-			delete jill_data;
+
+			vector <double> 
+				* jill_data {get_from_jill()};
+			if (jill_data)
+			{
+				vector <double>
+					& v = *jill_data;
+				double
+					* jill_high {high (&v [0], &v [0] + v.size())};
+				delete jill_data;
+			}
+			report (no, name);
 		}
-
-
 	}
 
 	void main()

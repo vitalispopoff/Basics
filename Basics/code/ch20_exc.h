@@ -17,7 +17,6 @@ namespace ch20_exc
 	{
 		double * get_from_jack (int * count);
 		vector <double> * get_from_jill();
-
 	}
 
 	void main();
