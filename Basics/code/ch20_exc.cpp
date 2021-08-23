@@ -1,17 +1,45 @@
 #include "ch20_exc.h"
 
 #include <iostream>
+#include <fstream>
 
 namespace ch20_exc
 {
 	namespace e02
 	{
+		template <typename T>
+		void fill_container (string source_file, T & container, int len = 0)
+		{
+			string
+				file {"/_LAB/_C/Basics/Basics/resources/ch20_e02.txt"};
+			ifstream 
+				ifs {file, ios_base::in};
+			if (! ifs)
+				throw runtime_error ("Can't open file.");
+			double
+				* ptr = new double [len] {},
+				tmp {};
+			for (int i = 0; ifs >> tmp && i < len; ++i)
+			ifs.close();
+		}
+		
 		double * get_from_jack (int * count)
 		{
-			double 
-				* ptr = new double [6] {1, 3, 2, 4, 5, 0};
-			//* count = sizeof (ptr) / sizeof (ptr [0]); // wrn C6384
-			* count = 6;
+			const int
+				len = 6;
+			string
+				file {"/_LAB/_C/Basics/Basics/resources/ch20_e02.txt"};
+			ifstream 
+				ifs {file, ios_base::in};
+			if (! ifs)
+				throw runtime_error ("Can't open file.");
+			double
+				* ptr = new double [len] {},
+				tmp {};
+			for (int i = 0; ifs >> tmp && i < len; ++i)
+				ptr [i] = tmp;
+			* count = len;
+			ifs.close();
 			return ptr ;
 		}
 

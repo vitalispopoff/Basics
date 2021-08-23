@@ -12,10 +12,10 @@ int main()
 		ch20_exc::main();
 		return 0;
 	}
-	catch (exception e)
+	catch (exception & e)
 	{
 		cerr
-			<< "";
+			<< e.what();
 		return 1;
 	}
 	catch (...)

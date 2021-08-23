@@ -12,7 +12,6 @@ namespace ch20_exc
 		void fct();
 	}
 
-
 	void main();
 
 }
