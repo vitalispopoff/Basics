@@ -32,7 +32,7 @@ namespace ch20_exc
 				* ptr = new double [len] {};
 			fill ("/_LAB/_C/Basics/Basics/resources/ch20_e02.txt", ptr, 6);
 			* count = len;
-			return ptr ;
+			return ptr;
 		}
 
 		vector <double> * get_from_jill()
@@ -86,8 +86,57 @@ namespace ch20_exc
 		}
 	}
 
+	namespace e04
+	{
+		//double * get_from_jack (int * count) 
+		//{
+		//	return nullptr;
+		//}
+		//vector <double> * get_from_jill()
+		//{
+		//	return nullptr;
+		//}
+
+		using e02::get_from_jack;
+		using e02::get_from_jill;
+
+		template <typename Iterator>
+			Iterator high (Iterator first, Iterator last)
+		{			
+			Iterator 
+				high = first;
+			for (Iterator p = first; p != last; ++p)
+				if (* high > * p) 
+					high = p;
+			return high;
+		}
+
+		void fct()
+		{
+			int
+				jack_count {0};
+			double
+				* jack_data = get_from_jack (& jack_count);
+			vector <double> 
+				* jill_data {get_from_jill()};
+			double 
+				* jack_high {high (jack_data, jack_data + jack_count)};
+			vector <double> 
+				& v = * jill_data;
+			double
+				* jill_high {high (& v [0], & v [0] + v.size())};
+				
+
+			delete [] jack_data;
+			delete jill_data;
+		}
+
+
+	}
+
 	void main()
 	{
-		e02::fct();
+		//e02::fct();
+		e04::fct();
 	}
 }
