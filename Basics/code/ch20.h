@@ -114,7 +114,13 @@ namespace ch20
 
 namespace ch20_drill
 {
+	namespace d06
+	{
+		template <typename Iter1, typename Iter2>
+			Iter2 copy (Iter1 f1, Iter1 e1, Iter2 f2);
 
+		void test();
+	}
 
 
 	void main();
