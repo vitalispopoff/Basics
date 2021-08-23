@@ -1,25 +1,26 @@
 #include "ch20_exc.h"
+#include "testing.h"
 
 #include <iostream>
 #include <fstream>
 
 namespace ch20_exc
 {
+	using namespace testing_space;
+
 	namespace e02
 	{
 		template <typename T>
-		void fill_container (string source_file, T & container, int len = 0)
+		void fill (string file, T * container, int len = 0)
 		{
-			string
-				file {"/_LAB/_C/Basics/Basics/resources/ch20_e02.txt"};
 			ifstream 
 				ifs {file, ios_base::in};
 			if (! ifs)
 				throw runtime_error ("Can't open file.");
 			double
-				* ptr = new double [len] {},
 				tmp {};
 			for (int i = 0; ifs >> tmp && i < len; ++i)
+				container [i] = tmp;
 			ifs.close();
 		}
 		
@@ -27,19 +28,10 @@ namespace ch20_exc
 		{
 			const int
 				len = 6;
-			string
-				file {"/_LAB/_C/Basics/Basics/resources/ch20_e02.txt"};
-			ifstream 
-				ifs {file, ios_base::in};
-			if (! ifs)
-				throw runtime_error ("Can't open file.");
 			double
-				* ptr = new double [len] {},
-				tmp {};
-			for (int i = 0; ifs >> tmp && i < len; ++i)
-				ptr [i] = tmp;
+				* ptr = new double [len] {};
+			fill ("/_LAB/_C/Basics/Basics/resources/ch20_e02.txt", ptr, 6);
 			* count = len;
-			ifs.close();
 			return ptr ;
 		}
 
@@ -68,20 +60,29 @@ namespace ch20_exc
 
 		void fct()
 		{
+			string
+				name {"ch20 e02"};
+			int
+				no = test_no;
+
 			int
 				jack_count {0};
 			double
 				* jack_data {get_from_jack(& jack_count)},
 				* jack_high = high (jack_data, jack_data + jack_count);
 
-			cout << '\n' << * jack_high;
-			delete [] jack_data;
-
 			vector <double>
 				& jill_data = * get_from_jill();
 			auto
 				jill_high = high (jill_data.begin(), jill_data.end());
-			cout << '\n' << * jill_high;
+
+			testing_bundle <double>
+				t0_0 {name, * jack_high, 5},
+				t0_1 {name, * jill_high, 5};
+			report (no, name);
+
+			delete [] jack_data;
+			delete & jill_data;
 		}
 	}
 
