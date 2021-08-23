@@ -128,6 +128,18 @@ namespace ch20_drill
 				testing_bundle <int>
 					t2_1 {name, i, a2 [ctr++]};
 			report (no, name);
+
+			int
+				looked_for {3};
+			auto
+				v_ndx = find (v.begin(), v.end(), looked_for);
+			testing_bundle <int>
+				test3_0 {name, * v_ndx, looked_for};
+			looked_for = 21;
+				v_ndx = find (v.begin(), v.end(), looked_for);
+			testing_bundle <bool>
+				test3_1 {name, v_ndx == v.end(), true};
+			report (no, name);
 		}
 	}
 
