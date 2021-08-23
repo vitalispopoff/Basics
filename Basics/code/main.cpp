@@ -9,7 +9,7 @@ int main()
 {
 	try
 	{
-		ch20_drill::main();
+		ch20_exc::main();
 		return 0;
 	}
 	catch (exception e)

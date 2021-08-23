@@ -142,6 +142,7 @@
     <ClInclude Include="code\ch19.h" />
     <ClInclude Include="code\ch19_exc.h" />
     <ClInclude Include="code\ch20.h" />
+    <ClInclude Include="code\ch20_exc.h" />
     <ClInclude Include="code\main.h" />
     <ClInclude Include="code\sketchbook.h" />
     <ClInclude Include="code\testing.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="code\ch19_exc.cpp" />
     <ClCompile Include="code\ch20.cpp" />
     <ClCompile Include="code\ch20_drill.cpp" />
+    <ClCompile Include="code\ch20_exc.cpp" />
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="code\sketchbook.cpp" />
     <ClCompile Include="code\testing.cpp" />
