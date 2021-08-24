@@ -12,54 +12,55 @@ namespace ch20_exc
 	{
 		using Line = vector <char>;
 
-		class Txt_iter
+		class Text_iterator
 		{
 			list <Line>::iterator
 				ln;
 			Line::iterator
-				pos;
-		
-		public :
-		
-		Txt_iter (list <Line>::iterator ll, Line::iterator pp) :
+				pos;		
+		public :		
+			Text_iterator (list <Line>::iterator ll, Line::iterator pp) :
 				ln {ll},
 				pos {pp}
 			{}
-
-			char & operator * () {return * pos;}
-			
-			Txt_iter & operator ++ ();
-			bool operator == (const Txt_iter & other) const
+			char & operator * () {return * pos;}			
+			Text_iterator & operator ++ ();
+			bool operator == (const Text_iterator & other) const
 				{return ln == other.ln && pos == other.pos;}
-			bool operator != (const Txt_iter & other) const
+			bool operator != (const Text_iterator & other) const
 				{return ! (* this == other);}
 		};
 
-		Txt_iter find_txt (Txt_iter first, Txt_iter last, const string & s);
+		Text_iterator find_txt (
+			Text_iterator first, 
+			Text_iterator last, 
+			const string & s);
 
 		struct Document
 		{
 			list <Line> 
 				line;
-			Txt_iter begin() 
+			Text_iterator begin() 
 			{
 				return 
-					Txt_iter (
+					Text_iterator (
 						line.begin(), 
 						(* line.begin()).begin()
 					);
 			}
-			Txt_iter end()
+			Text_iterator begin() const {return begin();}
+			Text_iterator end()
 			{
 				auto
 					last = line.end();
 				--last;
 				return 
-					Txt_iter (
+					Text_iterator (
 						last, 
 						(* last).end()
 					);
 			}
+			Text_iterator end() const {return end();}
 			void erase_line (int n);
 		};
 	}
@@ -90,9 +91,12 @@ namespace ch20_exc
 
 	namespace e07
 	{
-		
-		void test();
+		using namespace text_editor;
+
+		int count_chars (const Document & d);
 	}
+
+
 
 	void main();
 

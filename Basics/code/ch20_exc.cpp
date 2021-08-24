@@ -12,7 +12,7 @@ namespace ch20_exc
 	
 	namespace text_editor
 	{
-		Txt_iter & Txt_iter::operator++()
+		Text_iterator & Text_iterator::operator++()
 		{
 			++pos;
 			if (pos == (*ln).end())
@@ -23,7 +23,7 @@ namespace ch20_exc
 			return * this;
 		}
 
-		bool match (Txt_iter first, Txt_iter last, const string s)
+		bool match (Text_iterator first, Text_iterator last, const string s)
 		{
 			for (int i = 0; i < (int) s.size() && first != last; ++i, ++first)
 				if ( * first != s [i])
@@ -31,7 +31,7 @@ namespace ch20_exc
 			return true;
 		}
 
-		Txt_iter find_txt (Txt_iter first, Txt_iter last, const string & s)
+		Text_iterator find_txt (Text_iterator first, Text_iterator last, const string & s)
 		{
 			if (s.size() == 0)
 				return last;
@@ -45,9 +45,8 @@ namespace ch20_exc
 					return p;
 				first = ++p;
 			}
-			return last;	// added because no return looks suspicious
+			return last;
 		}
-
 
 		void Document::erase_line (int n)
 		{
@@ -58,9 +57,7 @@ namespace ch20_exc
 			advance (p, n);
 			line.erase (p);
 		}
-
 	}
-
 
 	namespace e02
 	{
@@ -217,51 +214,29 @@ namespace ch20_exc
 		{
 			vector <char>
 				v {};
-			for (int i = 0; i < 10 && cin >> v ; ++i); // can't force safe quit from loop for vector <char>
+			for (int i = 0; i < 10 && cin >> v ; ++i);
 			cout << v;
 		}
 	}
 
 	namespace e07
 	{
-		int find_last (vector <string> v)
-		{
-			string
-				result = v [0];
-			int
-				index {0}; 
-			for (int i = 0; i < v.size(); ++i)
-				if (result < v [i])
-				{
-					result = v [i];
-					index = i;
-				}
-			return index;
-		}
+		using namespace text_editor;
 
-		void test()
+		int count_chars (const Document & d)
 		{
-			string
-				name {"ch20 e07"};
 			int
-				no = test_no;
-
-			vector <string>
-				v {{"aaaby", "bela", "zoo", "foobar"}};
-			testing_bundle <string>
-				t0_0 {name, v [find_last (v)], "zoo"};
-			report (no, name);
+				result {0};
+			for (Line l : d.line)
+				result += l.size();
+			return result;
 		}
 	}
-
-
 
 	void main()
 	{
 		//e02::fct();
 		//e04::fct();
 		//e05::test();
-		e07::test();
-
 	}
 }
