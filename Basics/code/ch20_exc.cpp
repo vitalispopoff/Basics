@@ -171,10 +171,44 @@ namespace ch20_exc
 		}
 	}
 
+	namespace e07
+	{
+		int find_last (vector <string> v)
+		{
+			string
+				result = v [0];
+			int
+				index {0}; 
+			for (int i = 0; i < v.size(); ++i)
+				if (result < v [i])
+				{
+					result = v [i];
+					index = i;
+				}
+			return index;
+		}
+
+		void test()
+		{
+			string
+				name {"ch20 e07"};
+			int
+				no = test_no;
+
+			vector <string>
+				v {{"aaaby", "bela", "zoo", "foobar"}};
+			testing_bundle <string>
+				t0_0 {name, v [find_last (v)], "zoo"};
+			report (no, name);
+		}
+	}
+
 	void main()
 	{
 		//e02::fct();
 		//e04::fct();
-		e05::test();
+		//e05::test();
+		e07::test();
+
 	}
 }

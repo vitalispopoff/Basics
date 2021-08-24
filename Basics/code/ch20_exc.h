@@ -31,6 +31,12 @@ namespace ch20_exc
 			istream & operator >> (istream & is, vector <T> & v);
 	}
 
+	namespace e07
+	{
+		
+		void test();
+	}
+
 	void main();
 
 }
