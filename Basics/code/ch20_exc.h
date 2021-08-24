@@ -31,10 +31,8 @@ namespace ch20_exc
 				{return ! (* this == other);}
 		};
 
-		Text_iterator find_txt (
-			Text_iterator first, 
-			Text_iterator last, 
-			const string & s);
+		template <typename T>
+			T find_txt (T first, T last, const string & s);
 
 		struct Document
 		{
@@ -48,7 +46,6 @@ namespace ch20_exc
 						(* line.begin()).begin()
 					);
 			}
-			Text_iterator begin() const {return begin();}
 			Text_iterator end()
 			{
 				auto
@@ -60,7 +57,6 @@ namespace ch20_exc
 						(* last).end()
 					);
 			}
-			Text_iterator end() const {return end();}
 			void erase_line (int n);
 		};
 	}
@@ -91,13 +87,17 @@ namespace ch20_exc
 
 	namespace e07
 	{
+
+	}
+
+	namespace e08
+	{
 		using namespace text_editor;
 
 		int count_chars (const Document & d);
+
+		void test();
 	}
 
-
-
 	void main();
-
 }

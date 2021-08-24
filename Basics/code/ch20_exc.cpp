@@ -12,7 +12,7 @@ namespace ch20_exc
 	
 	namespace text_editor
 	{
-		Text_iterator & Text_iterator::operator++()
+		Text_iterator & Text_iterator::operator ++()
 		{
 			++pos;
 			if (pos == (*ln).end())
@@ -23,7 +23,7 @@ namespace ch20_exc
 			return * this;
 		}
 
-		bool match (Text_iterator first, Text_iterator last, const string s)
+		bool match (Text_iterator first, Text_iterator last, const string s)		
 		{
 			for (int i = 0; i < (int) s.size() && first != last; ++i, ++first)
 				if ( * first != s [i])
@@ -31,7 +31,11 @@ namespace ch20_exc
 			return true;
 		}
 
-		Text_iterator find_txt (Text_iterator first, Text_iterator last, const string & s)
+		template <typename T>
+			T find_txt (
+			T first, 
+			T last, 
+			const string & s)
 		{
 			if (s.size() == 0)
 				return last;
@@ -39,7 +43,7 @@ namespace ch20_exc
 				first_char = s [0];
 			while (true)
 			{
-				auto
+				auto 
 					p = find (first, last, first_char);
 				if (p == last || match (p, last, s))
 					return p;
@@ -221,15 +225,36 @@ namespace ch20_exc
 
 	namespace e07
 	{
+
+	}
+
+	namespace e08
+	{
 		using namespace text_editor;
 
-		int count_chars (const Document & d)
+		int count_chars (Document & d)
 		{
 			int
 				result {0};
 			for (Line l : d.line)
 				result += l.size();
 			return result;
+		}
+
+		void test()
+		{
+			string
+				name {"ch20 e07"};
+			int
+				no = test_no;
+			vector <char> 
+				v {'f','o','o','b','a','r'};
+			Document
+				d{};
+			d.line.push_back (v);
+			testing_bundle <int>
+				t0_0 {name, count_chars (d), (int) v.size()};
+			report (no, name);
 		}
 	}
 
@@ -238,5 +263,6 @@ namespace ch20_exc
 		//e02::fct();
 		//e04::fct();
 		//e05::test();
+		//e08::test();
 	}
 }
