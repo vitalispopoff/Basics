@@ -10,6 +10,57 @@ namespace ch20_exc
 	using namespace std;
 	using namespace testing_space;
 	
+	namespace text_editor
+	{
+		Txt_iter & Txt_iter::operator++()
+		{
+			++pos;
+			if (pos == (*ln).end())
+			{
+				++ln;
+				pos = (*ln).begin();
+			}
+			return * this;
+		}
+
+		bool match (Txt_iter first, Txt_iter last, const string s)
+		{
+			for (int i = 0; i < (int) s.size() && first != last; ++i, ++first)
+				if ( * first != s [i])
+					return false;
+			return true;
+		}
+
+		Txt_iter find_txt (Txt_iter first, Txt_iter last, const string & s)
+		{
+			if (s.size() == 0)
+				return last;
+			char
+				first_char = s [0];
+			while (true)
+			{
+				auto
+					p = find (first, last, first_char);
+				if (p == last || match (p, last, s))
+					return p;
+				first = ++p;
+			}
+			return last;	// added because no return looks suspicious
+		}
+
+
+		void Document::erase_line (int n)
+		{
+			if (n < 0 || line.size() - 1 <= n)
+				return;
+			auto
+				p = line.begin();
+			advance (p, n);
+			line.erase (p);
+		}
+
+	}
+
 
 	namespace e02
 	{
@@ -202,6 +253,8 @@ namespace ch20_exc
 			report (no, name);
 		}
 	}
+
+
 
 	void main()
 	{
