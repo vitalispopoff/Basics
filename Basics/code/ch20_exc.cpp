@@ -224,7 +224,36 @@ namespace ch20_exc
 	}
 
 	namespace e07
-	{
+	{	
+		string find_lex_last (vector <string> & v)
+		{
+			string
+				result {* v.begin()};
+			for (auto iter = v.begin(); iter != v.end(); ++iter)
+				if (result < * iter)
+					result = * iter;
+			return result;
+		}
+		
+		void test()
+		{
+			string 
+				name {"ch20 e07"};
+			int
+				no = test_no;
+			vector <string>
+				v {
+					"aaaaby",
+					"beka",
+					"zoo",
+					"foobar",
+					"noga"
+				};
+				
+			testing_bundle <string>
+				t0_0 {name, find_lex_last (v), "zoo"};
+			report (no, name);
+		}
 
 	}
 
@@ -244,7 +273,7 @@ namespace ch20_exc
 		void test()
 		{
 			string
-				name {"ch20 e07"};
+				name {"ch20 e08"};
 			int
 				no = test_no;
 			vector <char> 
@@ -263,6 +292,7 @@ namespace ch20_exc
 		//e02::fct();
 		//e04::fct();
 		//e05::test();
+		 e07::test();
 		//e08::test();
 	}
 }

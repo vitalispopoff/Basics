@@ -87,7 +87,9 @@ namespace ch20_exc
 
 	namespace e07
 	{
+		string find_lex_last (vector <string> & v);
 
+		void test();
 	}
 
 	namespace e08
