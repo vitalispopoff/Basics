@@ -23,12 +23,18 @@ namespace ch20_exc
 				ln {ll},
 				pos {pp}
 			{}
-			char & operator * () {return * pos;}			
-			Text_iterator & operator ++ ();
+			char & operator * () 
+				{return * pos;}
 			bool operator == (const Text_iterator & other) const
 				{return ln == other.ln && pos == other.pos;}
 			bool operator != (const Text_iterator & other) const
 				{return (ln != other.ln || pos != other.pos);}
+			Text_iterator & operator ++ ();
+
+			bool ln_end()
+			{
+				return false;
+			}
 		};
 
 		template <typename T>
@@ -39,9 +45,7 @@ namespace ch20_exc
 			list <Line> 
 				line;
 			Text_iterator begin() 
-			{
-				return Text_iterator (line.begin(), line.begin() -> begin());
-			}
+				{return Text_iterator (line.begin(), line.begin() -> begin());}
 			Text_iterator end()
 			{
 				auto
@@ -51,7 +55,6 @@ namespace ch20_exc
 			}
 			void erase_line (int n);
 		};
-
 		void print(Document & d);
 	}
 

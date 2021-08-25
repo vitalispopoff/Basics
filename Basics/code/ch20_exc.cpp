@@ -15,10 +15,10 @@ namespace ch20_exc
 		Text_iterator & Text_iterator::operator ++()
 		{			
 			++pos;
-			if (pos == ln -> end())	// doesn't check against the end
+			if (pos == ln -> end())	// doesn't check against the line end
 			{
 				++ln;
-				pos = ln -> begin();
+				pos = ln -> begin();	// for ln = end() reports assertion error std::list::151
 			}
 			return * this;
 		}
@@ -63,6 +63,20 @@ namespace ch20_exc
 		{
 			for (auto p : d)
 				cout << p;
+		}
+
+		template <typename Iter>
+			void advance (Iter & p, int n)
+		{
+			if (! n)
+				return p;
+			int
+				direction { n > 0 - n < 0};
+			while (n)
+			{
+				p += direction;
+				n -= direction;
+			}
 		}
 	}
 
@@ -317,10 +331,12 @@ namespace ch20_exc
 				d {};
 			string
 				str	[] = {
-				"Foobar is a little handy piece of software.\n",
-				"I mean - it ain't an eye-candy, but works fine,\n",
-				"and is highly customizable...\n",
-				"Oh, and it sounds really good, which is the important part actually.\n"
+				"a",
+				"b"
+				//"Foobar is a little handy piece of software.\n",
+				//"I mean - it ain't an eye-candy, but works fine,\n",
+				//"and is highly customizable...\n",
+				//"Oh, and it sounds really good, which is the important part actually.\n"
 			};
 			for (string s: str)
 			{
@@ -331,6 +347,11 @@ namespace ch20_exc
 				d.line.push_back (l);
 			}
 			print (d);
+		}
+
+		void sketch()
+		{
+
 		}
 	}
 
