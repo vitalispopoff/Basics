@@ -13,12 +13,12 @@ namespace ch20_exc
 	namespace text_editor
 	{
 		Text_iterator & Text_iterator::operator ++()
-		{
+		{			
 			++pos;
-			if (pos == (*ln).end())
+			if (pos == ln -> end())	// doesn't check against the end
 			{
 				++ln;
-				pos = (*ln).begin();
+				pos = ln -> begin();
 			}
 			return * this;
 		}
@@ -32,10 +32,7 @@ namespace ch20_exc
 		}
 
 		template <typename T>
-			T find_txt (
-			T first, 
-			T last, 
-			const string & s)
+			T find_txt (T first, T last, const string & s)
 		{
 			if (s.size() == 0)
 				return last;
@@ -54,12 +51,18 @@ namespace ch20_exc
 
 		void Document::erase_line (int n)
 		{
-			if (n < 0 || line.size() - 1 <= n)
+			if (n < 0 || n >= line.size() - 1)
 				return;
 			auto
 				p = line.begin();
 			advance (p, n);
 			line.erase (p);
+		}
+
+		void print (Document & d)
+		{
+			for (auto p : d)
+				cout << p;
 		}
 	}
 
@@ -254,7 +257,6 @@ namespace ch20_exc
 				t0_0 {name, find_lex_last (v), "zoo"};
 			report (no, name);
 		}
-
 	}
 
 	namespace e08
@@ -287,12 +289,58 @@ namespace ch20_exc
 		}
 	}
 
+	namespace e09
+	{
+		int count_by_space (Document d)
+		{
+			int
+				result {0};
+			auto
+				curr_iter = d.begin(),
+				end_iter = d.end();
+			while (curr_iter != end_iter)
+			{
+				if (* curr_iter == '\s')
+					++result;
+			}			
+			return result;
+		}
+
+		void test()
+		{
+			string
+				name {"ch20 e09"};
+			int
+				no = test_no;
+
+			Document
+				d {};
+			string
+				str	[] = {
+				"Foobar is a little handy piece of software.\n",
+				"I mean - it ain't an eye-candy, but works fine,\n",
+				"and is highly customizable...\n",
+				"Oh, and it sounds really good, which is the important part actually.\n"
+			};
+			for (string s: str)
+			{
+				Line
+					l{};
+				for (char c : s)
+					l.push_back(c);
+				d.line.push_back (l);
+			}
+			print (d);
+		}
+	}
+
 	void main()
 	{
 		//e02::fct();
 		//e04::fct();
 		//e05::test();
-		 e07::test();
+		 //e07::test();
 		//e08::test();
+		e09::test();
 	}
 }

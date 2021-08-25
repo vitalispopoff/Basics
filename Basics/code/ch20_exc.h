@@ -28,7 +28,7 @@ namespace ch20_exc
 			bool operator == (const Text_iterator & other) const
 				{return ln == other.ln && pos == other.pos;}
 			bool operator != (const Text_iterator & other) const
-				{return ! (* this == other);}
+				{return (ln != other.ln || pos != other.pos);}
 		};
 
 		template <typename T>
@@ -40,25 +40,19 @@ namespace ch20_exc
 				line;
 			Text_iterator begin() 
 			{
-				return 
-					Text_iterator (
-						line.begin(), 
-						(* line.begin()).begin()
-					);
+				return Text_iterator (line.begin(), line.begin() -> begin());
 			}
 			Text_iterator end()
 			{
 				auto
 					last = line.end();
 				--last;
-				return 
-					Text_iterator (
-						last, 
-						(* last).end()
-					);
+				return Text_iterator (last, last -> end());
 			}
 			void erase_line (int n);
 		};
+
+		void print(Document & d);
 	}
 
 	namespace e02
@@ -97,6 +91,16 @@ namespace ch20_exc
 		using namespace text_editor;
 
 		int count_chars (const Document & d);
+
+		void test();
+	}
+
+	namespace e09
+	{
+		using namespace text_editor;
+
+		int count_by_spaces (Document d);
+		int count_alphanum_words (Document d);
 
 		void test();
 	}
