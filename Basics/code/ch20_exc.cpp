@@ -61,8 +61,8 @@ namespace ch20_exc
 
 		void print (Document & d)
 		{
-			for (auto p : d)
-				cout << p;
+			for (auto p : d)		// auto p is char
+				cout << p;			// originally * p but can't dereference char
 		}
 
 		template <typename Iter>
@@ -351,7 +351,6 @@ namespace ch20_exc
 
 		void sketch()
 		{
-
 		}
 	}
 
@@ -362,6 +361,6 @@ namespace ch20_exc
 		//e05::test();
 		 //e07::test();
 		//e08::test();
-		e09::test();
+		//e09::test();
 	}
 }

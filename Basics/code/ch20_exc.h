@@ -30,15 +30,11 @@ namespace ch20_exc
 			bool operator != (const Text_iterator & other) const
 				{return (ln != other.ln || pos != other.pos);}
 			Text_iterator & operator ++ ();
-
-			bool ln_end()
-			{
-				return false;
-			}
 		};
 
 		template <typename T>
 			T find_txt (T first, T last, const string & s);
+
 
 		struct Document
 		{
