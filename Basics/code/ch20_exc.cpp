@@ -354,6 +354,12 @@ namespace ch20_exc
 		}
 	}
 
+	namespace e11
+	{
+
+
+	}
+
 	void main()
 	{
 		//e02::fct();
@@ -361,6 +367,6 @@ namespace ch20_exc
 		//e05::test();
 		 //e07::test();
 		//e08::test();
-		//e09::test();
+		e09::test();
 	}
 }

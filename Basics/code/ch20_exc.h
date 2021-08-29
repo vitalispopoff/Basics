@@ -8,6 +8,7 @@ namespace ch20_exc
 {
 	using namespace std;
 
+	// unsolved problem with safe range loop
 	namespace text_editor
 	{
 		using Line = vector <char>;
@@ -34,7 +35,6 @@ namespace ch20_exc
 
 		template <typename T>
 			T find_txt (T first, T last, const string & s);
-
 
 		struct Document
 		{
@@ -102,6 +102,12 @@ namespace ch20_exc
 		int count_alphanum_words (Document d);
 
 		void test();
+	}
+
+	namespace e11
+	{
+
+
 	}
 
 	void main();
