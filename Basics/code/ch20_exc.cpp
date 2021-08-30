@@ -409,15 +409,50 @@ namespace ch20_exc
 	}
 
 	namespace e12
-	{
+	{	
 		template <typename Elem>
-			list <Elem>::iterator list <Elem>::insert (iterator p, const Elem & v)
+			list<Elem>::iterator list <Elem>::insert (iterator p, const Elem & v)
 		{
 
 			return iterator{};
 		}
+		template <typename Elem>
+			list<Elem>::iterator list <Elem>::erase (iterator p)
+		{
 
 
+
+		}
+		template <typename Elem>
+			void list <Elem>::push_back (const Elem & v)
+		{
+			
+		}
+		template <typename Elem>
+			void list <Elem>::push_front (const Elem & v)
+		{
+			insert (begin(), v);
+		}
+		template <typename Elem>
+			void list <Elem>::pop_front ()
+		{
+			eraese (begin());
+		}
+		template <typename Elem>
+			void list <Elem>::pop_back ()
+		{
+			erase (--end());
+		}
+		template <typename Elem>
+			Elem & list <Elem>::front ()
+		{
+			return * begin();
+		}
+		template <typename Elem>
+			Elem & list <Elem>::back ()
+		{
+			return * end();
+		}
 		template <typename Iter>
 			Iter high (Iter first, Iter last)
 		{
