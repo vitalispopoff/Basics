@@ -411,7 +411,7 @@ namespace ch20_exc
 	namespace e12
 	{
 		template <typename Iter>
-			Iterator high (Iter first, Iter last)
+			Iter high (Iter first, Iter last)
 		{
 			iterator
 				high = first;
@@ -421,6 +421,22 @@ namespace ch20_exc
 			return high;
 		}
 
+		void fct(list <int> lst)
+		{
+			list <int>::iterator 
+				p = high (lst.begin(), lst.end());
+			if (p == lst.end())
+				cout
+					<< "The list is empty";
+			else
+				cout 
+					<< "The highest value is " 
+					<< * p << '\n';
+		}
+
+		void test()
+		{
+		}
 	}
 
 	void main()

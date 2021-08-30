@@ -116,7 +116,6 @@ namespace ch20_exc
 
 	namespace e12
 	{
-
 		template <typename Elem>
 			class list
 		{
@@ -164,11 +163,11 @@ namespace ch20_exc
 			bool operator == (const iterator & b) const
 				{return curr == b.curr;}
 			bool operator != (const iterator & b) const
-				{return curr != b.curr;}
-				
-
-
+				{return curr != b.curr;}				
 		};
+
+		void test();
+
 
 	}
 
