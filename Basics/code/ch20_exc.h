@@ -106,7 +106,69 @@ namespace ch20_exc
 
 	namespace e11
 	{
+		vector <double> make_vect (list <int> l);
+		bool check_consistency (vector <double> v, list <int> l);
+		void print_ascending (vector <double> v);
+		void fct (list <int> & l);
+		
+		void test();
+	}
 
+	namespace e12
+	{
+
+		template <typename Elem>
+			class list
+		{
+		public :
+			class iterator;
+
+			iterator	begin();
+			iterator	end();
+
+			iterator	insert		(iterator p, const Elem & v);
+			iterator	erase		(iterator p);
+			
+			void		push_back	(const Elem & v);
+			vod			push_fron	(const Elem & v);
+			void		pop_front	();
+			void		pop_back	();
+
+			Elem &		front		();
+			Elem &		back		();		
+		};
+
+		template <typename Elem>
+			class list <Elem>::iterator
+		{
+			Link <Elem> 
+				* curr;
+		public :
+
+			iterator (Link <Elem> * p) : 
+				curr {p}
+			{}
+
+			iterator & operator ++ ()
+			{
+				curr = curr -> succ; 
+				return * this;
+			}
+			iterator & operator -- ()
+			{
+				curr = curr -> prev;
+				return * this;
+			}
+			Elem & operator *  ()
+				{return curr -> val;}
+			bool operator == (const iterator & b) const
+				{return curr == b.curr;}
+			bool operator != (const iterator & b) const
+				{return curr != b.curr;}
+				
+
+
+		};
 
 	}
 

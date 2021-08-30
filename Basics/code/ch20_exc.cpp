@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 //#include <vector>
 
 namespace ch20_exc
@@ -356,7 +357,69 @@ namespace ch20_exc
 
 	namespace e11
 	{
+		vector<double> make_vec (list <int> l)
+		{
+			vector <double>
+				v;
+			for (int i : l)
+				v.push_back ((double) i);
+			return v;
+		}
 
+		bool check_consistency (vector <double> v , list <int> l)
+		{
+			if (v.size() != l.size())
+				return false;
+			auto 
+				iter {l.begin()};
+			for (auto d : v)
+			{
+				if (d != * iter)
+					return false;
+				++iter;
+			}
+			return true;
+		}
+
+		void print_ascending (vector <double> v)
+		{
+			sort (v.begin(), v.end());
+			for (auto d : v)
+				cout << d << ", ";
+		}
+
+		void fct (list <int> & l)
+		{
+			vector <double> 
+				v {make_vec (l)};
+			cout 
+				<< "\ncheck :\t" 
+				<< (check_consistency ? "true" : "false")
+				<< '\n';
+			print_ascending (v);
+			cout << '\n';
+		}
+
+		void test ()
+		{
+			list <int>
+				l {1, 7, 2, 6, 3, 5, 4};
+			fct (l);
+		}
+	}
+
+	namespace e12
+	{
+		template <typename Iter>
+			Iterator high (Iter first, Iter last)
+		{
+			iterator
+				high = first;
+			for (iterator p = first; p != last; ++p)
+				if (* high < * p)
+					high = p;
+			return high;
+		}
 
 	}
 
@@ -367,6 +430,7 @@ namespace ch20_exc
 		//e05::test();
 		 //e07::test();
 		//e08::test();
-		e09::test();
+		//e09::test();
+		e11::test();
 	}
 }
