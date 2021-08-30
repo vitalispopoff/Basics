@@ -410,6 +410,14 @@ namespace ch20_exc
 
 	namespace e12
 	{
+		template <typename Elem>
+			list <Elem>::iterator list <Elem>::insert (iterator p, const Elem & v)
+		{
+
+			return iterator{};
+		}
+
+
 		template <typename Iter>
 			Iter high (Iter first, Iter last)
 		{

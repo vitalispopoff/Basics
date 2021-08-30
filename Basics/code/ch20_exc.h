@@ -143,32 +143,28 @@ namespace ch20_exc
 			Link <Elem> 
 				* curr;
 		public :
-
 			iterator (Link <Elem> * p) : 
 				curr {p}
 			{}
-
-			iterator & operator ++ ()
+			iterator &	operator ++ ()
 			{
 				curr = curr -> succ; 
 				return * this;
 			}
-			iterator & operator -- ()
+			iterator &	operator -- ()
 			{
 				curr = curr -> prev;
 				return * this;
 			}
-			Elem & operator *  ()
+			Elem &		operator *  ()
 				{return curr -> val;}
-			bool operator == (const iterator & b) const
+			bool		operator == (const iterator & b) const
 				{return curr == b.curr;}
-			bool operator != (const iterator & b) const
+			bool		operator != (const iterator & b) const
 				{return curr != b.curr;}				
 		};
 
 		void test();
-
-
 	}
 
 	void main();
