@@ -116,29 +116,58 @@ namespace ch20_exc
 
 	namespace e12
 	{
-		template <typename Elem>
+		/*template <typename Elem>
 			class list
 		{
 		public :
 			class iterator;
 
+			list ()
+			{}
+			//list (<initializer_list> lst) :
+			//{
+			//	for (auto e : lst)
+			//		push_back (Link<auto> {e});
+			//}
+
 			iterator	begin();
 			iterator	end();
 
-			iterator	insert		(iterator p, const Elem & v);
-			iterator	erase		(iterator p);
+			//iterator	insert		(iterator p, const Elem & v);
+			//iterator	erase		(iterator p);
 			
-			void		push_back	(const Elem & v);
-			void		push_front	(const Elem & v);
-			void		pop_front	();
-			void		pop_back	();
+			//void		push_back	(const Elem & v);
+			//void		push_front	(const Elem & v);
+			//void		pop_front	();
+			//void		pop_back	();
 
-			Elem &		front		();
-			Elem &		back		();		
-			// void		swap		(iterator p, iterator q);
-		};
+			//Elem &		front		();
+			//Elem &		back		();		
+			//void		swap		(iterator & p, iterator & q);
+		};*/
 
 		template <typename Elem>
+			struct Link
+		{
+			Link
+				* prev = nullptr,
+				* succ = nullptr;
+			Elem 
+				val = Elem {};
+			Link () 
+			{}
+			Link (Link & p, Link & s, Elem e) :
+				prev {p},
+				succ {s},
+				val {e}
+			{
+				p.succ = s.prev = this;	// this may cause cuts if p && q are from different lists
+			}
+
+			void swap_with (Link & l);
+		};
+
+		/*template <typename Elem>
 			class list <Elem>::iterator
 		{
 			Link <Elem> 
@@ -163,7 +192,7 @@ namespace ch20_exc
 				{return curr == b.curr;}
 			bool		operator != (const iterator & b) const
 				{return curr != b.curr;}				
-		};
+		};*/
 
 		void test();
 	}

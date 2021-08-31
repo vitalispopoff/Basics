@@ -411,49 +411,87 @@ namespace ch20_exc
 	namespace e12
 	{	
 		template <typename Elem>
+			void Link <Elem>::swap_with (Link & l)
+		{
+			Link 
+				temp;
+			temp = this;
+			this = l;
+			l = temp;
+		}
+
+		void test_link ()
+		{
+			string
+				name {"ch20 e12: link"};
+			int
+				no = test_no;
+			Link <int>
+				l;
+			testing_bundle<bool>
+				t0_0 {name, l.succ == nullptr, true},
+				t0_1 {name, l.prev == nullptr, true},
+				t0_2 {name, l.val == 0, true};
+			report (no, name);
+
+			Link <int>
+				l1,
+				l3 {l1},
+				l2;
+		}
+
+		/*template <typename Elem>
 			list<Elem>::iterator list <Elem>::insert (iterator p, const Elem & v)
 		{
-
-			return iterator{};
-		}
-		template <typename Elem>
+			return begin();
+		}*/
+		/*template <typename Elem>
 			list<Elem>::iterator list <Elem>::erase (iterator p)
 		{
 
 
 
-		}
-		template <typename Elem>
+		}*/
+		/*template <typename Elem>
 			void list <Elem>::push_back (const Elem & v)
 		{
 			
-		}
-		template <typename Elem>
+		}*/
+		/*template <typename Elem>
 			void list <Elem>::push_front (const Elem & v)
 		{
 			insert (begin(), v);
-		}
-		template <typename Elem>
+		}*/
+		/*template <typename Elem>
 			void list <Elem>::pop_front ()
 		{
 			eraese (begin());
-		}
-		template <typename Elem>
+		}*/
+		/*template <typename Elem>
 			void list <Elem>::pop_back ()
 		{
 			erase (--end());
-		}
-		template <typename Elem>
+		}*/
+		/*template <typename Elem>
 			Elem & list <Elem>::front ()
 		{
 			return * begin();
-		}
-		template <typename Elem>
+		}*/
+		/*template <typename Elem>
 			Elem & list <Elem>::back ()
 		{
 			return * end();
-		}
-		template <typename Iter>
+		}*/
+		/*template <typename Elem>
+			void list <Elem>::swap (iterator & p, iterator & q)
+		{
+			Elem 
+				temp = * p;
+			*p = * q;
+			*q  = temp;
+		}*/
+
+		/*template <typename Iter>
 			Iter high (Iter first, Iter last)
 		{
 			iterator
@@ -462,9 +500,9 @@ namespace ch20_exc
 				if (* high < * p)
 					high = p;
 			return high;
-		}
+		}*/
 
-		void fct(list <int> lst)
+		/*void fct(list <int> lst)
 		{
 			list <int>::iterator 
 				p = high (lst.begin(), lst.end());
@@ -475,10 +513,14 @@ namespace ch20_exc
 				cout 
 					<< "The highest value is " 
 					<< * p << '\n';
-		}
+		}*/
 
 		void test()
 		{
+			test_link();
+			//test_list();
+
+
 		}
 	}
 
@@ -490,6 +532,7 @@ namespace ch20_exc
 		 //e07::test();
 		//e08::test();
 		//e09::test();
-		e11::test();
+		//e11::test();
+		e12::test();
 	}
 }
