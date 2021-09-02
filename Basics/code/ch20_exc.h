@@ -18,36 +18,46 @@ namespace ch20_exc
 			list <Line>::iterator
 				ln;
 			Line::iterator
-				pos;		
-		public :		
+				pos;
+		public:
 			Text_iterator (list <Line>::iterator ll, Line::iterator pp) :
 				ln {ll},
 				pos {pp}
 			{}
-			char & operator * () 
-				{return * pos;}
+			char & operator * ()
+			{
+				return *pos;
+			}
+
 			bool operator == (const Text_iterator & other) const
-				{return ln == other.ln && pos == other.pos;}
+			{
+				return ln == other.ln && pos == other.pos;
+			}																	    /// !!!! this might need redifinition
+
 			bool operator != (const Text_iterator & other) const
-				{return (ln != other.ln || pos != other.pos);}
+			{
+				return (ln != other.ln || pos != other.pos);
+			}
 			Text_iterator & operator ++ ();
 		};
 
 		template <typename T>
-			T find_txt (T first, T last, const string & s);
+		T find_txt (T first, T last, const string & s);
 
 		struct Document
 		{
-			list <Line> 
+			list <Line>
 				line;
-			Text_iterator begin() 
-				{return Text_iterator (line.begin(), line.begin() -> begin());}
+			Text_iterator begin()
+			{
+				return Text_iterator (line.begin(), line.begin()->begin());
+			}
 			Text_iterator end()
 			{
 				auto
 					last = line.end();
 				--last;
-				return Text_iterator (last, last -> end());
+				return Text_iterator (last, last->end());
 			}
 			void erase_line (int n);
 		};
@@ -66,7 +76,7 @@ namespace ch20_exc
 		double * get_from_jack (int * count);
 		vector <double> * get_from_jill();
 		template <typename Iterator>
-			Iterator high (Iterator first, Iterator last);
+		Iterator high (Iterator first, Iterator last);
 		void fct();
 	}
 
@@ -75,7 +85,7 @@ namespace ch20_exc
 		void test();
 
 		template <typename T>
-			istream & operator >> (istream & is, vector <T> & v);
+		istream & operator >> (istream & is, vector <T> & v);
 	}
 
 	namespace e07
@@ -110,75 +120,124 @@ namespace ch20_exc
 		bool check_consistency (vector <double> v, list <int> l);
 		void print_ascending (vector <double> v);
 		void fct (list <int> & l);
-		
+
 		void test();
 	}
 
 	namespace e12
 	{
-		/*template <typename Elem>
-			class list
-		{
-		public :
-			class iterator;
-
-			list ()
-			{}
-			//list (<initializer_list> lst) :
-			//{
-			//	for (auto e : lst)
-			//		push_back (Link<auto> {e});
-			//}
-
-			iterator	begin();
-			iterator	end();
-
-			//iterator	insert		(iterator p, const Elem & v);
-			//iterator	erase		(iterator p);
-			
-			//void		push_back	(const Elem & v);
-			//void		push_front	(const Elem & v);
-			//void		pop_front	();
-			//void		pop_back	();
-
-			//Elem &		front		();
-			//Elem &		back		();		
-			//void		swap		(iterator & p, iterator & q);
-		};*/
-
 		template <typename Elem>
 			struct Link
 		{
 			Link
 				* prev = nullptr,
 				* succ = nullptr;
-			Elem 
+			Elem
 				val = Elem {};
-			Link () 
+			Link ()
 			{}
 			Link (Link & p, Link & s, Elem e) :
-				prev {p},
-				succ {s},
+				prev {& p},
+				succ {& s},
 				val {e}
 			{
-				p.succ = s.prev = this;	// this may cause cuts if p && q are from different lists
+				p.succ = s.prev = this;							// this may cause cuts if p && q are from different lists
 			}
-
-			void swap_with (Link & l);
+			Link (Link & l) :
+				prev {l.prev},
+				succ {l.succ},
+				val {l.val}
+			{}
+			Link (Link && l) :
+				prev {l.prev},
+				succ {l.succ},
+				val {l.val}
+			{}
+			Link & operator = (const Link & r)
+			{
+				prev = r.prev;
+				succ = r.succ;
+				val = & r.val;
+				return * this;
+			}
+			bool operator == (Link & r)							// doesn't check the connections to 'this'
+			{
+				if (this == & r)
+					return true;
+				return
+					prev == r.prev			
+					&& succ == r.succ
+					&& val == r.val;
+			}
 		};
 
-		/*template <typename Elem>
-			class list <Elem>::iterator
+		template <typename Elem, typename Lnk = Link <Elem>>
+			class list
 		{
-			Link <Elem> 
+		public:
+			class iterator
+			{
+				Lnk
+					* curr;
+			public :
+				iterator (Lnk * p) :
+					curr {p}
+				{}
+				iterator &	operator ++ ()
+				{
+					curr = curr -> succ;
+					return * this;
+				}
+				iterator &	operator -- ()
+				{
+					curr = curr -> prev;
+					return * this;
+				}
+				Elem &		operator *  ()
+				{return curr -> val;}
+				bool		operator == (const iterator & b) const
+				{return curr == b.curr;}
+				bool		operator != (const iterator & b) const
+				{return curr != b.curr;}
+			};
+		private:
+			Lnk
+				head,
+				tail;
+		public:
+			list () :
+				head {Link <Elem> {}},
+				tail {head}
+			{}
+			iterator	begin()
+				{return iterator (& head);}
+			iterator	end()
+				{return iterator (& tail);}
+			iterator	insert		(iterator p, const Elem & v);
+			//iterator	erase		(iterator p);
+			//void		push_back	(const Elem & v);
+			//void		push_front	(const Elem & v);
+			//void		pop_front	();
+			//void		pop_back	();
+
+			Lnk & front	()
+				{return head;}
+			Lnk & back ()
+				{return tail;}
+		};
+
+		/*template <typename Elem, typename Lnk = Link <Elem>>
+		class list <Elem>::iterator
+		{
+			Lnk
 				* curr;
 		public :
-			iterator (Link <Elem> * p) : 
+			iterator (Lnk * p) :
 				curr {p}
 			{}
 			iterator &	operator ++ ()
 			{
-				curr = curr -> succ; 
+				curr = curr -> succ;
 				return * this;
 			}
 			iterator &	operator -- ()
@@ -187,11 +246,11 @@ namespace ch20_exc
 				return * this;
 			}
 			Elem &		operator *  ()
-				{return curr -> val;}
+			{return curr -> val;}
 			bool		operator == (const iterator & b) const
-				{return curr == b.curr;}
+			{return curr == b.curr;}
 			bool		operator != (const iterator & b) const
-				{return curr != b.curr;}				
+			{return curr != b.curr;}
 		};*/
 
 		void test();

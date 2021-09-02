@@ -332,7 +332,7 @@ namespace ch20_exc
 				d {};
 			string
 				str	[] = {
-				"a",
+				//"a",
 				"b"
 				//"Foobar is a little handy piece of software.\n",
 				//"I mean - it ain't an eye-candy, but works fine,\n",
@@ -352,6 +352,7 @@ namespace ch20_exc
 
 		void sketch()
 		{
+
 		}
 	}
 
@@ -410,16 +411,6 @@ namespace ch20_exc
 
 	namespace e12
 	{	
-		template <typename Elem>
-			void Link <Elem>::swap_with (Link & l)
-		{
-			Link 
-				temp;
-			temp = this;
-			this = l;
-			l = temp;
-		}
-
 		void test_link ()
 		{
 			string
@@ -436,15 +427,28 @@ namespace ch20_exc
 
 			Link <int>
 				l1,
-				l3 {l1},
-				l2;
+				l3 ,
+				l2 {l1, l3, 0};
+			testing_bundle <bool>
+				t1_0 {name, l1.succ == & l2, true},
+				t1_1 {name, l2.prev == & l1, true},
+				t1_2 {name, l3.prev == & l2, true};
+			report (no, name);
+
+			Link <int>
+				l4,
+				l5 = l4;
+			testing_bundle <bool>
+				t2_0 {name, l4 == l4, true},
+				t2_1 {name, l4 == l5, true}; 
+			report (no, name);
 		}
 
-		/*template <typename Elem>
-			list<Elem>::iterator list <Elem>::insert (iterator p, const Elem & v)
+		template <typename Elem, typename Lnk>
+			list<Elem, Lnk>::iterator list <Elem, Lnk>::insert (iterator p, const Elem & v)
 		{
 			return begin();
-		}*/
+		}
 		/*template <typename Elem>
 			list<Elem>::iterator list <Elem>::erase (iterator p)
 		{
@@ -491,6 +495,22 @@ namespace ch20_exc
 			*q  = temp;
 		}*/
 
+		void test_list ()
+		{
+			string
+				name {"ch20 e12: list"};
+			int
+				no = test_no;
+
+			list <int>
+				l;
+			testing_bundle <bool>
+				t0_0 {name, l.front().val == * l.begin(), true},
+				t0_1 {name, l.front() == l.back(), true};
+
+			report (no, name);
+		}
+
 		/*template <typename Iter>
 			Iter high (Iter first, Iter last)
 		{
@@ -518,9 +538,7 @@ namespace ch20_exc
 		void test()
 		{
 			test_link();
-			//test_list();
-
-
+			test_list();
 		}
 	}
 
