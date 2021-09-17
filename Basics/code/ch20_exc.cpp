@@ -444,10 +444,14 @@ namespace ch20_exc
 			report (no, name);
 		}
 
-		template <typename Elem, typename Lnk>
-			list<Elem, Lnk>::iterator list <Elem, Lnk>::insert (iterator p, const Elem & v)
-		{
-			return begin();
+		template <typename Elem>
+			void list <Elem>::insert (iterator p, const Elem & v)
+		{				
+			Link <Elem>
+				tmp = * (* p).prev,
+				l {tmp , p, v};
+			(* p).prev -> succ = & l;
+			p -> prev = l;
 		}
 		/*template <typename Elem>
 			list<Elem>::iterator list <Elem>::erase (iterator p)
@@ -507,8 +511,11 @@ namespace ch20_exc
 			testing_bundle <bool>
 				t0_0 {name, l.front().val == * l.begin(), true},
 				t0_1 {name, l.front() == l.back(), true};
-
 			report (no, name);
+			list <int>
+				ls1 {};
+			ls1.insert (ls1.begin(), 1);
+
 		}
 
 		/*template <typename Iter>

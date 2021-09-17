@@ -171,16 +171,16 @@ namespace ch20_exc
 			}
 		};
 
-		template <typename Elem, typename Lnk = Link <Elem>>
+		template <typename Elem>
 			class list
 		{
 		public:
 			class iterator
 			{
-				Lnk
+				Link <Elem>
 					* curr;
 			public :
-				iterator (Lnk * p) :
+				iterator (Link<Elem> * p) :
 					curr {p}
 				{}
 				iterator &	operator ++ ()
@@ -201,7 +201,7 @@ namespace ch20_exc
 				{return curr != b.curr;}
 			};
 		private:
-			Lnk
+			Link <Elem>
 				head,
 				tail;
 		public:
@@ -213,45 +213,18 @@ namespace ch20_exc
 				{return iterator (& head);}
 			iterator	end()
 				{return iterator (& tail);}
-			iterator	insert		(iterator p, const Elem & v);
+			void /*iterator*/	insert		(iterator p, const Elem & v);
 			//iterator	erase		(iterator p);
 			//void		push_back	(const Elem & v);
 			//void		push_front	(const Elem & v);
 			//void		pop_front	();
 			//void		pop_back	();
 
-			Lnk & front	()
+			Link <Elem> & front	()
 				{return head;}
-			Lnk & back ()
+			Link <Elem> & back ()
 				{return tail;}
 		};
-
-		/*template <typename Elem, typename Lnk = Link <Elem>>
-		class list <Elem>::iterator
-		{
-			Lnk
-				* curr;
-		public :
-			iterator (Lnk * p) :
-				curr {p}
-			{}
-			iterator &	operator ++ ()
-			{
-				curr = curr -> succ;
-				return * this;
-			}
-			iterator &	operator -- ()
-			{
-				curr = curr -> prev;
-				return * this;
-			}
-			Elem &		operator *  ()
-			{return curr -> val;}
-			bool		operator == (const iterator & b) const
-			{return curr == b.curr;}
-			bool		operator != (const iterator & b) const
-			{return curr != b.curr;}
-		};*/
 
 		void test();
 	}
