@@ -9,7 +9,7 @@ int main()
 {
 	try
 	{
-		ch20_exc::main();
+		ch21::main();
 		return 0;
 	}
 	catch (exception & e)

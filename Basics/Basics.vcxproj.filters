@@ -25,6 +25,12 @@
     <Filter Include="Pliki źródłowe\ch20">
       <UniqueIdentifier>{441caca2-d6c5-4344-bfae-35795dad675d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\ch21">
+      <UniqueIdentifier>{498b80a0-7ffa-4dc9-9dc4-e633f56def21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ch21">
+      <UniqueIdentifier>{68b3a484-9055-4b0f-a750-ec1fe0041091}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\main.h">
@@ -47,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="code\ch20_exc.h">
       <Filter>Pliki nagłówkowe\ch20</Filter>
+    </ClInclude>
+    <ClInclude Include="code\ch21.h">
+      <Filter>Pliki nagłówkowe\ch21</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +85,15 @@
     </ClCompile>
     <ClCompile Include="code\ch20_exc.cpp">
       <Filter>Pliki źródłowe\ch20</Filter>
+    </ClCompile>
+    <ClCompile Include="code\ch21.cpp">
+      <Filter>Pliki źródłowe\ch21</Filter>
+    </ClCompile>
+    <ClCompile Include="code\ch21_drill.cpp">
+      <Filter>Pliki źródłowe\ch21</Filter>
+    </ClCompile>
+    <ClCompile Include="code\ch21_exc.cpp">
+      <Filter>Pliki źródłowe\ch21</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
