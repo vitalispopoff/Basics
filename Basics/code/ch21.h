@@ -16,9 +16,6 @@ namespace ch21
 
 	namespace try_this_2
 	{
-		template <typename In, typename T>
-		T m_accumulate (In first, In last, T val);
-
 		struct Record
 		{
 			double 
@@ -34,6 +31,13 @@ namespace ch21
 				return unit_price * double (units);
 			}
 		};
+
+		void main();
+
+	}
+
+	namespace try_this_3
+	{
 
 		void main();
 

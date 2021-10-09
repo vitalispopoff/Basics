@@ -1,10 +1,11 @@
 #include "ch21.h"
 
-#include <iostream>
 #include <chrono>
 #include <ctime>
-#include <vector>
+#include <iostream>
+#include <map>
 #include <numeric>
+#include <vector>
 
 
 namespace ch21
@@ -72,11 +73,6 @@ namespace ch21
 
 		void main()
 		{
-			/*Record 
-				r {1.5, 3};
-			cout 
-				<< r();*/
-
 			vector <Record> 
 				v {
 					{1.5, 3},
@@ -85,14 +81,55 @@ namespace ch21
 					{1.9, 2}
 				};
 			cout 
-				//<< m_accumalate (v.begin(), v.end(), 0.0);
-				<< accumulate (v.begin(), v.end(), 0.0, [&](double d, Record & r){return d += r();});
+				<< accumulate (
+					v.begin(), 
+					v.end(), 
+					0.0, 
+					[](double & d, Record & r)
+					{
+						return d += r();
+					}
+				);
+		}
+	}
+
+	namespace try_this_3
+	{
+		map <string, double> 
+			stock_price
+			{
+				{"MMA", 0.6},
+				{"TVP", 0.11},
+			},
+			stock_weight
+			{
+				{"MMA", 2.25},
+				{"TVP", 0.41}
+			};
+		map <string, string>
+			stock_name
+			{
+				{"MMA", "Polski Zwi¹zek £omotu"},
+				{"TVP", "Ministerstwo Prawdy"}
+			};
+		
+			double weighted_val (const double a, const double b)
+		{
+			return a * b;
+		}
+		
+		void main()
+		{
+			cout
+				<< weighted_val (stock_price["MMA"], stock_weight["MMA"]);
+
 		}
 	}
 
 	void main()
 	{
 		//try_this_1::main();
-		try_this_2::main();
+		//try_this_2::main();
+		try_this_3::main();
 	}
 }
