@@ -1,12 +1,14 @@
 #include "ch21.h"
 
+#include <algorithm>
 #include <chrono>
 #include <ctime>
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <numeric>
+#include <unordered_map>
 #include <vector>
-
 
 namespace ch21
 {
@@ -106,23 +108,50 @@ namespace ch21
 				{"MMA", 2.25},
 				{"TVP", 0.41}
 			};
-		map <string, string>
-			stock_name
-			{
-				{"MMA", "Polski Zwi¹zek £omotu"},
-				{"TVP", "Ministerstwo Prawdy"}
-			};
 		
-			double weighted_val (const double a, const double b)
-		{
-			return a * b;
-		}
+		double weighted_val (double a, double b) 
+			{return a * b;}
 		
 		void main()
 		{
-			cout
-				<< weighted_val (stock_price["MMA"], stock_weight["MMA"]);
+			double
+				result {0.0};
+			for (auto p : stock_price)
+				result += p.second * stock_weight[p.first];
+			cout 
+				<< result;
+		}
+	}
 
+	namespace try_this_4
+	{
+		void main()
+		{}	
+	}
+
+	namespace try_this_5
+	{
+		void main()
+		{
+			string
+				from,		// source file address
+				to;			// target file address
+			cin 
+				>> from 
+				>> to;
+			ifstream
+				is {from};
+			ofstream
+				os {to};
+			istream_iterator <string>
+				ii {is},
+				eos;
+			ostream_iterator <string>
+				oo {os, "\n"};
+			vector <string>
+				b {ii, eos};
+			sort (b.begin(), b.end());
+			copy (b.begin(), b.end(), oo);
 		}
 	}
 
@@ -130,6 +159,7 @@ namespace ch21
 	{
 		//try_this_1::main();
 		//try_this_2::main();
-		try_this_3::main();
+		//try_this_3::main();
+		//try_this_4::main();
 	}
 }

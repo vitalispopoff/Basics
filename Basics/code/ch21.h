@@ -3,6 +3,7 @@
 namespace ch21
 {
 
+	//	p.765
 	namespace try_this_1
 	{
 		template <typename In, typename T>
@@ -14,6 +15,7 @@ namespace ch21
 		void main();
 	}
 
+	//	p.774
 	namespace try_this_2
 	{
 		struct Record
@@ -36,11 +38,22 @@ namespace ch21
 
 	}
 
+	//	p.785
 	namespace try_this_3
 	{
-
 		void main();
+	}
 
+	//	p.787
+	namespace try_this_4
+	{
+		void main();
+	}
+
+	//	p.792
+	namespace try_this_5
+	{
+		void main();
 	}
 
 
