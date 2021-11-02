@@ -18,7 +18,7 @@ namespace ch21_txt
 		In find_2 (In first, In last, const T & val);
 
 	//template <typename In, typename T>
-	//	void m_func (vector <T> & v, T x, In p);
+	//	void m_func (vector <T> & v, T x, In p = v.end());
 
 	void main();
 }

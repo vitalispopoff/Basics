@@ -5,6 +5,7 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <map>
 #include <numeric>
 #include <unordered_map>
@@ -16,27 +17,27 @@ namespace ch21_txt
 	// 21.2
 
 	template <typename In, typename T>
-		In find (In first, In last, const T & val)
+		In find (In first, In last, const T & query)
 	{
-		while (first != last && * first != val)
+		while (first != last && * first != query)
 			++first;
 		return first;
 	}
 
 	template <typename In, typename T>
-		In find_1 (In first, In last, const T & val)
+		In find_1 (In first, In last, const T & query)
 	{
 		for (In p = first; p != last; ++p)
-			if (* p == val) 
+			if (* p == query) 
 				return p;
 		return last;
 	}
 
 	template <typename In, typename T>
-		In find_2 (In first, In last, const T & val)
+		In find_2 (In first, In last, const T & query)
 	{
 		for (; first != last; ++first)
-			if (* first == val)
+			if (* first == query)
 				return first;
 		return last;
 	}
@@ -55,20 +56,18 @@ namespace ch21_txt
 	}
 
 	template <typename In, typename T>
-		void m_func (vector <T> & v, int x, In p = v.end()) 
+		void func (vector <T> & v, int query, In answer = last)
 	{
-		//auto 
-		//	p {ch21_txt::find (v.begin(), v.end(), x)};
 		int
 			slot { 
-				p == v.end()
+				answer == v.end()
 				? -1
-				: p - v.begin()				
+				: answer - v.begin()
 			};
-		report (x, slot);	
+		report (query, slot);
 	}
 
-	void main()
+	void main_21_2()
 	{
 		vector <int>
 			v {1, 2, 3, 4, 5, 6};
@@ -76,30 +75,68 @@ namespace ch21_txt
 		cout
 			<< "\n\tsuccess\n";
 		int
-			x {5};
+			query {5};
 		auto 
-			p {ch21_txt::find (v.begin(), v.end(), x)};
-		m_func (v, x, p);
+			answer {ch21_txt::find (v.begin(), v.end(), query)};
+		func (v, query, answer);
 		
-		p = ch21_txt::find_1 (v.begin(), v.end(), x);
-		m_func (v, x, p);
+		answer = ch21_txt::find_1 (v.begin(), v.end(), query);
+		func (v, query, answer);
 
-		p = ch21_txt::find_2 (v.begin(), v.end(), x);
-		m_func (v, x, p);
+		answer = ch21_txt::find_2 (v.begin(), v.end(), query);
+		func (v, query, answer);
 
 		cout
 			<< "\n\tfail\n";
 		
-		x = 0;
+		query = 0;
 
-		p = ch21_txt::find (v.begin(), v.end(), x);
-		m_func (v, x, p);
+		answer = ch21_txt::find (v.begin(), v.end(), query);
+		func (v, query, answer);
 
-		p = ch21_txt::find_1 (v.begin(), v.end(), x);
-		m_func (v, x, p);
+		answer = ch21_txt::find_1 (v.begin(), v.end(), query);
+		func (v, query, answer);
 
-		p = ch21_txt::find_2 (v.begin(), v.end(), x);
-		m_func (v, x, p);
+		answer = ch21_txt::find_2 (v.begin(), v.end(), query);
+		func (v, query, answer);
+	}
+
+	// 21.2.1
+
+	template <typename In, typename T>
+		void report_1 (In first, In last, T query, In answer = last)
+	{
+		cout
+			<< "\telement " << query
+			<< (answer == last
+				? " wasn't found in the vector.\n"
+				: " was found.\n");
+	}
+
+	void main_21_2_1 ()
+	{
+		std::list <int>
+			v {1, 2, 3, 4, 5, 6};
+		std::cout
+			<< "\n\tsuccess\n";
+		int 
+			query {5};
+		auto
+			answer {ch21_txt::find (v.begin(), v.end(), query)};
+
+		report_1 (v.begin(), v.end(), query, answer);
+
+		query = 0;
+		answer = ch21_txt::find (v.begin(), v.end(), query);
+		report_1 (v.begin(), v.end(), query, answer);
+	}
+
+
+	void main()
+	{
+		//main_21_2();
+		main_21_2_1();
+
 	}
 }
 
