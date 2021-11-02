@@ -44,12 +44,12 @@ namespace ch21_txt
 	void report (int query, int answer)
 	{
 		if (answer + 1)
-			cout 
+			cout
 			<< "\telement " << query
 			<< " was found at " << answer
 			<< '\n';
 		else 
-			cout 
+			cout
 			<< "\telement " << query
 			<< " wasn't found in the vector\n";
 	}
@@ -72,12 +72,34 @@ namespace ch21_txt
 	{
 		vector <int>
 			v {1, 2, 3, 4, 5, 6};
+		
+		cout
+			<< "\n\tsuccess\n";
 		int
 			x {5};
 		auto 
 			p {ch21_txt::find (v.begin(), v.end(), x)};
 		m_func (v, x, p);
+		
+		p = ch21_txt::find_1 (v.begin(), v.end(), x);
+		m_func (v, x, p);
 
+		p = ch21_txt::find_2 (v.begin(), v.end(), x);
+		m_func (v, x, p);
+
+		cout
+			<< "\n\tfail\n";
+		
+		x = 0;
+
+		p = ch21_txt::find (v.begin(), v.end(), x);
+		m_func (v, x, p);
+
+		p = ch21_txt::find_1 (v.begin(), v.end(), x);
+		m_func (v, x, p);
+
+		p = ch21_txt::find_2 (v.begin(), v.end(), x);
+		m_func (v, x, p);
 	}
 }
 
@@ -118,14 +140,14 @@ namespace ch21_try
 				stop {stopwatch::now()};
 			duration <double> 
 				e_time {stop - start};
-			cout 
+			std::cout
 				<< "\n\tfind_while benchmark:\t"
 				<< e_time.count();
 			start = stopwatch::now();
 			find_for(v.begin(), v.end(), 1);
 			stop = stopwatch::now();
 			e_time = stop - start;
-			cout
+			std::cout
 				<< "\n\tfind_for benchmark:\t"
 				<< e_time.count();
 		}
@@ -153,7 +175,7 @@ namespace ch21_try
 					{0.5, 6},
 					{1.9, 2}
 				};
-			cout 
+			cout
 				<< accumulate (
 					v.begin(), 
 					v.end(), 
@@ -189,7 +211,7 @@ namespace ch21_try
 				result {0.0};
 			for (auto p : stock_price)
 				result += p.second * stock_weight[p.first];
-			cout 
+			cout
 				<< result;
 		}
 	}
