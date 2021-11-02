@@ -66,7 +66,7 @@
     <ClInclude Include="code\midi_vs_freq.h">
       <Filter>Pliki nagłówkowe\other</Filter>
     </ClInclude>
-    <ClInclude Include="code\sketch._book_01.h">
+    <ClInclude Include="code\sketch_book_01.h">
       <Filter>Pliki nagłówkowe\other</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,7 +110,7 @@
     <ClCompile Include="code\midi_vs_freq.cpp">
       <Filter>Pliki źródłowe\other</Filter>
     </ClCompile>
-    <ClCompile Include="code\sketch._book_01.cpp">
+    <ClCompile Include="code\sketch_book_01.cpp">
       <Filter>Pliki źródłowe\other</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,33 @@
 #pragma once
 
-namespace ch21
+#include <vector>
+
+namespace ch21_txt
+{
+	using namespace std;
+
+	// 21.2 
+
+	template <typename In, typename T>
+		In find (In first, In last, const T & val);
+
+	template <typename In, typename T>
+		In find_1 (In first, In last, const T & val);
+
+	template <typename In, typename T>
+		In find_2 (In first, In last, const T & val);
+
+	void func (vector <int> & v, int x);
+
+
+
+
+
+	void main();
+}
+
+
+namespace ch21_try
 {
 
 	//	p.765

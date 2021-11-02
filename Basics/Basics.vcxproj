@@ -146,8 +146,8 @@
     <ClInclude Include="code\ch21.h" />
     <ClInclude Include="code\main.h" />
     <ClInclude Include="code\midi_vs_freq.h" />
-    <ClInclude Include="code\sketch._book_01.h" />
     <ClInclude Include="code\sketchbook.h" />
+    <ClInclude Include="code\sketch_book_01.h" />
     <ClInclude Include="code\testing.h" />
   </ItemGroup>
   <ItemGroup>
@@ -162,8 +162,8 @@
     <ClCompile Include="code\ch21_exc.cpp" />
     <ClCompile Include="code\main.cpp" />
     <ClCompile Include="code\midi_vs_freq.cpp" />
-    <ClCompile Include="code\sketch._book_01.cpp" />
     <ClCompile Include="code\sketchbook.cpp" />
+    <ClCompile Include="code\sketch_book_01.cpp" />
     <ClCompile Include="code\testing.cpp" />
   </ItemGroup>
   <ItemGroup>

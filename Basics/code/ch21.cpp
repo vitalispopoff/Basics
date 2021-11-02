@@ -10,7 +10,71 @@
 #include <unordered_map>
 #include <vector>
 
-namespace ch21
+namespace ch21_txt
+{
+	using namespace std;
+	// 21.2
+
+	template <typename In, typename T>
+		In find (In first, In last, const T & val)
+	{
+		while (first != last && * first != val)
+			++first;
+		return first;
+	}
+
+	template <typename In, typename T>
+		In find_1 (In first, In last, const T & val)
+	{
+		for (In p = first; p != last; ++p)
+			if (* p == val) 
+				return p;
+		return last;
+	}
+
+	template <typename In, typename T>
+		In find_2 (In first, In last, const T & val)
+	{
+		for (; first != last; ++first)
+			if (* first == val)
+				return first;
+		return last;
+	}
+
+	void func (vector <int> & v, int x) 
+	{
+		auto 
+			p {ch21_txt::find (v.begin(), v.end(), x)};
+		
+		if (p != v.end())		
+			// do stuff like :
+
+			cout 
+				<< "\telement " << x 
+				<< "was found at " << p - v.begin()
+				<< '\n';
+		else 
+			// do other stuff like:
+
+			cout 
+				<< "\telement " << x
+				<< "wasn't found in the vector\n";
+
+		// possibly do some more stuff
+	}
+
+
+
+	void main()
+	{
+		vector <int>
+			v {1, 2, 3, 4, 5, 6};
+
+		func (v, 5);
+	}
+}
+
+namespace ch21_try
 {
 	using namespace std;
 	
