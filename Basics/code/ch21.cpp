@@ -41,36 +41,79 @@ namespace ch21_txt
 		return last;
 	}
 
+	void report (int query, int answer)
+	{
+		if (answer + 1)
+			cout 
+			<< "\telement " << query
+			<< " was found at " << answer
+			<< '\n';
+		else 
+			cout 
+			<< "\telement " << query
+			<< " wasn't found in the vector\n";
+	}
+
+
+
 	void func (vector <int> & v, int x) 
 	{
 		auto 
 			p {ch21_txt::find (v.begin(), v.end(), x)};
-		
-		if (p != v.end())		
-			// do stuff like :
-
-			cout 
-				<< "\telement " << x 
-				<< "was found at " << p - v.begin()
-				<< '\n';
-		else 
-			// do other stuff like:
-
-			cout 
-				<< "\telement " << x
-				<< "wasn't found in the vector\n";
-
-		// possibly do some more stuff
+		int
+			slot { 
+				p == v.end()
+				? -1
+				: p - v.begin()				
+			};
+		report (x, slot);	
 	}
 
+	void func_1 (vector <int> & v, int x) 
+	{
+		auto 
+			p {ch21_txt::find_1 (v.begin(), v.end(), x)};
+
+		if (p != v.end())		
+			cout 
+			<< "\telement " << x 
+			<< "was found at " << p - v.begin()
+			<< '\n';
+		else 
+			cout 
+			<< "\telement " << x
+			<< "wasn't found in the vector\n";
+	}
+
+	void func_2 (vector <int> & v, int x) 
+	{
+		auto 
+			p {ch21_txt::find_2 (v.begin(), v.end(), x)};
+
+		if (p != v.end())		
+			cout 
+			<< "\telement " << x 
+			<< "was found at " << p - v.begin()
+			<< '\n';
+		else 
+			cout 
+			<< "\telement " << x
+			<< "wasn't found in the vector\n";
+	}
 
 
 	void main()
 	{
 		vector <int>
 			v {1, 2, 3, 4, 5, 6};
-
+		int
+			x {5};
+		
+		std::cout
+			<< "successfully find\n";
 		func (v, 5);
+
+
 	}
 }
 
