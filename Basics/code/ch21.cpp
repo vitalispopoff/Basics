@@ -54,12 +54,11 @@ namespace ch21_txt
 			<< " wasn't found in the vector\n";
 	}
 
-
-
-	void func (vector <int> & v, int x) 
+	template <typename In, typename T>
+		void m_func (vector <T> & v, int x, In p = v.end()) 
 	{
-		auto 
-			p {ch21_txt::find (v.begin(), v.end(), x)};
+		//auto 
+		//	p {ch21_txt::find (v.begin(), v.end(), x)};
 		int
 			slot { 
 				p == v.end()
@@ -69,50 +68,15 @@ namespace ch21_txt
 		report (x, slot);	
 	}
 
-	void func_1 (vector <int> & v, int x) 
-	{
-		auto 
-			p {ch21_txt::find_1 (v.begin(), v.end(), x)};
-
-		if (p != v.end())		
-			cout 
-			<< "\telement " << x 
-			<< "was found at " << p - v.begin()
-			<< '\n';
-		else 
-			cout 
-			<< "\telement " << x
-			<< "wasn't found in the vector\n";
-	}
-
-	void func_2 (vector <int> & v, int x) 
-	{
-		auto 
-			p {ch21_txt::find_2 (v.begin(), v.end(), x)};
-
-		if (p != v.end())		
-			cout 
-			<< "\telement " << x 
-			<< "was found at " << p - v.begin()
-			<< '\n';
-		else 
-			cout 
-			<< "\telement " << x
-			<< "wasn't found in the vector\n";
-	}
-
-
 	void main()
 	{
 		vector <int>
 			v {1, 2, 3, 4, 5, 6};
 		int
 			x {5};
-		
-		std::cout
-			<< "successfully find\n";
-		func (v, 5);
-
+		auto 
+			p {ch21_txt::find (v.begin(), v.end(), x)};
+		m_func (v, x, p);
 
 	}
 }

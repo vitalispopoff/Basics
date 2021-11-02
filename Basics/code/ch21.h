@@ -17,11 +17,8 @@ namespace ch21_txt
 	template <typename In, typename T>
 		In find_2 (In first, In last, const T & val);
 
-	void func (vector <int> & v, int x);
-
-
-
-
+	//template <typename In, typename T>
+	//	void m_func (vector <T> & v, T x, In p);
 
 	void main();
 }
