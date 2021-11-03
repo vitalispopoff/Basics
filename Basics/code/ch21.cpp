@@ -282,7 +282,7 @@ namespace ch21_txt
 
 	//	21.4.3
 
-	void main_4_3 ()
+	void f_4_3_a ()
 	{
 
 		vector <Record>
@@ -305,21 +305,41 @@ namespace ch21_txt
 		);
 	}
 
-	void f_1 (list <double> & v, int x)
+	void f_4_3_b (list <double> & v, int x)
 	{
-		auto
-			p {ch21_txt::find_if (v.begin(), v.end(), Larger_than(31))};
+		auto p {ch21_txt::find_if (
+				v.begin(), 
+				v.end(), 
+				[] (double a) {return a > 31;}
+			)
+		};
 
 		if (p != v.end())
 			cout << "\tFound it.\n";
 
-		auto 
-			q { ch21_txt::find_if (v.begin(), v.end(), Larger_than (x))};
+		auto q {ch21_txt::find_if (
+				v.begin(), 
+				v.end(), 
+				[&] (double a) {return a > x;}
+			)
+		};
 
 		if (q != v.end())
 			cout << "t\Found it.\n";
 	}
 
+	//	21.5.1 sq
+
+	template <typename In, typename T>
+		T accumulate_0 (In first, In last, T init)
+	{
+		while (first != last)
+		{
+			init += * first;
+			++first;
+		}
+		return init;
+	}
 
 
 
