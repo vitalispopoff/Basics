@@ -4,6 +4,7 @@
 #include <chrono>
 #include <ctime>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <list>
 #include <map>
@@ -14,344 +15,397 @@
 namespace ch21_txt
 {
 	using namespace std;
-	//	21.2
-
-	template <typename In, typename T>
-		In find (In first, In last, const T & query)
+	
+	namespace txt_2								//	21.2
 	{
-		while (first != last && * first != query)
-			++first;
-		return first;
-	}
+		template <typename In, typename T>
+			In find (In first, In last, const T & query)
+		{
+			while (first != last && * first != query)
+				++first;
+			return first;
+		}
 
-	template <typename In, typename T>
-		In find_1 (In first, In last, const T & query)
-	{
-		for (In p = first; p != last; ++p)
-			if (* p == query) 
-				return p;
-		return last;
-	}
+		template <typename In, typename T>
+			In find_1 (In first, In last, const T & query)
+		{
+			for (In p = first; p != last; ++p)
+				if (* p == query) 
+					return p;
+			return last;
+		}
 
-	template <typename In, typename T>
-		In find_2 (In first, In last, const T & query)
-	{
-		for (; first != last; ++first)
-			if (* first == query)
-				return first;
-		return last;
-	}
+		template <typename In, typename T>
+			In find_2 (In first, In last, const T & query)
+		{
+			for (; first != last; ++first)
+				if (* first == query)
+					return first;
+			return last;
+		}
 
-	void report (int query, int answer)
-	{
-		if (answer + 1)
+		void report_1 (int query, int answer)
+		{
+			if (answer + 1)
+				cout
+				<< "\telement " << query
+				<< " was found at " << answer
+				<< '\n';
+			else 
+				cout
+				<< "\telement " << query
+				<< " wasn't found in the vector\n";
+		}
+
+		template <typename In, typename T>
+			void verify (vector <T> & v, int query, In answer = last)
+		{
+			int
+				slot { 
+					answer == v.end()
+					? -1
+					: answer - v.begin()
+				};
+			report_1 (query, slot);
+		}
+
+		void local_1()
+		{
+			vector <int>
+				v {1, 2, 3, 4, 5, 6};
+		
 			cout
-			<< "\telement " << query
-			<< " was found at " << answer
-			<< '\n';
-		else 
+				<< "\n\tsuccess\n";
+			int
+				query {5};
+			auto 
+				answer {ch21_txt::find (v.begin(), v.end(), query)};
+			verify (v, query, answer);
+		
+			answer = find_1 (v.begin(), v.end(), query);
+			verify (v, query, answer);
+
+			answer = find_2 (v.begin(), v.end(), query);
+			verify (v, query, answer);
+
 			cout
-			<< "\telement " << query
-			<< " wasn't found in the vector\n";
-	}
-
-	template <typename In, typename T>
-		void func (vector <T> & v, int query, In answer = last)
-	{
-		int
-			slot { 
-				answer == v.end()
-				? -1
-				: answer - v.begin()
-			};
-		report (query, slot);
-	}
-
-	void main_2()
-	{
-		vector <int>
-			v {1, 2, 3, 4, 5, 6};
+				<< "\n\tfail\n";
 		
-		cout
-			<< "\n\tsuccess\n";
-		int
-			query {5};
-		auto 
-			answer {ch21_txt::find (v.begin(), v.end(), query)};
-		func (v, query, answer);
-		
-		answer = ch21_txt::find_1 (v.begin(), v.end(), query);
-		func (v, query, answer);
+			query = 0;
 
-		answer = ch21_txt::find_2 (v.begin(), v.end(), query);
-		func (v, query, answer);
+			answer = ch21_txt::find (v.begin(), v.end(), query);
+			verify (v, query, answer);
 
-		cout
-			<< "\n\tfail\n";
-		
-		query = 0;
+			answer = find_1 (v.begin(), v.end(), query);
+			verify (v, query, answer);
 
-		answer = ch21_txt::find (v.begin(), v.end(), query);
-		func (v, query, answer);
-
-		answer = ch21_txt::find_1 (v.begin(), v.end(), query);
-		func (v, query, answer);
-
-		answer = ch21_txt::find_2 (v.begin(), v.end(), query);
-		func (v, query, answer);
-	}
-
-	//	21.2.1
-
-	template <typename In, typename T>
-		void report_1 (In first, In last, T query, In answer = last)
-	{
-		cout
-			<< "\telement " << query
-			<< (answer == last
-				? " wasn't found in the vector.\n"
-				: " was found.\n");
-	}
-
-	void main_2_1 ()
-	{
-		std::list <int>
-			v {1, 2, 3, 4, 5, 6};
-		std::cout
-			<< "\n\tsuccess\n";
-		int 
-			query {5};
-		auto
-			answer {ch21_txt::find (v.begin(), v.end(), query)};
-
-		report_1 (v.begin(), v.end(), query, answer);
-
-		query = 0;
-		answer = ch21_txt::find (v.begin(), v.end(), query);
-		report_1 (v.begin(), v.end(), query, answer);
-	}
-
-	//	21.3
-
-	template <typename In, typename Pred>
-		In find_if (In first, In last, Pred p)
-	{
-		while (first != last && !p (*first))
-			++first;
-		return first;
-	}
-
-	bool odd (int x) {return x % 2;}
-
-	void report_1 (vector <int> & v)
-	{
-		auto 
-			p {ch21_txt::find_if (v.begin(), v.end(), odd)};
-		if (p != v.end())
-			std::cout 
-				<< "\tAn element satisfying the conditions was found: "
-				<< *p << ".\n";
-		else
-			std:cout
-				<< "\tNo element satisfying the conditions was found.\n";
-	}
-
-	bool larger_than_42 (double x) {return x > 42.;}
-
-	void report_2 (vector <int> & v)
-	{
-		auto
-			p {ch21_txt::find_if (v.begin(), v.end(), larger_than_42)};
-		if (p != v.end())
-			std:cout
-				<< "\tAn element larger than 42 was found: " << *p <<".\n";
-		else
-			std::cout
-				<< "\tNo element larger than 42 found.\n";
-	}
-
-	void main_3 ()
-	{
-		vector <int> 
-			v {1, 2, 3, 4, 5, 6};
-		report_2 (v);
-
-		v.push_back (43);
-		report_2 (v);
-	}
-
-
-	//	21.4
-
-
-	class Larger_than 
-	{
-		int value;
-
-	public :
-		
-		Larger_than (int v) :
-			value {v}
-		{}
-
-		bool operator () (int x) const {return x > value;}
-	};
-
-	void report_3 (list <double> & v, int c)
-	{
-		auto
-			p {ch21_txt::find_if (v.begin(), v.end(), Larger_than (c))};
-
-		if (p != v.end())
-			std::cout
-				<< "\tAn element " << *p << " meets the conditions for " << c <<".\n";
-		else 
-			std::cout
-				<< "\tNo element meeting the conditions for " << c << " was found.\n";
-	}
-
-	void main_4 ()
-	{
-		list <double> v {1, 2, 3, 4, 5, 6};
-
-		report_3 (v, 3);
-		report_3 (v, 31);
-	}
-
-	//	21.4.1
-
-	struct S {};
-	struct T {};
-
-	
-	class F														// function object
-	{
-		S s;
-	
-	public :
-
-		F (const S & ss) :
-			s (ss)
-		{}
-		
-		T operator () (const S & ss) const						// function call operator
-		{
-			// do something
+			answer = find_2 (v.begin(), v.end(), query);
+			verify (v, query, answer);
 		}
 
-		const S & state () const {return s;}
-		void reset (const S & ss) {s = ss;}
-	};
+		//	21.2.1
 
-	// 21.4.2
-
-
-	struct Record
-	{
-		string
-			name;
-		char
-			addr [24];
-	};
-
-	struct Cmp_by_name
-	{
-		bool operator () (const Record & a, const Record & b) const
+		template <typename In, typename T>
+			void report_2 (In first, In last, T query, In answer = last)
 		{
-			return a.name < b.name;
+			cout
+				<< "\telement " << query
+				<< (answer == last
+					? " wasn't found in the vector.\n"
+					: " was found.\n");
 		}
-	};
 
-	struct Cmp_by_addr
-	{
-		bool operator () (const Record & a, const Record & b) const
+		void local_2()
 		{
-			return strncmp (a.addr, b.addr, 24) < 0;
+			std::list <int>
+				v {1, 2, 3, 4, 5, 6};
+			std::cout
+				<< "\n\tsuccess\n";
+			int 
+				query {5};
+			auto
+				answer {ch21_txt::find (v.begin(), v.end(), query)};
+
+			report_2 (v.begin(), v.end(), query, answer);
+
+			query = 0;
+			answer = ch21_txt::find (v.begin(), v.end(), query);
+			report_2 (v.begin(), v.end(), query, answer);
 		}
-	};
-	
-	void main_4_2 ()
-	{
-		vector <Record>
-			vr;
 
-		sort (vr.begin(), vr.end(), Cmp_by_name());
-
-		sort (vr.begin(), vr.end(), Cmp_by_addr());
+		void main()
+		{
+			local_1();
+			local_2();
+		}
 	}
 
-	//	21.4.3
-
-	void f_4_3_a ()
+	namespace txt_3								//	21.3
 	{
+		template <typename In, typename Pred>
+			In find_if (In first, In last, Pred p)
+		{
+			while (first != last && !p (*first))
+				++first;
+			return first;
+		}
 
-		vector <Record>
-			vr;
+		bool odd (int x) {return x % 2;}
 
-		sort (
-			vr.begin(), 
-			vr.end(),
-			[] (const Record & a, const Record & b) {
-				return a. name < b.name;
+		void local_1 (vector <int> & v)
+		{
+			auto 
+				p {ch21_txt::find_if (v.begin(), v.end(), odd)};
+			if (p != v.end())
+				std::cout 
+					<< "\tAn element satisfying the conditions was found: "
+					<< *p << ".\n";
+			else
+				std:cout
+					<< "\tNo element satisfying the conditions was found.\n";
+		}
+
+		bool larger_than_42 (double x) {return x > 42.;}
+
+		void local_2 (vector <int> & v)
+		{
+			auto
+				p {txt_3::find_if (v.begin(), v.end(), larger_than_42)};
+			if (p != v.end())
+				std::cout
+					<< "\tAn element larger than 42 was found: " << *p <<".\n";
+			else
+				std::cout
+					<< "\tNo element larger than 42 found.\n";
+		}
+
+		void main ()
+		{
+			vector <int> 
+				v {1, 2, 3, 4, 5, 6};
+			local_2 (v);
+
+			v.push_back (43);
+			local_2 (v);
+		}
+	}
+
+	namespace txt_4								//	21.4
+	{	
+		/*class Larger_than 
+		{
+			int 
+				value;
+		public :
+		
+			Larger_than (int v) :
+				value {v}
+			{}
+
+			bool operator () (int x) const {return x > value;}
+		};*/
+
+		bool Larger_than::operator () (int x) const {return x > val;}
+
+		void report (list <double> & v, int c)
+		{
+			auto
+				p {txt_3::find_if (v.begin(), v.end(), Larger_than (c))};
+
+			if (p != v.end())
+				std::cout
+					<< "\tAn element " << * p << " meets the conditions for " << c <<".\n";
+			else 
+				std::cout
+					<< "\tNo element meeting the conditions for " << c << " was found.\n";
+		}
+
+		void local_1 ()
+		{
+			list <double> v {1, 2, 3, 4, 5, 6};
+
+			report (v, 3);
+			report (v, 31);
+		}
+
+		void main()
+		{
+			local_1();
+
+		}
+		//	21.4.1
+
+		struct S {};
+		struct T {};
+	
+		class F														// function object
+		{
+			S s;
+	
+		public :
+
+			F (const S & ss) :
+				s (ss)
+			{}
+		
+			T operator () (const S & ss) const						// function call operator
+			{
+				// do something
 			}
-		);
 
-		sort (
-			vr.begin(),
-			vr.end(),
-			[] (const Record & a, const Record & b) {
+			const S & state () const {return s;}
+			void reset (const S & ss) {s = ss;}
+		};
+
+		// 21.4.2
+
+		struct Record
+		{
+			string
+				name;
+			char
+				addr [24];
+		};
+
+		struct Cmp_by_name
+		{
+			bool operator () (const Record & a, const Record & b) const
+			{
+				return a.name < b.name;
+			}
+		};
+
+		struct Cmp_by_addr
+		{
+			bool operator () (const Record & a, const Record & b) const
+			{
 				return strncmp (a.addr, b.addr, 24) < 0;
 			}
-		);
-	}
-
-	void f_4_3_b (list <double> & v, int x)
-	{
-		auto p {ch21_txt::find_if (
-				v.begin(), 
-				v.end(), 
-				[] (double a) {return a > 31;}
-			)
 		};
-
-		if (p != v.end())
-			cout << "\tFound it.\n";
-
-		auto q {ch21_txt::find_if (
-				v.begin(), 
-				v.end(), 
-				[&] (double a) {return a > x;}
-			)
-		};
-
-		if (q != v.end())
-			cout << "t\Found it.\n";
-	}
-
-	//	21.5.1 sq
-
-	template <typename In, typename T>
-		T accumulate_0 (In first, In last, T init)
-	{
-		while (first != last)
+	
+		void local_2 ()
 		{
-			init += * first;
-			++first;
+			vector <Record>
+				vr;
+
+			sort (vr.begin(), vr.end(), Cmp_by_name());
+
+			sort (vr.begin(), vr.end(), Cmp_by_addr());
 		}
-		return init;
+
+		//	21.4.3
+
+		void f_3_a ()
+		{
+			vector <Record>
+				vr;
+
+			sort (
+				vr.begin(), 
+				vr.end(),
+				[] (const Record & a, const Record & b) {
+					return a. name < b.name;
+				}
+			);
+
+			sort (
+				vr.begin(),
+				vr.end(),
+				[] (const Record & a, const Record & b) {
+					return strncmp (a.addr, b.addr, 24) < 0;
+				}
+			);
+		}
+
+		void f_3_b (list <double> & v, int x)
+		{
+			auto p {ch21_txt::find_if (
+					v.begin(), 
+					v.end(), 
+					[] (double a) {return a > 31;}
+				)
+			};
+
+			if (p != v.end())
+				cout << "\tFound it.\n";
+
+			auto q {ch21_txt::find_if (
+					v.begin(), 
+					v.end(), 
+					[&] (double a) {return a > x;}
+				)
+			};
+
+			if (q != v.end())
+				cout << "t\Found it.\n";
+		}
+
 	}
 
+	/*
+	namespace txt_5								// 21.5
+	{
+		//	21.5.1 sq
+
+		template <typename In, typename T, typename BinOp>
+			T accumulate (In first, In last, T init, BinOp op)
+		{
+			while (first != last)
+			{
+				init = op (init, * first);
+				++first;
+			}
+			return init;
+		}
+
+		void local_1 ()
+		{
+			vector <double> 
+				a {1.1, 2.2, 3.3, 4.4};
+			cout 
+				<< txt_5::accumulate (
+					a.begin(), 
+					a.end(), 
+					1.0, 
+					multiplies <double> ()			// function object form <functional>
+				);
+		}
+
+		struct Record
+		{
+			double
+				unit_price;
+			int
+				units;
+			Record (double p, int u) :
+				unit_price {p},
+				units {u}
+			{}
+
+			double operator () (const double & p, const int & u) 
+			{
+				return p * double (u);
+			}
+		};
+
+		void local_2 ()
+		{
+			auto d {Record (1.99, 10)};
+
+			cout << typeid(d).name();
+		}
 
 
 	//	--------------------------------------- //
 
+	}
+	*/
+
 	void main()
 	{
-		//main_2();
-		//main_2_1();
-		//main_3();
-		//main_4();
-
+		//txt_2::main();
+		//txt_3::main();
+		txt_4::main();
 	}
 }
 
@@ -502,9 +556,5 @@ namespace ch21_try
 
 	void main()
 	{
-		//try_this_1::main();
-		//try_this_2::main();
-		//try_this_3::main();
-		//try_this_4::main();
 	}
 }
