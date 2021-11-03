@@ -50,6 +50,7 @@ namespace ch21_txt
 		void main();
 	}
 
+	//	21.4
 	namespace txt_4
 	{
 		class Larger_than
@@ -122,6 +123,31 @@ namespace ch21_txt
 
 		void main();
 	}
+
+	//	21.5
+	namespace txt_5
+	{
+		template <typename In, typename T, typename BinOp>
+			T accumulate (In first, In last, T init, BinOp op);
+
+		void local_1 ();
+
+		/*struct Record
+		{
+			double 
+				unit_price;
+			int 
+				units;
+			Record (double p, int u) :
+				unit_price {p},
+				units {u}
+			{}
+
+			double operator () (const double & p, const double & u);
+		};*/
+
+	}
+
 
 	
 

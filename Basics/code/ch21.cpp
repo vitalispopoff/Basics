@@ -332,17 +332,20 @@ namespace ch21_txt
 				units {u}
 			{}
 
-			double operator () (const double & p, const int & u) 
+			double operator () () 
 			{
-				return p * double (u);
+				return unit_price * double (units);
 			}
 		};
 
 		void local_2 ()
 		{
-			auto d {Record (1.99, 10)};
+			auto d {
+				Record (1.99, 10)()
+			};
 
-			cout << typeid(d).name();
+			//cout << typeid(d).name();
+			cout << Record (1.99, 10)();
 		}
 	}
 
@@ -351,6 +354,7 @@ namespace ch21_txt
 		//txt_2::main();
 		//txt_3::main();
 		//txt_4::main();
+		txt_5::local_2();
 	}
 }
 
