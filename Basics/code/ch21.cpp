@@ -321,32 +321,58 @@ namespace ch21_txt
 				);
 		}
 
-		struct Record
+		/*struct Record_1
 		{
 			double
 				unit_price;
 			int
 				units;
-			Record (double p, int u) :
+			Record_1 (double p, int u) :
 				unit_price {p},
 				units {u}
 			{}
-
 			double operator () () 
 			{
 				return unit_price * double (units);
 			}
-		};
+		};*/
+
+		double Record_1::operator () () 
+		{
+			return unit_price * double (units);
+		}
 
 		void local_2 ()
 		{
-			auto d {
-				Record (1.99, 10)()
-			};
-
-			//cout << typeid(d).name();
-			cout << Record (1.99, 10)();
+			cout << Record_1 (1.99, 10)();
 		}
+
+		double price (double v, const Record_2 & r)
+		{
+			return v + r.unit_price * r.units;
+		}
+
+		void f (const vector <Record_2> & vr)
+		{
+			double
+				total {ch21_txt::accumulate (vr.begin(), vr.end(), 0.0, price)};
+			cout 
+				<< total;
+		}
+
+		void main()
+		{
+			vector <Record_2>
+				v {
+					{1.50, 100},
+					{2.20, 20},
+					{1., 6}
+				};
+			f(v);
+		}
+
+		// p.774
+
 	}
 
 	void main()
@@ -354,7 +380,8 @@ namespace ch21_txt
 		//txt_2::main();
 		//txt_3::main();
 		//txt_4::main();
-		txt_5::local_2();
+		//txt_5::local_2();
+		txt_5::main();
 	}
 }
 
@@ -421,6 +448,39 @@ namespace ch21_try
 			return val;
 		}
 
+		double Record::operator () ()
+		{
+			return unit_price * double (units);
+		}
+
+		void report_1 (vector <Record> v)
+		{
+			cout << accumulate (
+				v.begin(), 
+				v.end(), 
+				0.0, 
+				[](double & d, Record & r)
+				{
+					return d += r();
+				}		
+			);
+		}
+
+		double price (double v, const Record & r)
+		{
+			return v + r.unit_price * r.units;
+		}
+
+		void report_2 (vector <Record> v)
+		{
+			cout << accumulate (
+				v.begin(),
+				v.end(),
+				0.0,
+				price
+			);
+		}
+
 		void main()
 		{
 			vector <Record> 
@@ -430,16 +490,11 @@ namespace ch21_try
 					{0.5, 6},
 					{1.9, 2}
 				};
-			cout
-				<< accumulate (
-					v.begin(), 
-					v.end(), 
-					0.0, 
-					[](double & d, Record & r)
-					{
-						return d += r();
-					}
-				);
+			report_1 (v);
+
+			cout << '\n';
+
+			report_2 (v);
 		}
 	}
 
@@ -505,5 +560,6 @@ namespace ch21_try
 
 	void main()
 	{
+		try_this_3::main();
 	}
 }

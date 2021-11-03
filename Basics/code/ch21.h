@@ -132,19 +132,31 @@ namespace ch21_txt
 
 		void local_1 ();
 
-		/*struct Record
+		struct Record_1
 		{
 			double 
 				unit_price;
 			int 
 				units;
-			Record (double p, int u) :
+			Record_1 (double p, int u) :
 				unit_price {p},
 				units {u}
 			{}
 
-			double operator () (const double & p, const double & u);
-		};*/
+			double operator () ();
+		};
+
+		struct Record_2
+		{
+			double 
+				unit_price;
+			int
+				units;
+		};
+
+		double price (double v, const Record_2 & r);
+
+		void f (const vector <Record_2> & vr);
 
 	}
 
@@ -175,6 +187,11 @@ namespace ch21_try
 	//	p.774
 	namespace try_this_3
 	{
+
+		template <typename In, typename T>
+			T m_accumulate (In first, In last, T val);
+
+
 		struct Record
 		{
 			double 
@@ -185,11 +202,11 @@ namespace ch21_try
 				unit_price {u_p},
 				units {u}
 			{}
-			double operator () ()
-			{
-				return unit_price * double (units);
-			}
+
+			double operator () ();
 		};
+
+		double price (double v, const Record & r);
 
 		void main();
 

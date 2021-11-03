@@ -11,8 +11,8 @@ int main()
 	{		
 		//midi_vs_freq::main();
 
-		ch21_txt::main();
-		//ch21::main();
+
+
 		return 0;
 	}
 	catch (exception & e)
