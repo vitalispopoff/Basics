@@ -17,8 +17,11 @@ namespace ch21_txt
 	template <typename In, typename T>
 		In find_2 (In first, In last, const T & val);
 
-	//template <typename In, typename T>
-	//	void m_func (vector <T> & v, T x, In p = v.end());
+	//	21.3
+
+
+
+
 
 	void main();
 }
@@ -27,8 +30,10 @@ namespace ch21_txt
 namespace ch21_try
 {
 
-	//	p.765
-	namespace try_this_1
+	//	try_this 1 p.765
+
+
+	namespace try_this_2
 	{
 		template <typename In, typename T>
 		In find_while (In first, In last, const T & val);
@@ -40,7 +45,7 @@ namespace ch21_try
 	}
 
 	//	p.774
-	namespace try_this_2
+	namespace try_this_3
 	{
 		struct Record
 		{
@@ -63,19 +68,19 @@ namespace ch21_try
 	}
 
 	//	p.785
-	namespace try_this_3
-	{
-		void main();
-	}
-
-	//	p.787
 	namespace try_this_4
 	{
 		void main();
 	}
 
-	//	p.792
+	//	p.787
 	namespace try_this_5
+	{
+		void main();
+	}
+
+	//	p.792
+	namespace try_this_6
 	{
 		void main();
 	}
