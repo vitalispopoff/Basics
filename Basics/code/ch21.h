@@ -1,5 +1,7 @@
 #pragma once
 
+#include <list>
+#include <string>
 #include <vector>
 
 namespace ch21_txt
@@ -60,11 +62,63 @@ namespace ch21_txt
 			{}
 
 			bool operator () (int x) const;
-
-
 		};
 
+		void report (list <double> & v, int c);
 
+		void local_1 ();
+
+		//	21.4.1
+
+		struct S {};
+		struct T {};
+
+		class F									// function object
+		{
+			S s;
+
+		public :
+
+			F (const S & ss) :
+				s (ss)
+			{}
+
+			T operator () (const S & ss) const	// function call operator
+			{
+				// do something
+			}
+
+			const S & state () const {return s;}
+			void reset (const S & ss) {s = ss;}
+		};
+
+		//	21.4.2
+
+		struct Record
+		{
+			string
+				name;
+			char 
+				addr [24];
+		};
+
+		struct Cmp_by_name
+		{
+			bool operator () (const Record & a, const Record & b) const;
+		};
+
+		struct Cmp_by_addr
+		{
+			bool operator () (const Record & a, const Record & b) const;
+		};
+
+		void local_2();
+
+		//	21.4.3
+
+		void example_1 ();
+
+		void example_2 (list <double> & v, int x);
 
 		void main();
 	}

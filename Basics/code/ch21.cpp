@@ -192,20 +192,10 @@ namespace ch21_txt
 
 	namespace txt_4								//	21.4
 	{	
-		/*class Larger_than 
+		bool Larger_than::operator () (int x) const 
 		{
-			int 
-				value;
-		public :
-		
-			Larger_than (int v) :
-				value {v}
-			{}
-
-			bool operator () (int x) const {return x > value;}
-		};*/
-
-		bool Larger_than::operator () (int x) const {return x > val;}
+			return x > val;
+		}
 
 		void report (list <double> & v, int c)
 		{
@@ -228,60 +218,17 @@ namespace ch21_txt
 			report (v, 31);
 		}
 
-		void main()
-		{
-			local_1();
-
-		}
-		//	21.4.1
-
-		struct S {};
-		struct T {};
-	
-		class F														// function object
-		{
-			S s;
-	
-		public :
-
-			F (const S & ss) :
-				s (ss)
-			{}
-		
-			T operator () (const S & ss) const						// function call operator
-			{
-				// do something
-			}
-
-			const S & state () const {return s;}
-			void reset (const S & ss) {s = ss;}
-		};
-
 		// 21.4.2
 
-		struct Record
+		bool Cmp_by_name::operator () (const Record & a, const Record & b) const
 		{
-			string
-				name;
-			char
-				addr [24];
-		};
+			return a.name < b.name;
+		}
 
-		struct Cmp_by_name
+		bool Cmp_by_addr::operator () (const Record & a, const Record & b) const
 		{
-			bool operator () (const Record & a, const Record & b) const
-			{
-				return a.name < b.name;
-			}
-		};
-
-		struct Cmp_by_addr
-		{
-			bool operator () (const Record & a, const Record & b) const
-			{
-				return strncmp (a.addr, b.addr, 24) < 0;
-			}
-		};
+			return strncmp (a.addr, b.addr, 24) < 0;
+		}
 	
 		void local_2 ()
 		{
@@ -295,7 +242,7 @@ namespace ch21_txt
 
 		//	21.4.3
 
-		void f_3_a ()
+		void example_1 ()
 		{
 			vector <Record>
 				vr;
@@ -317,7 +264,7 @@ namespace ch21_txt
 			);
 		}
 
-		void f_3_b (list <double> & v, int x)
+		void example_2 (list <double> & v, int x)
 		{
 			auto p {ch21_txt::find_if (
 					v.begin(), 
@@ -340,9 +287,12 @@ namespace ch21_txt
 				cout << "t\Found it.\n";
 		}
 
+		void main()
+		{
+			local_1();
+		}
 	}
 
-	/*
 	namespace txt_5								// 21.5
 	{
 		//	21.5.1 sq
@@ -394,18 +344,13 @@ namespace ch21_txt
 
 			cout << typeid(d).name();
 		}
-
-
-	//	--------------------------------------- //
-
 	}
-	*/
 
 	void main()
 	{
 		//txt_2::main();
 		//txt_3::main();
-		txt_4::main();
+		//txt_4::main();
 	}
 }
 
