@@ -516,7 +516,7 @@ namespace ch21_try
 {
 	using namespace std;
 	
-	namespace try_this_2
+	namespace try_2
 	{
 		using namespace std::chrono;
 		using stopwatch = high_resolution_clock;
@@ -562,7 +562,7 @@ namespace ch21_try
 		}
 	}
 
-	namespace try_this_3
+	namespace try_3
 	{
 		template <typename In, typename T>
 		T m_accumalate (In first, In last, T val)
@@ -625,14 +625,10 @@ namespace ch21_try
 		}
 	}
 
-	namespace try_this_4
+	namespace try_4
 	{
-
-		double inner_product (
-			map <string, double>::iterator first, 
-			map <string, double>::iterator last, 
-			map <string, double>::iterator first2, 
-			double init)
+		template <typename In1, typename In2, typename T>
+			double inner_product (In1 first, In1 last, In2 first2, T init)
 		{
 			while (first != last)
 			{
@@ -640,15 +636,13 @@ namespace ch21_try
 				++first;
 				++first2;
 			}
-
 			return init;
 		}
 
-		double weighted_value (
-			const pair <string, double> & a,
-			const pair <string, double> & b)
+		template <typename In1, typename In2>
+			double weighted_value (In1 a, In2 b)
 		{
-			return a.second * b.second;
+			return (*a).second * (* b).second;
 		}
 
 		map <string, double>
@@ -657,11 +651,7 @@ namespace ch21_try
 		map <string, string>
 			stock_name;
 
-		void add_to_stock (
-			string code, 
-			string name, 
-			double price = 0., 
-			double weight = 0.)
+		void add_to_stock (string code, string name, double price = 0., double weight = 0.)
 		{
 			if (stock_name.insert ({code, name}).second)
 			{
@@ -716,7 +706,7 @@ namespace ch21_try
 
 			cout 
 				<< '\t' 
-				<<	inner_product
+				<<	try_4::inner_product
 				(
 					stock_price.begin(),
 					stock_price.end(),
@@ -727,13 +717,13 @@ namespace ch21_try
 		}
 	}
 
-	namespace try_this_5
+	namespace try_5
 	{
 		void main()
 		{}	
 	}
 
-	namespace try_this_6
+	namespace try_6
 	{
 		void main()
 		{
@@ -761,6 +751,6 @@ namespace ch21_try
 
 	void main()
 	{
-		try_this_4::main();
+		try_4::main();
 	}
 }

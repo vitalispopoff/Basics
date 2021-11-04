@@ -232,7 +232,7 @@ namespace ch21_try
 	//	try_this 1 p.765
 
 
-	namespace try_this_2
+	namespace try_2
 	{
 		template <typename In, typename T>
 		In find_while (In first, In last, const T & val);
@@ -244,7 +244,7 @@ namespace ch21_try
 	}
 
 	//	p.774
-	namespace try_this_3
+	namespace try_3
 	{
 
 		template <typename In, typename T>
@@ -272,19 +272,19 @@ namespace ch21_try
 	}
 
 	//	p.785
-	namespace try_this_4
+	namespace try_4
 	{
 		void main();
 	}
 
 	//	p.787
-	namespace try_this_5
+	namespace try_5
 	{
 		void main();
 	}
 
 	//	p.792
-	namespace try_this_6
+	namespace try_6
 	{
 		void main();
 	}
