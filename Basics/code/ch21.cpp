@@ -369,6 +369,8 @@ namespace ch21_txt
 			return init;
 		}
 
+
+
 		void example ()
 		{
 			vector <double> 
@@ -494,9 +496,7 @@ namespace ch21_txt
 
 		void main()
 		{
-			example_2();
-
-
+			//example_2();
 		}	
 	}
 
@@ -627,29 +627,103 @@ namespace ch21_try
 
 	namespace try_this_4
 	{
-		map <string, double> 
-			stock_price
+
+		double inner_product (
+			map <string, double>::iterator first, 
+			map <string, double>::iterator last, 
+			map <string, double>::iterator first2, 
+			double init)
+		{
+			while (first != last)
 			{
-				{"MMA", 0.6},
-				{"TVP", 0.11},
-			},
-			stock_weight
+				init += (*first).second * (*first2).second;
+				++first;
+				++first2;
+			}
+
+			return init;
+		}
+
+		double weighted_value (
+			const pair <string, double> & a,
+			const pair <string, double> & b)
+		{
+			return a.second * b.second;
+		}
+
+		map <string, double>
+			stock_price,
+			stock_weight;
+		map <string, string>
+			stock_name;
+
+		void add_to_stock (
+			string code, 
+			string name, 
+			double price = 0., 
+			double weight = 0.)
+		{
+			if (stock_name.insert ({code, name}).second)
 			{
-				{"MMA", 2.25},
-				{"TVP", 0.41}
-			};
-		
-		double weighted_val (double a, double b) 
-			{return a * b;}
-		
+				stock_price.insert ({code, price});
+				stock_weight.insert ({code, weight});
+			}			
+		}
+
+		void list_stock ()
+		{
+			for (auto & a :  stock_name)
+			{
+				cout
+					<< '\t' << a.first <<'\t' << a.second 
+					<< '\t' << stock_price [a.first]
+					<< '\t' << stock_weight [a.first]
+					<< '\n';
+			}
+		}
+
+		struct temp
+		{
+			string 
+				code,
+				name;
+			double
+				price,
+				weight;
+		};
+
 		void main()
 		{
-			double
-				result {0.0};
-			for (auto p : stock_price)
-				result += p.second * stock_weight[p.first];
-			cout
-				<< result;
+			vector <temp> v {
+				{"MMM", "3M Co.", 81.86, 5.8594},
+				{"AA", "Alcoa Inc", 34.69, 2.4808},
+				{"MO", "Altria Group Inc", 54.45, 3.8940},
+				{"MMA", "Mordobicie SA", 0.61, 2.2512},
+				{"PKS", "Pogotowi Kulturalno-Spo³eczne", 28.11, 0.4115}
+			};
+
+			for (auto & a : v)
+			{
+				add_to_stock (
+					a.code,
+					a.name,
+					a.price,
+					a.weight
+				);
+			}
+
+			list_stock();
+
+			cout 
+				<< '\t' 
+				<<	inner_product
+				(
+					stock_price.begin(),
+					stock_price.end(),
+					stock_weight.begin(),
+					0.
+				)
+				<< '\n';
 		}
 	}
 
@@ -687,6 +761,6 @@ namespace ch21_try
 
 	void main()
 	{
-		try_this_3::main();
+		try_this_4::main();
 	}
 }

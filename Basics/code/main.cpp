@@ -12,6 +12,7 @@ int main()
 		//midi_vs_freq::main();
 
 		ch21_txt::main();
+		ch21_try::main();
 
 		return 0;
 	}

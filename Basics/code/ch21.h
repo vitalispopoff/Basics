@@ -226,7 +226,6 @@ namespace ch21_txt
 	void main();
 }
 
-
 namespace ch21_try
 {
 
