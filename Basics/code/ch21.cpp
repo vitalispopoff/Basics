@@ -321,22 +321,6 @@ namespace ch21_txt
 				);
 		}
 
-		/*struct Record_1
-		{
-			double
-				unit_price;
-			int
-				units;
-			Record_1 (double p, int u) :
-				unit_price {p},
-				units {u}
-			{}
-			double operator () () 
-			{
-				return unit_price * double (units);
-			}
-		};*/
-
 		double Record_1::operator () () 
 		{
 			return unit_price * double (units);
@@ -371,8 +355,149 @@ namespace ch21_txt
 			f(v);
 		}
 
-		// p.774
+		//	21.5.3
 
+		template <typename In, typename In2, typename T>
+			T inner_product (In first, In last, In2 first2, T init)
+		{
+			while (first != last)
+			{
+				init += (* first) * (* first2);
+				++first;
+				++first2;
+			}
+			return init;
+		}
+
+		void example ()
+		{
+			vector <double> 
+				dow_price  {81.86, 34.69, 54.45};
+			list <double>
+				dow_weight {5.8594, 2.4808, 3.8940};
+			double
+				dji_index {
+					ch21_txt::inner_product (
+						dow_price.begin(), 
+						dow_price.end(),
+						dow_weight.begin(),
+						0.0
+					)
+				};
+			cout << dji_index;				
+		}
+
+		//	21.5.4
+
+		template <
+			typename In, 
+			typename In2, 
+			typename T, 
+			typename BinOp,
+			typename BinOp2
+		> T Inner_product (
+			In first, 
+			In last, 
+			In2 first2, 
+			T init, 
+			BinOp op, 
+			BinOp2 op2)
+		{
+			while (first != last)
+			{
+				init = op (init, op2 (* first, * first2));
+				++first;
+				++first2;
+			}
+			return init;
+		}
+
+	}
+
+	namespace txt_6
+	{
+		//	21.6.1
+
+		void example_1()
+		{
+			map <string, int>
+				words;
+			for (string s; cin >> s && s != "_esc";)	// needed a loop break condition
+				++words [s];
+
+			for (const auto & p : words)
+				cout
+					<< p.first << ": " << p.second << '\n';
+		}
+
+		// 21.6.3
+
+		double weighted_value (
+			const pair <string, double> & a,
+			const pair <string, double> & b)
+		{
+			return a.second * b.second;
+		}
+
+		void example_2()
+		{
+			map <string, double> 
+				dow_price {
+					{"MMM", 81.86},
+					{"AA", 34.69},
+					{"MO", 54.45}
+				},
+				dow_weight {
+					{"MMM", 5.8549},
+					{"AA", 2.4808},
+					{"MO", 3.8940}
+				};
+			map <string, string>
+				dow_name {
+					{"MMM", "3M Co."},
+					{"AA", "Alcoa Inc"},
+					{"MO", "Altria Group Inc."}
+				};
+
+			double 
+				alcoa_price {dow_price ["AA"]},
+				altria_price {dow_price ["MO"]};
+
+				if (dow_price.find ("INTC") != dow_price.end())
+					cout 
+						<< "Intel is in the Dow\n";
+
+			for (const auto & p : dow_price)
+			{
+				const string & 
+					symbol {p.first};
+				cout
+					<< '\t' << symbol << '\t'
+					<< p.second << '\t'
+					<< dow_name [symbol] << '\n';
+			}
+
+			//	broken code :
+			/*double dji_index {
+				inner_product (
+					dow_price.begin(), 
+					dow_price.end(),
+					dow_weight.begin(),
+					0.0,
+					plus <double> (),
+					weighted_value
+				)
+			};
+			cout
+				<< "\tDow value is " << dji_index << '\n';*/
+		}
+
+		void main()
+		{
+			example_2();
+
+
+		}	
 	}
 
 	void main()
@@ -381,7 +506,9 @@ namespace ch21_txt
 		//txt_3::main();
 		//txt_4::main();
 		//txt_5::local_2();
-		txt_5::main();
+		//txt_5::main();
+		//txt_5::example();
+		txt_6::main();
 	}
 }
 
@@ -391,7 +518,7 @@ namespace ch21_try
 	
 	namespace try_this_2
 	{
-		using namespace chrono;
+		using namespace std::chrono;
 		using stopwatch = high_resolution_clock;
 
 		template <typename In, typename T>

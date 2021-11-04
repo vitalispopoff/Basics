@@ -157,8 +157,68 @@ namespace ch21_txt
 		double price (double v, const Record_2 & r);
 
 		void f (const vector <Record_2> & vr);
+	
+		//	21.5.3
+
+		template <typename In, typename In2, typename T>
+			T inner_product (In first, In last, In2 first2, T init);
 
 	}
+
+	namespace txt_6
+	{
+		//	21.6.1
+
+		void example();
+
+		//	21.6.2
+
+		/*
+		template <typename Key, typename Value, typename Cmp = less <Key>>
+			class _map
+		{
+			using value_type = pair <Key, Value>;
+
+			using iterator = sometype1;
+			using const_iterator = sometype2;
+
+			iterator begin();
+			iterator end();
+
+			Value & operator [] (const Key & k);
+
+			iterator find (const Key & k);
+
+			void erase (iterator p);
+			pair <iterator, bool> insert (const value_type &);
+		};
+		*/
+
+		template <typename T1, typename T2>
+			struct pair
+		{
+			using first_type = T1;
+			using second_type = T2;
+
+			T1 first;
+			T2 second;
+		};
+
+		template <typename T1, typename T2>
+			pair <T1, T2> make_pair (T1 x, T2 y)
+		{
+			return {x,y};
+		}
+
+		//	21.6.3
+
+
+
+
+		
+
+	}
+
 
 
 	
