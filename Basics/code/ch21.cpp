@@ -369,8 +369,6 @@ namespace ch21_txt
 			return init;
 		}
 
-
-
 		void example ()
 		{
 			vector <double> 
@@ -413,7 +411,6 @@ namespace ch21_txt
 			}
 			return init;
 		}
-
 	}
 
 	namespace txt_6
@@ -494,6 +491,10 @@ namespace ch21_txt
 				<< "\tDow value is " << dji_index << '\n';*/
 		}
 
+		//	21.6.4
+
+
+
 		void main()
 		{
 			//example_2();
@@ -544,18 +545,24 @@ namespace ch21_try
 
 			stopwatch::time_point 
 				start {stopwatch::now()};
-			find_while (v.begin(), v.end(), 1);			
+
+			find_while (v.begin(), v.end(), 1);
+
 			stopwatch::time_point 
 				stop {stopwatch::now()};
 			duration <double> 
 				e_time {stop - start};
+			
 			std::cout
 				<< "\n\tfind_while benchmark:\t"
 				<< e_time.count();
+			
 			start = stopwatch::now();
 			find_for(v.begin(), v.end(), 1);
+			
 			stop = stopwatch::now();
 			e_time = stop - start;
+			
 			std::cout
 				<< "\n\tfind_for benchmark:\t"
 				<< e_time.count();
@@ -627,25 +634,18 @@ namespace ch21_try
 
 	namespace try_4
 	{
-		template <typename In1, typename In2, typename T>
-			T weighted_value (In1 a, In2 b, T init)
-		{
-			return (*a).second * (* b).second;
-		}
 
 		template <typename In1, typename In2, typename T>
 			T inner_product (In1 first_1, In1 last_1, In2 first_2, T init)
 		{
 			while (first_1 != last_1)
 			{
-				//init += (*first_1).second * (*first_2).second;
-				init += try_4::weighted_value (first_1, first_2, 0.);
+				init += first_1 -> second * first_2 -> second;
 				++first_1;
 				++first_2;
 			}
 			return init;
 		}
-
 
 		map <string, double>
 			stock_price,
