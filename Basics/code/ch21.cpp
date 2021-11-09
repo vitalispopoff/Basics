@@ -628,22 +628,24 @@ namespace ch21_try
 	namespace try_4
 	{
 		template <typename In1, typename In2, typename T>
-			double inner_product (In1 first, In1 last, In2 first2, T init)
+			T weighted_value (In1 a, In2 b, T init)
 		{
-			while (first != last)
+			return (*a).second * (* b).second;
+		}
+
+		template <typename In1, typename In2, typename T>
+			T inner_product (In1 first_1, In1 last_1, In2 first_2, T init)
+		{
+			while (first_1 != last_1)
 			{
-				init += (*first).second * (*first2).second;
-				++first;
-				++first2;
+				//init += (*first_1).second * (*first_2).second;
+				init += try_4::weighted_value (first_1, first_2, 0.);
+				++first_1;
+				++first_2;
 			}
 			return init;
 		}
 
-		template <typename In1, typename In2>
-			double weighted_value (In1 a, In2 b)
-		{
-			return (*a).second * (* b).second;
-		}
 
 		map <string, double>
 			stock_price,
