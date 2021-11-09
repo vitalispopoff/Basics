@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <numeric>
+#include <stdexcept>
 #include <unordered_map>
 #include <vector>
 
@@ -493,11 +494,45 @@ namespace ch21_txt
 
 		//	21.6.4
 
+		void example_3()
+		{
+			unordered_map <string, double> 
+				dow_price {
+					{"MMM", 81.86},
+					{"AA", 34.69},
+					{"MO", 54.45}
+				},
+				dow_weight {
+					{"MMM", 5.8549},
+					{"AA", 2.4808},
+					{"MO", 3.8940}
+				};
+			unordered_map <string, string>
+				dow_name {
+					{"MMM", "3M Co."},
+					{"AA", "Alcoa Inc"},
+					{"MO", "Altria Group Inc."}
+				};
 
+			double 
+				alcoa_price {dow_price ["AA"]},
+				altria_price {dow_price ["MO"]};
 
+			for (const auto & p : dow_price)
+			{
+				const string & 
+					symbol {p.first};
+				cout
+					<< '\t' << symbol << '\t'
+					<< p.second << '\t'
+					<< dow_name [symbol] 
+					<< '\n';
+			}
+		}
+	
 		void main()
 		{
-			//example_2();
+			example_3();
 		}	
 	}
 
@@ -721,8 +756,42 @@ namespace ch21_try
 
 	namespace try_5
 	{
+		unordered_map <int, string>
+			words;
+
+		void add_to_words (string f)
+		{
+			ifstream
+				ifs (f, ios_base::in);
+			
+			if (!ifs)
+				runtime_error("Couldn't open the file. Sorry");
+
+			string 
+				s {};
+			int
+				number {0};
+
+			while (ifs >> s)
+			{
+				words.insert ({number, s});
+				++number;
+			}
+
+			ifs.close();
+
+			for (auto & a : words)
+				cout
+					<< '\t' << a.second << '\n';
+		}
+
 		void main()
-		{}	
+		{
+			string
+				filename {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"};
+
+			add_to_words(filename);
+		}	
 	}
 
 	namespace try_6
@@ -753,6 +822,6 @@ namespace ch21_try
 
 	void main()
 	{
-		try_4::main();
+		try_5::main();
 	}
 }
