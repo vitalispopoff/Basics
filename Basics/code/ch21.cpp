@@ -689,7 +689,7 @@ namespace ch21_try
 				{"AA", "Alcoa Inc", 34.69, 2.4808},
 				{"MO", "Altria Group Inc", 54.45, 3.8940},
 				{"MMA", "Mordobicie SA", 0.61, 2.2512},
-				{"PKS", "Pogotowi Kulturalno-Spo³eczne", 28.11, 0.4115}
+				{"PKS", "Pogotowie Kulturalno-Spo³eczne", 28.11, 0.4115}
 			};
 
 			for (auto & a : v)
