@@ -990,13 +990,31 @@ namespace ch21
 					b {ii, eos};
 				copy (b.begin(), b.end(), oo);
 			}
+
+
+			void temp()
+			{
+				string
+					from {"..\\Basics\\resources\\destination.txt"};
+				ifstream
+					is {from};
+				istream_iterator <string>
+					ii {is},
+					eos;
+				vector <string>
+					v {ii, eos};
+				for (auto a : v)
+					cout
+						<< '\t' << a << '\n';
+			}
+
 		}
 	}
 
 	void main()
 	{
 		//tx::_7::local();
-		tr::_6::local_3();
+		tr::_6::temp();
 		//tr::_6::wrong(512);
 	}
 }
