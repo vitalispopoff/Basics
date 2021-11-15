@@ -14,7 +14,6 @@
 #include <unordered_map>
 #include <vector>
 
-
 namespace ch21
 {
 	namespace tx
@@ -597,7 +596,66 @@ namespace ch21
 
 		namespace _7
 		{
+			template <typename In, typename Out>
+				Out copy (In first, In last, Out res)
+			{
+				while (first != last)
+				{
+					* res = * first;
+					++res;
+					++first;
+				}
+				return res;
+			}
 
+			template <typename T = vector <char>, typename U = list <char> >
+				void safe_copy (T src, U dst)
+			{
+				if (src.size() > dst.size())
+					runtime_error ("target container too small");
+
+				_7::copy (src.begin(), src.end(), dst.begin());
+			}
+
+			//void safe_copy (list <int> & li, vector <double> & vd)
+			//{
+			//	if (vd.size() < li.size())
+			//		runtime_error ("taget container too small");
+			//
+			//	_7::copy (li.begin(), li.end(), vd.begin());
+			//}
+
+			void local ()
+			{
+				vector <char> 
+					v {'l', 'o', 'r', 'e', 'm', ' ', 'i', 'p', 's', 'u', 'm'};
+				list <char>
+					l (v.size());
+				safe_copy (v, l);
+
+				auto 
+					v_iter {v.begin()};
+				auto
+					l_iter {l.begin()};
+
+				while (v_iter != v.end() && l_iter != l.end())
+				{
+					cout 
+						<< "\t v: " << * v_iter << ", l: " << *l_iter << '\n';
+					++v_iter;
+					++l_iter;
+				}
+
+				cout
+					<< "\n\t"
+					<< (v_iter == v.end() ? "v ended" : "v not ended")
+					<< "\n\t"
+					<< (l_iter == l.end() ? "l ended" : "l not ended")
+					<< '\n';
+
+				for (auto a : l)
+					cout << a << '\n';
+			}
 		}
 	}
 
@@ -851,7 +909,7 @@ namespace ch21
 
 		namespace _6
 		{
-			void main()
+			void local()
 			{
 				string
 					from,		// source file address
@@ -873,13 +931,41 @@ namespace ch21
 				sort (b.begin(), b.end());
 				copy (b.begin(), b.end(), oo);
 			}
+
+
+			void wrong(int max_size)
+			{
+				string
+					from,
+					to;
+				ifstream 
+					is {from};
+				ofstream
+					os {to};
+				istream_iterator <string>
+					ii {is},
+					eos;
+				ostream_iterator <string>
+					oo {os, "\n"};
+				vector <string> 
+					b (max_size);
+
+				copy (ii, eos, b.begin());
+			}
+
+			void main()
+			{
+				local();
+
+
+			}
 		}
 
 	}
 
 	void main()
 	{
-		tx::_6::ex4::local();
+		tx::_7::local();
 		//tr::_5::local();
 	}
 }
