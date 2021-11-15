@@ -285,7 +285,8 @@ namespace ch21
 		//	p.792
 		namespace _6
 		{
-			void main();
+			void local();
+			void wrong (int max_size);
 		}
 	}
 

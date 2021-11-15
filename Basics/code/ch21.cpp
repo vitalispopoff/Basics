@@ -12,6 +12,7 @@
 #include <set>
 #include <stdexcept>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace ch21
@@ -909,14 +910,12 @@ namespace ch21
 
 		namespace _6
 		{
-			void local()
+			void local_1()
 			{
 				string
-					from,		// source file address
-					to;			// target file address
-				cin 
-					>> from 
-					>> to;
+					from {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
+					to {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\destination.txt"};
+
 				ifstream
 					is {from};
 				ofstream
@@ -931,7 +930,6 @@ namespace ch21
 				sort (b.begin(), b.end());
 				copy (b.begin(), b.end(), oo);
 			}
-
 
 			void wrong(int max_size)
 			{
@@ -953,19 +951,52 @@ namespace ch21
 				copy (ii, eos, b.begin());
 			}
 
-			void main()
+			void local_2()
 			{
-				local();
+				string
+					from {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
+					to {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\destination.txt"};
 
+				ifstream
+					is {from};
+				ofstream
+					os {to};
+				istream_iterator <string>
+					ii {is},
+					eos;
+				ostream_iterator <string>
+					oo {os, "\n"};
+				multiset<string>
+					b {ii, eos};
+				copy (b.begin(), b.end(), oo);
+			}
 
+			void local_3()
+			{
+				string
+					from {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
+					to {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\destination.txt"};
+
+				ifstream
+					is {from};
+				ofstream
+					os {to};
+				istream_iterator <string>
+					ii {is},
+					eos;
+				ostream_iterator <string>
+					oo {os, "\n"};
+				unordered_multiset<string>
+					b {ii, eos};
+				copy (b.begin(), b.end(), oo);
 			}
 		}
-
 	}
 
 	void main()
 	{
-		tx::_7::local();
-		//tr::_5::local();
+		//tx::_7::local();
+		tr::_6::local_3();
+		//tr::_6::wrong(512);
 	}
 }
