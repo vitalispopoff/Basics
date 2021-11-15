@@ -618,15 +618,7 @@ namespace ch21
 				_7::copy (src.begin(), src.end(), dst.begin());
 			}
 
-			//void safe_copy (list <int> & li, vector <double> & vd)
-			//{
-			//	if (vd.size() < li.size())
-			//		runtime_error ("taget container too small");
-			//
-			//	_7::copy (li.begin(), li.end(), vd.begin());
-			//}
-
-			void local ()
+			void local_1 ()
 			{
 				vector <char> 
 					v {'l', 'o', 'r', 'e', 'm', ' ', 'i', 'p', 's', 'u', 'm'};
@@ -657,7 +649,83 @@ namespace ch21
 				for (auto a : l)
 					cout << a << '\n';
 			}
+
+			string
+				from {"..\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
+				to {"..\\Basics\\resources\\destination.txt"};
+
+			void local_2 ()
+			{
+				ifstream
+					is {from};
+				ofstream
+					os {to};
+				istream_iterator <string>
+					ii {is},
+					eos;
+				ostream_iterator <string>
+					oo {os, "\n"};
+				vector <string>
+					b {ii, eos};
+				sort (b.begin(), b.end());
+				unique_copy(b.begin(), b.end(), oo);
+			}
+
+			// 21.7.3
+
+			void local_3 ()
+			{
+				ifstream 
+					is {from};
+				ofstream
+					os {to};
+				set <string>
+					b {
+						istream_iterator <string> {is}, 
+						istream_iterator<string> {}
+					};
+				_7::copy (b.begin(), b.end(), ostream_iterator <string> {os, " "});
+			}
+
+			//	21.7.4
+
+			template <typename In, typename Out, typename Pred>
+			Out copy_if (In first, In last, Out res, Pred p)
+			{
+				while (first != last)
+				{
+					if (p (* first)) 
+						* res = * first;
+					++ res;
+					++first;
+				}
+				return res;
+			}
+
+			void local_4 ()
+			{
+				using _4::Larger_than;
+
+				vector <int> 
+					v1 {0, 1, 2, 3, 4, 6, 7},
+					v2 (v1.size());
+				
+				_7::copy_if (v1.begin(), v1.end(), v2.begin(), Larger_than (6));
+
+				for (auto a : v2)
+					cout
+						<< '\t' << a << '\n';
+			}
 		}
+
+		namespace _8
+		{
+			//	21.8
+
+			template <typename Ran>
+				void sort (Ran first, Ran last);
+		}
+
 	}
 
 	namespace tr
@@ -913,8 +981,8 @@ namespace ch21
 			void local_1()
 			{
 				string
-					from {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
-					to {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\destination.txt"};
+					from {"..\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
+					to {"..\\Basics\\resources\\destination.txt"};
 
 				ifstream
 					is {from};
@@ -954,8 +1022,8 @@ namespace ch21
 			void local_2()
 			{
 				string
-					from {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
-					to {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\destination.txt"};
+					from {"..\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
+					to {"..\\Basics\\resources\\destination.txt"};
 
 				ifstream
 					is {from};
@@ -974,8 +1042,8 @@ namespace ch21
 			void local_3()
 			{
 				string
-					from {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
-					to {"E:\\_LAB\\_C\\Basics\\Basics\\resources\\destination.txt"};
+					from {"..\\Basics\\resources\\herling-grudzinski-gustaw_inny-swiat.txt"},
+					to {"..\\Basics\\resources\\destination.txt"};
 
 				ifstream
 					is {from};
@@ -990,7 +1058,6 @@ namespace ch21
 					b {ii, eos};
 				copy (b.begin(), b.end(), oo);
 			}
-
 
 			void temp()
 			{
@@ -1007,14 +1074,11 @@ namespace ch21
 					cout
 						<< '\t' << a << '\n';
 			}
-
 		}
 	}
 
 	void main()
 	{
-		//tx::_7::local();
-		tr::_6::temp();
-		//tr::_6::wrong(512);
+		tx::_7::local_4();
 	}
 }
