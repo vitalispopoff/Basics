@@ -722,10 +722,67 @@ namespace ch21
 		{
 			//	21.8
 
-			template <typename Ran>
-				void sort (Ran first, Ran last);
+			struct No_case
+			{
+				bool operator () (const string & x, const string & y)
+				{
+					for (int i {0}; i < x.length(); ++i)
+					{
+						if (i == y.length())
+							return false;
+						char
+							xx {char (tolower (x [i]))},
+							yy {char (tolower (y [i]))};
+						if (xx < yy)
+							return true;
+						if (xx > yy)
+							return false;
+					}
+					if (x.length() == y.length())
+						return false;
+					return true;
+				}
+			};
+
+			void sort_and_print (vector <string> & vc)
+			{
+				sort (vc.begin(), vc.end(), No_case());
+
+				for (const auto & s : vc)
+					cout
+						<< '\t' << s << '\n';
+			}
+
+			void local ()
+			{
+				
+
+
+			}
 		}
 
+		namespace _9
+		{
+			void test (vector <int> & v)
+			{				
+				sort (v.begin(), v.end());
+			}
+
+			void local ()
+			{
+				vector <int>
+					v {0, 1, 2, 3, 4, 5, 6, 7};
+
+				sort (v.begin(), v.begin() + v.size());
+				sort (v.begin() + v.size(), v.end());
+
+				int
+					i {int (v.size()) >> 1};
+				
+				sort (v.begin(), v.begin() + i);
+				sort (v.begin() + i, v.end());			
+			}
+		}
 	}
 
 	namespace tr
@@ -1079,6 +1136,6 @@ namespace ch21
 
 	void main()
 	{
-		tx::_7::local_4();
+		dr::main();
 	}
 }

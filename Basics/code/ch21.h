@@ -296,42 +296,17 @@ namespace ch21
 		//	p. 794
 		namespace _8
 		{
-			template <typename Ran>
-				void sort (Ran first, Ran last);
+			//template <typename Ran> void sort (Ran first, Ran last);
+			//template <typename Ran, typename Cmp> void sort (Ran first, Ran last, Cmp cmp);
 
-			template <typename Ran, typename Cmp>
-				void sort (Ran first, Ran last, Cmp cmp);
-
-			struct No_case 
-			{
-				bool operator () (const string & x, const string & y)
-				{
-					for (int i = 0; i < x.length(); ++i)
-					{
-						if (i == y.length())
-							return false;
-						char
-							xx = tolower (x [i]),
-							yy = tolower (y [i]);
-						if (xx < yy)
-							return true;
-						if (xx > yy)
-							return false;
-					}
-					if (x.length() == y.length())
-						return false;
-					return true;
-				}
-
-			};
-
+			struct No_case{};
 		}
 	}
 
 	// homework drills
 	namespace dr
 	{
-
+		void main();
 	}
 
 	// homework excercises

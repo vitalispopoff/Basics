@@ -1,5 +1,9 @@
 #include "ch20.h"
 
+#include <fstream>
+#include <iostream>
+#include <vector>
+
 #include <iostream>
 #include <list>
 
@@ -31,12 +35,12 @@ namespace ch20_drill
 			ctr {0};
 		for (; ctr < len; ++ctr)
 			testing_bundle <int>
-				t0_0 {name, arr [ctr], ctr},
-				t0_1 {name, vec [ctr], ctr};
+			t0_0 {name, arr [ctr], ctr},
+			t0_1 {name, vec [ctr], ctr};
 		ctr = 0;
 		for (int i : lst)
 			testing_bundle <int>
-				t0_2 {name, i, ctr++};
+			t0_2 {name, i, ctr++};
 		report (no, name);
 
 		int
@@ -56,19 +60,19 @@ namespace ch20_drill
 		ctr = 0;
 		for (; ctr < len; ++ctr)
 			testing_bundle <int>
-				t1_0 {name, arr_cp [ctr], ctr + 2},
-				t1_1 {name, vec_cp [ctr], ctr + 3};
+			t1_0 {name, arr_cp [ctr], ctr + 2},
+			t1_1 {name, vec_cp [ctr], ctr + 3};
 		ctr = 5;
 		for (int i : lst)
 			testing_bundle <int>
-				t1_2 {name, i, ctr++};
+			t1_2 {name, i, ctr++};
 		report (no, name);
 	}
 
 	namespace d06
 	{
 		template <typename Iter1, typename Iter2>
-			Iter2 m_copy (Iter1 f1, Iter1 e1, Iter2 f2)
+		Iter2 m_copy (Iter1 f1, Iter1 e1, Iter2 f2)
 		{
 			Iter1
 				iter = f1;
@@ -102,9 +106,9 @@ namespace ch20_drill
 				ctr {0};
 			for ( ; ctr < len ; ++ctr)
 				testing_bundle <int>
-					t0_1 {name, a [ctr], v [ctr]};
+				t0_1 {name, a [ctr], v [ctr]};
 			report (no, name);
-					
+
 			list <int>
 				l (v.size());
 			auto 
@@ -114,7 +118,7 @@ namespace ch20_drill
 			ctr = 0;
 			for (int i : l)
 				testing_bundle <int>
-					t1_1 {name, i, v [ctr++]};
+				t1_1 {name, i, v [ctr++]};
 			report (no, name);
 
 			int
@@ -126,7 +130,7 @@ namespace ch20_drill
 			ctr = 0;
 			for (int i : l)
 				testing_bundle <int>
-					t2_1 {name, i, a2 [ctr++]};
+				t2_1 {name, i, a2 [ctr++]};
 			report (no, name);
 
 			int
@@ -136,7 +140,7 @@ namespace ch20_drill
 			testing_bundle <int>
 				test3_0 {name, * v_ndx, looked_for};
 			looked_for = 21;
-				v_ndx = find (v.begin(), v.end(), looked_for);
+			v_ndx = find (v.begin(), v.end(), looked_for);
 			testing_bundle <bool>
 				test3_1 {name, v_ndx == v.end(), true};
 			report (no, name);

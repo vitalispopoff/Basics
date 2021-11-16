@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="c21_test_05.txt" />
+    <Text Include="resources\ch21_d01.txt" />
     <Text Include="resources\e12_test.txt" />
     <Text Include="resources\herling-grudzinski-gustaw_inny-swiat.txt" />
   </ItemGroup>
