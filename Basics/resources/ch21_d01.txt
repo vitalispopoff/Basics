@@ -1,10 +1,10 @@
-Marzena
-Bo¿ena
-Gra¿yna
-Halyna
-Jarzyna
-Rysiek
-Zbysiek
-Czesiek
-Wiesiek
-£ysy
+Marzena 0 1.234
+Bo¿ena 1 2.52
+Gra¿yna 2 6.3
+Halyna 3 0.352
+Jarzyna 4 952.4
+Rysiek 5 -12.5
+Zbysiek 6 0
+Czesiek 7 6
+Wiesiek 8 2.59
+£ysy 9 421

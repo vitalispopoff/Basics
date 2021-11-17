@@ -13,6 +13,27 @@ namespace ch21
 
 		namespace _01
 		{
+			template <typename T>
+			T num_from_string (string s, T t)
+			{
+				stringstream
+					ss {s};
+				ss >> t;
+				return t;
+			}
+
+			template <typename T>
+			string num_to_string (T t)
+			{
+				stringstream
+					ss;				
+				ss << t;
+				string 
+					result;
+				ss >> result;
+				return result;
+			}
+
 			struct Item
 			{
 				string
@@ -22,25 +43,7 @@ namespace ch21
 				double
 					value {};
 
-				int iid_from_string(string s)
-				{
-					stringstream
-						ss {s};
-					int 
-						result;
-					ss >> result;
-					return result;
-				}
-
-				double value_from_string (string s)
-				{
-					stringstream
-						ss {s};
-					double
-						result;
-					ss >> result;
-					return result;
-				}
+				Item () : name {}, iid {}, value {} {}
 
 				Item (string n, int i, double v) :
 					name {n},
@@ -48,57 +51,47 @@ namespace ch21
 					value {v}
 				{}
 
-				Item (string n, string i, string v) :
-					name {n},
-					iid {iid_from_string (i)},
-					value {value_from_string (v)}
+				Item (const Item & item) :
+					name {item.name},
+					iid {item.iid},
+					value {item.value}
 				{}
 
+				//Item (string n, string i, string v) :
+				//	name {n},
+				//	iid {},
+				//	value {}
+				//{
+				//	num_from_string (i, iid);
+				//	num_from_string (v, value);				
+				//}
+
+				//Item & operator = (const Item & item)
+				//{
+				//	if (this == & item)
+				//		return * this;
+				//	name = item.name;
+				//	iid = item.iid;
+				//	value = item.value;
+				//	return * this;
+				//}
+
 				string to_string()
-				{
-					string
-						i,
-						v;
-					stringstream
-						s1,
-						s2;
-					s1 << iid;
-					s1 >> i;
-					s2 << value;
-					s2 >> v;
-					
-					return name + "\t" + i + "\t" + v;
+				{					
+					return name + " " + num_to_string (iid) + " " + num_to_string (value);
 				}
 			};
 
 			ostream & operator << (ostream & os, Item i)
 			{
-				os 
-					<< i.name //<< '\t'
-					;
-					//<< i.iid << '\t'
-					//<< i.value;
+				os << i.name << " ";
+				os << i.iid << " ";
+				os << i.value;
 				return os;
 			}
 
 			istream & operator >> (istream & is, Item item)
-			{
-				//string 
-				//	n;
-				//int
-				//	i;
-				//double
-				//	v;
-				is
-					>> item.name 
-				;
-					//>> item.iid 
-					//>> item.value;
-
-				//item.name = n;
-				//item.iid = i;
-				//item.value = v;
-
+			{				
 				return is;
 			}
 
@@ -120,11 +113,24 @@ namespace ch21
 
 				string
 					filename {"..\\Basics\\resources\\ch21_d01.txt"};
-					
-				Item
-					it {"nazwa", "1", "0.1"};
+
+				ofstream
+					ofs {filename};
+				ostream_iterator <Item>
+					oi {ofs, "\n"};
+				copy (source.begin(), source.end(), oi);
+
+
+				vector <Item>
+					vi {};
+				ifstream
+					ifs {filename};
+				istream_iterator <Item>
+					ii {ifs};
+				copy (ii, istream_iterator <Item> {}, vi.begin());
 				
-				cout << double (it.iid) + it.value;
+				cout
+					<< vi.size();
 			}
 		}
 
