@@ -14,7 +14,7 @@ namespace ch21
 		namespace _01
 		{
 			template <typename T>
-			T num_from_string (string s, T t)
+			T string_to_num (string s, T & t)
 			{
 				stringstream
 					ss {s};
@@ -23,7 +23,7 @@ namespace ch21
 			}
 
 			template <typename T>
-			string num_to_string (T t)
+			string num_to_string (T & t)
 			{
 				stringstream
 					ss;				
@@ -82,16 +82,37 @@ namespace ch21
 				}
 			};
 
-			ostream & operator << (ostream & os, Item i)
+			ostream & operator << (ostream & os, const Item & i)
 			{
-				os << i.name << " ";
-				os << i.iid << " ";
-				os << i.value;
+				os 
+					<< i.name << " "
+					<< i.iid << " "
+					<< i.value;
+
+				//os 
+				//	<< i.name << " " 
+				//	<< num_to_string (i.iid) << " " 
+				//	<< num_to_string (i.value);
+
 				return os;
 			}
 
-			istream & operator >> (istream & is, Item item)
-			{				
+			istream & operator >> (istream & is, Item & item)
+			{
+				//vector <string>
+				//	v {3,""};
+				//for (auto & s : v)
+				//	is >> s;
+			
+				//item.name = v[0];
+				//string_to_num (v[1], item.iid);
+				//string_to_num (v[2], item.value);
+
+				is 
+					>> item.name 
+					>> item.iid 
+					>> item.value;
+
 				return is;
 			}
 
@@ -106,9 +127,9 @@ namespace ch21
 						{"Jarzyna", 4, 952.4}, 
 						{"Rysiek", 5, -12.5},
 						{"Zbysiek", 6, 0.0},
-						{"Czesiek", 7, 6.0},
+						{"Czesiek", 7, 6.01},
 						{"Wiesiek", 8, 2.59},
-						{"£ysy", 9, 421.},
+						{"£ysy", 9, 421.0},
 					};
 
 				string
@@ -117,20 +138,33 @@ namespace ch21
 				ofstream
 					ofs {filename};
 				ostream_iterator <Item>
-					oi {ofs, "\n"};
+					oi {ofs, " "};
 				copy (source.begin(), source.end(), oi);
 
+				ofs.close();	// shouldn't be like that?
 
 				vector <Item>
-					vi {};
+					vi {10, Item {}};
 				ifstream
 					ifs {filename};
 				istream_iterator <Item>
 					ii {ifs};
-				copy (ii, istream_iterator <Item> {}, vi.begin());
-				
-				cout
-					<< vi.size();
+				//copy (ii, istream_iterator <Item> {}, vi.begin());
+
+				auto 
+					iter {vi.begin()};
+				while (ii != istream_iterator <Item> {} && iter != vi.end())
+				{
+					* iter = * ii;
+					++iter;
+					++ii;
+				}
+
+				ifs.close();
+
+				for (auto a : vi)
+					cout
+						<< a.to_string() << '\n';
 			}
 		}
 
