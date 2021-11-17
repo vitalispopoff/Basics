@@ -1,8 +1,10 @@
 #include "ch21.h"
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
 #include <vector>
 
 namespace ch21
@@ -64,16 +66,16 @@ namespace ch21
 				{
 					vector <Item>
 						source {
-							{"Marzena", 0, 1.234},
+							{"Marzena", 2, 1.234},
 							{"Bo¿ena", 1, 2.52}, 
-							{"Gra¿yna", 2, 6.3}, 
-							{"Halyna", 3, 0.352},
-							{"Jarzyna", 4, 952.4}, 
+							{"Gra¿yna", 4, 6.3}, 
+							{"Halyna", 7, 0.352},
+							{"Jarzyna", 3, 952.4}, 
 							{"Rysiek", 5, -12.5},
-							{"Zbysiek", 6, 0.0},
-							{"Czesiek", 7, 6.01},
+							{"Zbysiek", 9, 0.0},
+							{"Czesiek", 8, 6.01},
 							{"Wiesiek", 8, 2.59},
-							{"£ysy", 9, 421.0},
+							{"Gruby", 0, 421.0},
 					};
 
 					ofstream
@@ -104,24 +106,121 @@ namespace ch21
 				return vi;
 			}
 
-			void local_1 ()
+			void local_1 (bool flag)
 			{
-				for (auto a : import (initial (false)))
+				for (auto a : import (initial (flag)))
+					cout
+						<< a.to_string() << '\n';
+			}
+
+			void printer (vector <Item> v)
+			{
+				for (auto a : v)
 					cout
 					<< a.to_string() << '\n';
 			}
 
-			void local_2 ()
+			struct No_case
 			{
+				bool operator () (const Item & x, const Item & y)
+				{
+					for (int i {0}; i < int (x.name.length()); ++i)
+					{
+						if (i == y.name.length())
+							return false;
+						char
+							xx {char (tolower (x.name [i]))},
+							yy {char (tolower (y.name [i]))};
+						if (xx < yy)
+							return true;
+						if (xx > yy)
+							return false;
+					}
+					if (x.name.length() == y.name.length())
+						return false;
+					return true;
+				}
+			};
 
+			void local_2 (bool flag)
+			{
+				vector <Item> 
+					vi = import (initial (flag));
 
+				cout 
+					<< "\tpre:\n";
+				printer(vi);
+				
+				sort (vi.begin(), vi.end(), No_case {});
 
+				cout 
+					<< "\tpost:\n";
+				printer(vi);
+
+			}
+
+			struct By_id 
+			{
+				bool operator () (const Item & x, const Item & y)
+				{
+					return x.iid < y.iid;
+				}
+			};
+
+			void local_3 (bool flag)
+			{
+				vector <Item> 
+					vi = import (initial (flag));				
+
+				cout 
+					<< "\tpre:\n";
+				printer (vi);
+
+				sort (vi.begin(), vi.end(), By_id{});
+
+				cout 
+					<< "\tpost:\n";
+				printer (vi);
+			}
+
+			struct By_val
+			{
+				bool operator () (const Item & x, const Item & y)
+				{
+					return x.value < y.value;
+				}
+			};
+
+			void local_4 (bool flag)
+			{
+				vector <Item> 
+					vi = import (initial (flag));				
+
+				cout 
+					<< "\tpre:\n";
+				printer (vi);
+
+				sort (vi.begin(), vi.end(), By_val{});
+
+				cout 
+					<< "\tpost:\n";
+
+				auto 
+					iter {vi.rbegin()};
+				while (iter != vi.rend())
+				{
+					cout << iter -> to_string() << '\n';
+					++iter;
+				}
 			}
 		}
 
 		void main()
 		{
-			_01::local_1();
+			//_01::local_1(false);
+			//_01::local_2(false);
+			//_01::local_3(false);
+			_01::local_4(false);
 		}
 	}
 }
