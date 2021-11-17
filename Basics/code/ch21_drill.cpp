@@ -13,17 +13,9 @@ namespace ch21
 
 		namespace _01
 		{
-			template <typename T>
-			T string_to_num (string s, T & t)
-			{
-				stringstream
-					ss {s};
-				ss >> t;
-				return t;
-			}
 
 			template <typename T>
-			string num_to_string (T & t)
+				string num_to_string (T & t)
 			{
 				stringstream
 					ss;				
@@ -45,36 +37,13 @@ namespace ch21
 
 				Item () : name {}, iid {}, value {} {}
 
-				Item (string n, int i, double v) :
-					name {n},
-					iid {i},
-					value {v}
-				{}
+				Item (string n, int i, double v) : name {n}, iid {i}, value {v} {}
 
-				Item (const Item & item) :
-					name {item.name},
-					iid {item.iid},
-					value {item.value}
-				{}
-
-				//Item (string n, string i, string v) :
-				//	name {n},
-				//	iid {},
-				//	value {}
-				//{
-				//	num_from_string (i, iid);
-				//	num_from_string (v, value);				
-				//}
-
-				//Item & operator = (const Item & item)
-				//{
-				//	if (this == & item)
-				//		return * this;
-				//	name = item.name;
-				//	iid = item.iid;
-				//	value = item.value;
-				//	return * this;
-				//}
+				//Item (const Item & item) :
+				//	name {item.name},
+				//	iid {item.iid},
+				//	value {item.value}
+				//{}
 
 				string to_string()
 				{					
@@ -84,36 +53,12 @@ namespace ch21
 
 			ostream & operator << (ostream & os, const Item & i)
 			{
-				os 
-					<< i.name << " "
-					<< i.iid << " "
-					<< i.value;
-
-				//os 
-				//	<< i.name << " " 
-				//	<< num_to_string (i.iid) << " " 
-				//	<< num_to_string (i.value);
-
-				return os;
+				return os << i.name << " " << i.iid << " " << i.value;
 			}
 
 			istream & operator >> (istream & is, Item & item)
 			{
-				//vector <string>
-				//	v {3,""};
-				//for (auto & s : v)
-				//	is >> s;
-			
-				//item.name = v[0];
-				//string_to_num (v[1], item.iid);
-				//string_to_num (v[2], item.value);
-
-				is 
-					>> item.name 
-					>> item.iid 
-					>> item.value;
-
-				return is;
+				return is  >> item.name  >> item.iid  >> item.value;
 			}
 
 			void local ()
@@ -149,16 +94,7 @@ namespace ch21
 					ifs {filename};
 				istream_iterator <Item>
 					ii {ifs};
-				//copy (ii, istream_iterator <Item> {}, vi.begin());
-
-				auto 
-					iter {vi.begin()};
-				while (ii != istream_iterator <Item> {} && iter != vi.end())
-				{
-					* iter = * ii;
-					++iter;
-					++ii;
-				}
+				copy (ii, istream_iterator <Item> {}, vi.begin());
 
 				ifs.close();
 
