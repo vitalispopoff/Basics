@@ -1,10 +1,9 @@
 ﻿#include "ch21.h"
-
 #include <algorithm>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <sstream>
-
 #include <vector>
 
 namespace ch21
@@ -15,15 +14,12 @@ namespace ch21
 
 		namespace _01
 		{
-
 			template <typename T>
 			string num_to_string (T & t)
 			{
-				stringstream
-					ss;				
+				stringstream ss;				
 				ss << t;
-				string 
-					result;
+				string  result;
 				ss >> result;
 				return result;
 			}
@@ -46,7 +42,7 @@ namespace ch21
 					return name + " " + num_to_string (iid) + " " + num_to_string (value);
 				}
 			};
-
+		
 			ostream & operator << (ostream & os, const Item & i)
 			{
 				return os << i.name << " " << i.iid << " " << i.value;
@@ -57,7 +53,7 @@ namespace ch21
 				return is  >> item.name  >> item.iid  >> item.value;
 			}
 
-			string initial (bool flag)
+			string initial (bool flag = false)
 			{
 				string
 					filename {"..\\Basics\\resources\\ch21_d01.txt"};
@@ -67,22 +63,18 @@ namespace ch21
 					vector <Item>
 						source {
 							{"Marzena", 2, 1.234},
-						{"Bo¿ena", 1, 2.52}, 
-						{"Gra¿yna", 4, 6.3}, 
-						{"Halyna", 7, 0.352},
-						{"Jarzyna", 3, 952.4}, 
-						{"Rysiek", 5, -12.5},
-						{"Zbysiek", 9, 0.0},
-						{"Czesiek", 8, 6.01},
-						{"Wiesiek", 8, 2.59},
-						{"Gruby", 0, 421.0},
+							{"Borzena", 1, 2.52}, 
+							{"Grarzyna", 4, 6.3}, 
+							{"Halyna", 7, 0.352},
+							{"Jarzyna", 3, 952.4}, 
+							{"Rysiek", 5, -12.5},
+							{"Zbysiek", 9, 0.0},
+							{"Czesiek", 8, 6.01},
+							{"Wiesiek", 6, 2.59},
+							{"Gruby", 0, 421.0},
 					};
-
-					ofstream
-						ofs {filename};
-					ostream_iterator <Item>
-						oi {ofs, " "};
-
+					ofstream ofs {filename};
+					ostream_iterator <Item> oi {ofs, " "};
 					copy (source.begin(), source.end(), oi);
 					ofs.close();
 				}
@@ -90,137 +82,92 @@ namespace ch21
 				return filename;
 			}
 
+			template <typename Iter>
+			void printer (Iter first, Iter last)
+			{
+				while (first != last)
+				{
+					cout << first -> to_string() << '\n';
+					++first;
+				}
+			}
+
 			vector <Item> import (const string & filename)
 			{
-				vector <Item>
-					vi {10, Item {}};
-				ifstream
-					ifs {filename};
-				istream_iterator <Item>
-					ii {ifs};
+				vector <Item> vi {10, Item {}};
+				ifstream ifs {filename};
+				istream_iterator <Item> ii {ifs};
 
 				copy (ii, istream_iterator <Item> {}, vi.begin());
-
 				ifs.close();
-
 				return vi;
 			}
 
-			void local_1 (bool flag)
+			template <typename Pred = less <string>>
+			struct By_name
 			{
-				for (auto a : import (initial (flag)))
-					cout
-					<< a.to_string() << '\n';
-			}
-
-			void printer (vector <Item> v)
-			{
-				for (auto a : v)
-					cout
-					<< a.to_string() << '\n';
-			}
-
-			struct No_case
-			{
+				Pred predicate;
+				explicit By_name (Pred p = less <string> {}) : predicate {p} {}					
 				bool operator () (const Item & x, const Item & y)
 				{
-					for (int i {0}; i < int (x.name.length()); ++i)
-					{
-						if (i == y.name.length())
-							return false;
-						char
-							xx {char (tolower (x.name [i]))},
-							yy {char (tolower (y.name [i]))};
-						if (xx < yy)
-							return true;
-						if (xx > yy)
-							return false;
-					}
-					if (x.name.length() == y.name.length())
-						return false;
-					return true;
+					return predicate (x.name, y.name);
 				}
 			};
 
-			void local_2 (bool flag)
+			template <typename Pred = less <int>>
+			struct By_id
 			{
-				vector <Item> 
-					vi = import (initial (flag));
-
-				cout 
-					<< "\tpre:\n";
-				printer(vi);
-
-				sort (vi.begin(), vi.end(), No_case {});
-
-				cout 
-					<< "\tpost:\n";
-				printer(vi);
-
-			}
-
-			struct By_id 
-			{
+				Pred predicate;
+				explicit By_id (Pred p = less <int> {}) : predicate {p} {}
 				bool operator () (const Item & x, const Item & y)
 				{
-					return x.iid < y.iid;
+					return predicate (x.iid, y.iid);
 				}
 			};
 
-			void local_3 (bool flag)
+			template <typename Pred = less <double>>
+			struct By_value
 			{
-				vector <Item> 
-					vi = import (initial (flag));				
-
-				cout 
-					<< "\tpre:\n";
-				printer (vi);
-
-				sort (vi.begin(), vi.end(), By_id{});
-
-				cout 
-					<< "\tpost:\n";
-				printer (vi);
-			}
-
-			struct By_val
-			{
+				Pred predicate;
+				explicit By_value (Pred p = less <double> {}) : predicate {p} {}
 				bool operator () (const Item & x, const Item & y)
 				{
-					return x.value < y.value;
+					return predicate (x.value, y.value);
 				}
 			};
 
-			void local_4 (bool flag)
+			template <typename T = vector <Item>>
+			void local_1 (T data, bool flag = false)
 			{
-				vector <Item> 
-					vi = import (initial (flag));				
+				for (auto a : data)
+					cout << a.to_string() << '\n';
+			}
 
-				cout 
-					<< "\tpre:\n";
-				printer (vi);
-
-				sort (vi.begin(), vi.end(), By_val{});
-
-				cout 
-					<< "\tpost:\n";
-
-				auto 
-					iter {vi.rbegin()};
-				while (iter != vi.rend())
-				{
-					cout << iter -> to_string() << '\n';
-					++iter;
-				}
+			template <typename T = vector <Item>, typename Pred>
+			void local_2 (T data, Pred predicate, bool flag = false)
+			{
+				sort (data.begin(), data.end (), predicate);
+				cout << "\tpost:\n";
+				printer (data.begin(), data.end());
+			}
+			
+			template <typename T = vector <Item>, typename Pred>
+			void local_4 (T & data, Pred predicate, bool flag = false)
+			{
+				sort (data.begin(), data.end (), predicate);
+				cout << "\tpost:\n";
+				printer (data.rbegin(), data.rend());
 			}
 		}
 
 		void main()
 		{
-			//_01::local_1(false);
-			//_01::local_2(false);
-			//_01::local_3(false);
-			_01::local_4(false);
+			using Item = _01::Item;
+			vector <Item> v {_01::import (_01::initial())};
+			_01::local_1 (v);
+			//_01::local_2 (v, _01::By_name <>{});
+			//_01::local_2 (v, _01::By_id <> {});
+			//_01::local_4 (v, _01::By_value <> {});
 		}
 	}
 }
