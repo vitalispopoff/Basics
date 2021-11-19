@@ -1,4 +1,4 @@
-#include "ch21.h"
+ï»¿#include "ch21.h"
 
 #include <algorithm>
 #include <fstream>
@@ -17,7 +17,7 @@ namespace ch21
 		{
 
 			template <typename T>
-				string num_to_string (T & t)
+			string num_to_string (T & t)
 			{
 				stringstream
 					ss;				
@@ -67,15 +67,15 @@ namespace ch21
 					vector <Item>
 						source {
 							{"Marzena", 2, 1.234},
-							{"Bo¿ena", 1, 2.52}, 
-							{"Gra¿yna", 4, 6.3}, 
-							{"Halyna", 7, 0.352},
-							{"Jarzyna", 3, 952.4}, 
-							{"Rysiek", 5, -12.5},
-							{"Zbysiek", 9, 0.0},
-							{"Czesiek", 8, 6.01},
-							{"Wiesiek", 8, 2.59},
-							{"Gruby", 0, 421.0},
+						{"BoÂ¿ena", 1, 2.52}, 
+						{"GraÂ¿yna", 4, 6.3}, 
+						{"Halyna", 7, 0.352},
+						{"Jarzyna", 3, 952.4}, 
+						{"Rysiek", 5, -12.5},
+						{"Zbysiek", 9, 0.0},
+						{"Czesiek", 8, 6.01},
+						{"Wiesiek", 8, 2.59},
+						{"Gruby", 0, 421.0},
 					};
 
 					ofstream
@@ -110,7 +110,7 @@ namespace ch21
 			{
 				for (auto a : import (initial (flag)))
 					cout
-						<< a.to_string() << '\n';
+					<< a.to_string() << '\n';
 			}
 
 			void printer (vector <Item> v)
@@ -150,7 +150,7 @@ namespace ch21
 				cout 
 					<< "\tpre:\n";
 				printer(vi);
-				
+
 				sort (vi.begin(), vi.end(), No_case {});
 
 				cout 
