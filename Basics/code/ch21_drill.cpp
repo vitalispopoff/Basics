@@ -3,6 +3,7 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <vector>
 
@@ -12,8 +13,6 @@ namespace ch21
 	{
 		using namespace std;
 
-		namespace _01
-		{
 			template <typename T>
 			string num_to_string (T & t)
 			{
@@ -33,7 +32,7 @@ namespace ch21
 				double
 					value {};
 
-				Item () : name {}, iid {}, value {} {}
+				explicit Item () : name {}, iid {}, value {} {}
 
 				Item (string n, int i, double v) : name {n}, iid {i}, value {v} {}
 
@@ -42,7 +41,7 @@ namespace ch21
 					return name + " " + num_to_string (iid) + " " + num_to_string (value);
 				}
 			};
-		
+
 			ostream & operator << (ostream & os, const Item & i)
 			{
 				return os << i.name << " " << i.iid << " " << i.value;
@@ -53,37 +52,31 @@ namespace ch21
 				return is  >> item.name  >> item.iid  >> item.value;
 			}
 
-			string initial (bool flag = false)
+			string filename {"..\\Basics\\resources\\ch21_d01.txt"};
+
+			string initial ()
 			{
-				string
-					filename {"..\\Basics\\resources\\ch21_d01.txt"};
-
-				if (flag)
-				{
-					vector <Item>
-						source {
-							{"Marzena", 2, 1.234},
-							{"Borzena", 1, 2.52}, 
-							{"Grarzyna", 4, 6.3}, 
-							{"Halyna", 7, 0.352},
-							{"Jarzyna", 3, 952.4}, 
-							{"Rysiek", 5, -12.5},
-							{"Zbysiek", 9, 0.0},
-							{"Czesiek", 8, 6.01},
-							{"Wiesiek", 6, 2.59},
-							{"Gruby", 0, 421.0},
-					};
-					ofstream ofs {filename};
-					ostream_iterator <Item> oi {ofs, " "};
-					copy (source.begin(), source.end(), oi);
-					ofs.close();
-				}
-
+				vector <Item> source {
+					{"marzena", 2, 1.234},
+					{"borzena", 1, 2.52}, 
+					{"grarzyna", 4, 6.3}, 
+					{"halyna", 7, 0.352},
+					{"jarzyna", 3, 952.4}, 
+					{"rysiek", 5, -12.5},
+					{"zbysiek", 9, 0.0},
+					{"czesiek", 8, 6.01},
+					{"wiesiek", 6, 2.59},
+					{"gruby", 0, 421.0},
+				};
+				ofstream ofs {filename};
+				ostream_iterator <Item> oi {ofs, " "};
+				copy (source.begin(), source.end(), oi);
+				ofs.close();
 				return filename;
 			}
 
 			template <typename Iter>
-			void printer (Iter first, Iter last)
+			void printer (Iter first, Iter last, bool flag = false)
 			{
 				while (first != last)
 				{
@@ -92,82 +85,228 @@ namespace ch21
 				}
 			}
 
-			vector <Item> import (const string & filename)
+			template <typename T = vector <Item>>
+			void import (T & data, const string & filename)
 			{
-				vector <Item> vi {10, Item {}};
 				ifstream ifs {filename};
 				istream_iterator <Item> ii {ifs};
 
-				copy (ii, istream_iterator <Item> {}, vi.begin());
+				copy (ii, istream_iterator <Item> {}, data.begin());
 				ifs.close();
-				return vi;
 			}
 
-			template <typename Pred = less <string>>
-			struct By_name
+		namespace d_1
+		{
+			vector <Item> vi {10, Item{}};
+
+			void local_1 ()
 			{
-				Pred predicate;
-				explicit By_name (Pred p = less <string> {}) : predicate {p} {}					
-				bool operator () (const Item & x, const Item & y)
+				import (vi, filename);
+				printer  (vi.begin(), vi.end());
+			}
+
+			void local_2 ()
+			{
+				auto a = [] (const Item & i1, const Item & i2) {return i1.name < i2.name;};
+				import (vi, filename);
+				sort (vi.begin(), vi.end(), a);
+				printer (vi.begin(), vi.end());
+			}
+
+			void local_3 ()
+			{
+				auto a = [] (const Item & i1, const Item & i2) {return i1.iid < i2.iid;};
+
+				import (vi, filename);
+				sort (vi.begin(), vi.end(), a);
+				printer (vi.begin(), vi.end());
+			}
+
+			void local_4()
+			{
+				auto a = [] (const Item & i1, const Item & i2) {return i1.value < i2.value;};
+
+				import (vi, filename);
+				sort (vi.begin(), vi.end(), a);
+				printer (vi.rbegin(), vi.rend());
+			}
+
+			void local_5(bool print_it = true)
+			{
+				auto a = [] (const Item & i1, const Item & i2) {return i1.name < i2.name;};
+				import (vi, filename);
+				sort (vi.begin(), vi.end(), a);				
+				auto iter {vi.begin()};
+				while (iter != vi.end() && iter -> name <= "horse shoe")
+					++iter;
+				vi.insert(iter, Item {"horse shoe", 99, 12.34});
+				iter = vi.begin();
+				while (iter != vi.end() && iter -> name <= "canons400")
+					++iter;
+				vi.insert (iter, Item {"canons400", 9988, 499.95});
+				printer (vi.begin(), vi.end());
+			}
+
+			void local_6 ()
+			{
+				local_5(false);
+				auto iter {vi.cbegin()};
+				while (iter != vi.cend() && iter -> name != "horse shoe")
+					++iter;
+				vi.erase (iter);
+				iter = vi.cbegin();
+				while (iter != vi.cend() && iter -> name != "canons400")
+					++iter;
+				vi.erase (iter);
+				printer (vi.begin(), vi.end());
+			}
+
+			void local_7 ()
+			{
+				local_5(false);
+				auto iter {vi.cbegin()};
+				while (iter != vi.cend() && iter -> iid != 99)
+					++iter;
+				vi.erase (iter);
+				iter = vi.cbegin();
+				while (iter != vi.cend() && iter -> iid != 9988)
+					++iter;
+				vi.erase (iter);
+				printer (vi.begin(), vi.end());				
+			}
+
+			void local_8 ()
+			{
+				local_5(false);
+				auto iter {vi.cbegin()};
+				while (iter != vi.cend() && iter -> value != 12.34)
+					++iter;
+				vi.erase (iter);
+				iter = vi.cbegin();
+				while (iter != vi.cend() && iter -> value != 499.95)
+					++iter;
+				vi.erase (iter);
+				printer (vi.begin(), vi.end());				
+			}
+		}
+
+		namespace d_2
+		{
+			list <Item> li {10, Item {}};
+
+			void local_1()
+			{
+				import (li, filename);
+				printer (li.begin(), li.end());
+			}
+
+			void local_2()
+			{
+				li.sort ([] (const Item & i1, const Item &i2) {return i1.name < i2.name;});
+				printer (li.begin(), li.end());
+			}
+
+			void local_3()
+			{
+				li.sort ([] (const Item & i1, const Item & i2) {return i1.iid < i2.iid;});
+				printer (li.begin(), li.end());
+			}
+
+			void local_4()
+			{
+				li.sort ([] (const Item & i1, const Item & i2) {return i1.value < i2.value;});
+				printer (li.rbegin(), li.rend());
+			}
+
+			Item
+				horse {"horse shoe", 99, 12.34},
+				canon {"canons400", 9988, 499.95};
+
+			void local_5(bool print_it = true)
+			{
+				li.sort ([] (const Item & i1, const Item & i2) {return i1.name < i2.name;});
+				auto iter {li.begin()};
+				while (iter != li.end() && iter -> name < horse.name)
+					++iter;
+				li.insert (iter, horse);
+				iter = li.begin();
+				while (iter != li.end() && iter -> name < canon.name)
+					++iter;
+				li.insert(iter, canon);
+				//if (print_it) 
+					printer (li.begin(), li.end());
+			}
+
+			void local_6 ()
+			{
+				local_5 (false);
+
+				auto iter {li.begin()};
+				while (iter != li.end() && iter -> name != horse.name)
+					++iter;
+				li.erase (iter);
+				iter = li.begin();
+				while (iter != li.end() && iter -> name != canon.name)
+					++iter;
+				li.erase (iter);
+				printer (li.begin(), li.end());
+			}
+
+			void local_7()
+			{
+				local_5 (false);
+				auto iter {li.begin()};
+				while (iter != li.end() && iter -> iid != horse.iid)
+					++iter;
+				li.erase (iter);
+				iter = li.begin();
+				while (iter != li.end() && iter -> iid != canon.iid)
+					++iter;
+				li.erase (iter);
+				printer (li.begin(), li.end());
+			}
+		}
+
+		namespace d_3
+		{
+			map <string, int> msi {};
+
+			vector <pair <string, int>>
 				{
-					return predicate (x.name, y.name);
-				}
-			};
 
-			template <typename Pred = less <int>>
-			struct By_id
-			{
-				Pred predicate;
-				explicit By_id (Pred p = less <int> {}) : predicate {p} {}
-				bool operator () (const Item & x, const Item & y)
-				{
-					return predicate (x.iid, y.iid);
-				}
-			};
 
-			template <typename Pred = less <double>>
-			struct By_value
-			{
-				Pred predicate;
-				explicit By_value (Pred p = less <double> {}) : predicate {p} {}
-				bool operator () (const Item & x, const Item & y)
-				{
-					return predicate (x.value, y.value);
-				}
-			};
-
-			template <typename T = vector <Item>>
-			void local_1 (T data, bool flag = false)
-			{
-				for (auto a : data)
-					cout << a.to_string() << '\n';
-			}
-
-			template <typename T = vector <Item>, typename Pred>
-			void local_2 (T data, Pred predicate, bool flag = false)
-			{
-				sort (data.begin(), data.end (), predicate);
-				cout << "\tpost:\n";
-				printer (data.begin(), data.end());
-			}
-			
-			template <typename T = vector <Item>, typename Pred>
-			void local_4 (T & data, Pred predicate, bool flag = false)
-			{
-				sort (data.begin(), data.end (), predicate);
-				cout << "\tpost:\n";
-				printer (data.rbegin(), data.rend());
-			}
 		}
 
 		void main()
 		{
-			using Item = _01::Item;
-			vector <Item> v {_01::import (_01::initial())};
-			_01::local_1 (v);
-			//_01::local_2 (v, _01::By_name <>{});
-			//_01::local_2 (v, _01::By_id <> {});
-			//_01::local_4 (v, _01::By_value <> {});
+			/*{
+				using namespace d_1;
+				initial ();
+				//local_1();
+				//local_2();
+				//local_3();
+				//local_4();
+				//local_5();
+				//local_6();
+				//local_7();
+				local_8();
+			}*/
+			
+			/*{
+				using namespace d_2;
+				initial();
+				import (li, filename);
+				//local_1();
+				//local_2();
+				//local_3();
+				//local_4();
+				//local_5 ();
+				//local_6();
+				//local_7();
+			}*/
+
+
+
 		}
 	}
 }

@@ -1,1 +1,1 @@
-Marzena 2 1.234 Borzena 1 2.52 Grarzyna 4 6.3 Halyna 7 0.352 Jarzyna 3 952.4 Rysiek 5 -12.5 Zbysiek 9 0 Czesiek 8 6.01 Wiesiek 6 2.59 Gruby 0 421 
+marzena 2 1.234 borzena 1 2.52 grarzyna 4 6.3 halyna 7 0.352 jarzyna 3 952.4 rysiek 5 -12.5 zbysiek 9 0 czesiek 8 6.01 wiesiek 6 2.59 gruby 0 421 

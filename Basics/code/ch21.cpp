@@ -150,7 +150,7 @@ namespace ch21
 			template <typename In, typename Pred>
 				In find_if (In first, In last, Pred p)
 			{
-				while (first != last && !p (*first))
+				while (first != last && !p (int (*first)))
 					++first;
 				return first;
 			}
@@ -166,7 +166,7 @@ namespace ch21
 						<< "\tAn element satisfying the conditions was found: "
 						<< *p << ".\n";
 				else
-					std:cout
+					std::cout
 						<< "\tNo element satisfying the conditions was found.\n";
 			}
 
@@ -289,7 +289,7 @@ namespace ch21
 				};
 
 				if (q != v.end())
-					cout << "t\Found it.\n";
+					cout << "\tFound it.\n";
 			}
 
 			void main()
@@ -726,7 +726,7 @@ namespace ch21
 			{
 				bool operator () (const string & x, const string & y)
 				{
-					for (int i {0}; i < x.length(); ++i)
+					for (int i {0}; i < int (x.length()); ++i)
 					{
 						if (i == y.length())
 							return false;
