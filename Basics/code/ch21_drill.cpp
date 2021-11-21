@@ -319,9 +319,84 @@ namespace ch21
 				);
 			}
 
-			void local_3()
+			void local_4()
 			{
+				pair <string, int>
+					horse {"horse shoe", 99},
+					canon {"canons400", 9988};
 
+				msi.insert(horse);
+				msi.insert(canon);
+
+				printer (msi.begin(), msi.end());
+			}
+
+			void local_5()
+			{
+				for (pair <string, int> p; cin >> p.first >> p.second;)
+				{
+					msi.insert (p);
+				}
+				printer (msi.begin(), msi.end());
+			}
+
+			void local_6()
+			{
+				string
+					filename {"..\\Basics\\resources\\ch21_d03.txt"};				
+				ifstream ifs {filename};
+				istream_iterator <string>
+					ii {ifs},
+					last {};
+				pair <string, int> p {};
+				stringstream ss {};
+				while (ii != last)
+				{
+					p.first = * ii;
+					++ii;
+					ss << * ii;
+					ss >> p.second;
+					++ii;
+					msi.insert (p);
+				}
+			}
+
+			void local_7()
+			{
+				cout << "\tBegin of search.\n";
+				string s{};
+				while (cin >> s)	// ctr-c breaks loop
+				{
+					cout << '\t' << s << " " << msi[s] << '\n';
+				}
+				cout << "\tEnd of search.\n";
+			}
+
+			void local_8()
+			{
+				int result {};
+				for (auto a : msi)
+				{
+					result += a.second;
+				}
+				cout << '\t' << result << '\n';
+			}
+
+			map <int, string> mis {};
+
+			void local_A()
+			{
+				for (auto a : msi)
+				{
+					mis.insert({a.second, a.first});
+				}
+
+				auto iter {mis.begin()};
+				while (iter != mis.end())
+				{
+					cout << iter -> first << " " << iter -> second  <<'\n';
+					++iter;
+				}
 			}
 		}
 
@@ -354,14 +429,17 @@ namespace ch21
 			}*/
 
 			{
-				using namespace d_3;
-				
+				using namespace d_3;				
 				import();
-				d_3::printer (msi.begin(), msi.end());
+
+				//local_4();
+				//local_5();
+				//local_6();
+				//d_3::printer (msi.begin(), msi.end());
+				//local_7();
+				//local_8();
+				local_A();
 			}
-
-
-
 		}
 	}
 }
