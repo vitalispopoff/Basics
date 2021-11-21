@@ -269,12 +269,60 @@ namespace ch21
 
 		namespace d_3
 		{
+			
+			string to_string(pair <string, int> p)
+			{					
+				return p.first + " " + num_to_string (p.second);
+			}
+
+			template <typename Iter = map <string, int>::iterator>
+			void printer (Iter first, Iter last)
+			{
+				while (first != last)
+				{
+					cout << to_string (* first) <<'\n';
+					++first;
+				}
+			}
+
 			map <string, int> msi {};
 
-			vector <pair <string, int>>
-				{
+			initializer_list <pair <string, int>> source
+			{
+				{"marzena", 2},
+				{"borzena", 1}, 
+				{"grarzyna", 4}, 
+				{"halyna", 7},
+				{"jarzyna", 3}, 
+				{"rysiek", 5},
+				{"zbysiek", 9},
+				{"czesiek", 8},
+				{"wiesiek", 6},
+				{"gruby", 0}
+			};
 
+			void import()
+			{
+				msi.insert (
+					{
+						{"marzena", 2},
+						{"borzena", 1}, 
+						{"grarzyna", 4}, 
+						{"halyna", 7},
+						{"jarzyna", 3}, 
+						{"rysiek", 5},
+						{"zbysiek", 9},
+						{"czesiek", 8},
+						{"wiesiek", 6},
+						{"gruby", 0}
+					}
+				);
+			}
 
+			void local_3()
+			{
+
+			}
 		}
 
 		void main()
@@ -304,6 +352,13 @@ namespace ch21
 				//local_6();
 				//local_7();
 			}*/
+
+			{
+				using namespace d_3;
+				
+				import();
+				d_3::printer (msi.begin(), msi.end());
+			}
 
 
 
