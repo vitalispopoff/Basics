@@ -55,24 +55,10 @@ namespace ch21
 			template <typename T>
 			void initial (vector <T> source, string filename)
 			{
-				//vector <Item> source {
-				//	{"marzena", 2, 1.234},
-				//	{"borzena", 1, 2.52}, 
-				//	{"grarzyna", 4, 6.3}, 
-				//	{"halyna", 7, 0.352},
-				//	{"jarzyna", 3, 952.4}, 
-				//	{"rysiek", 5, -12.5},
-				//	{"zbysiek", 9, 0.0},
-				//	{"czesiek", 8, 6.01},
-				//	{"wiesiek", 6, 2.59},
-				//	{"gruby", 0, 421.0},
-				//};
-
 				ofstream ofs {filename};
-				ostream_iterator <Item> oi {ofs, " "};
+				ostream_iterator <T> oi {ofs, " "};
 				copy (source.begin(), source.end(), oi);
 				ofs.close();
-				return filename;
 			}
 
 			template <typename Iter>
@@ -212,6 +198,11 @@ namespace ch21
 		{
 			list <Item> li {10, Item {}};
 
+			void local_0()
+			{
+				initial <Item> (d_1::source, d_1::filename);
+			}
+
 			void local_1()
 			{
 				import (li, d_1::filename);
@@ -286,8 +277,7 @@ namespace ch21
 		}
 
 		namespace d_3
-		{
-			
+		{			
 			string to_string(pair <string, int> p)
 			{					
 				return p.first + " " + num_to_string (p.second);
@@ -434,19 +424,131 @@ namespace ch21
 				89.1,
 				-68.99
 			};
-
 			string filename {"..\\Basics\\resources\\ch21_d04.txt"};
-			//ofstream ofs {filename, "\n"};
+
+			template <typename Iter>
+			void printer (Iter first, Iter last)
+			{
+				while (first != last)
+				{
+					cout << '\t' << * first << '\n';
+					++first;
+				}
+			}
+
+			vector <double> local_1()
+			{
+				vector <double> vd {};
+				ifstream ifs {filename};
+				istream_iterator <double> ii {ifs};
+				while (ii != istream_iterator <double> {})
+				{	
+					vd.push_back (* ii);
+					++ii;
+				}
+				return vd;
+			}
+
+			void local_2(vector <double> & vd)
+			{
+				for (auto a : vd)
+					cout << '\t' << fixed << a << '\n';
+			}
+
+			vector <double> vi;
+
+			vector <int> local_3(vector <double> & vd)
+			{
+				vector <int> vi (vd.size());
+				copy (vd.begin(), vd.end(), vi.begin());
+				return vi;
+			}
+
+			template <typename Iter1, typename Iter2>
+			void local_4 (Iter1 first1, Iter1 last1, Iter2 first2)
+			{
+				pair <double, int>	p {};
+				while (first1 != last1)
+				{
+					p.first = * first1;
+					p.second = * first2;
+					cout << '\t' << p.first << '\t' << p.second << '\n';
+					++first1;
+					++first2;
+				}
+			}
+
+			template <typename Iter, typename T = double>
+			T local_5 (Iter first, Iter last, T accumulator = 0.)
+			{
+				while (first != last)
+				{
+					accumulator += * first;
+					++first;
+				}
+				return accumulator;
+			}
+
+			template <typename Iter1, typename Iter2>
+			void local_6(Iter1 first1, Iter1 last1, Iter2 first2)
+			{
+				double accu1 {};
+				int accu2 {};
+				while (first1 != last1)
+				{
+					accu1 += * first1;
+					accu2 += * first2;
+					++first1;
+					++first2;
+				}
+				cout << '\t' << fixed << accu1 - double (accu2) << '\n';
+			}
+		
+			template <typename Iter>
+			void local_7(Iter first, Iter last)
+			{
+				cout << "pre:\n";
+				printer (first, last);
+				reverse (first, last);
+				cout << "post:\n";
+				printer (first, last);
+			}
+
+			template <typename Iter>
+			double local_8(Iter first, Iter last, double accumulator = 0.0)
+			{
+				double length {double (last - first)};
+				while (first != last)
+				{
+					accumulator += * first;
+					++first;
+				}
+				return accumulator / length;
+			}
+		
+			vector <double> local_9 (vector <double> vd, double mean)
+			{
+				vector <double> vd2 (vd.size());
+				copy_if (vd.begin(), vd.end(), vd2.begin(), [&](double d){return d < mean;});
+				return vd2;
+			}
+
+			template <typename Iter>
+			void local_A (Iter first, Iter last)
+			{
+				sort (first, last, less <double> {});
+			}
 		}
 
 		void main()
 		{
 			// drills 01 : vector
-			if (true)
+			if (false)
 			{
 				using namespace d_1;
 				local_0 ();
-				local_1();
+
+				//local_1();
 				//local_2();
 				//local_3();
 				//local_4();
@@ -457,10 +559,11 @@ namespace ch21
 			}
 
 			//drills 02 : list
-			/*{
+			if (false) 
+			{
 				using namespace d_2;
-				initial();
-				import (li, filename);
+				local_0();
+
 				//local_1();
 				//local_2();
 				//local_3();
@@ -468,10 +571,11 @@ namespace ch21
 				//local_5 ();
 				//local_6();
 				//local_7();
-			}*/
+			}
 
 			//drills 03 : map
-			/*{
+			if (false)
+			{
 				using namespace d_3;				
 				import();
 
@@ -481,10 +585,30 @@ namespace ch21
 				//d_3::printer (msi.begin(), msi.end());
 				//local_7();
 				//local_8();
-				local_A();
-			}*/
+				//local_A();
+			}
 
 			//drills 04 : moar vectah
+			if (true)
+			{
+				using namespace d_4;
+				initial(source, filename);
+
+				vector <double> vd {local_1()};
+				//local_2();
+				vector <int> vi {local_3(vd)};
+				//d_4::printer (vi.begin(), vi.end());
+				//local_4 (vd.begin(), vd.end(), vi.begin());
+				//cout << fixed << local_5(vd.begin(), vd.end()) << '\n';
+				//local_6 (vd.begin(), vd.end(), vi.begin());
+				//local_7(vd.begin(), vd.end());
+				double mean {local_8 (vd.begin(), vd.end())};
+				//cout << '\t' << fixed << mean << '\n';
+				//vector <double> vd2 {local_9(vd, mean)};
+				//d_4::printer (vd2.begin(), vd2.end());
+				//local_A(vd.begin(), vd.end());
+				//d_4::printer (vd.begin(), vd.end());
+			}
 		}
 	}
 }
