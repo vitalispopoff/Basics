@@ -52,22 +52,22 @@ namespace ch21
 				return is  >> item.name  >> item.iid  >> item.value;
 			}
 
-			string filename {"..\\Basics\\resources\\ch21_d01.txt"};
-
-			string initial ()
+			template <typename T>
+			void initial (vector <T> source, string filename)
 			{
-				vector <Item> source {
-					{"marzena", 2, 1.234},
-					{"borzena", 1, 2.52}, 
-					{"grarzyna", 4, 6.3}, 
-					{"halyna", 7, 0.352},
-					{"jarzyna", 3, 952.4}, 
-					{"rysiek", 5, -12.5},
-					{"zbysiek", 9, 0.0},
-					{"czesiek", 8, 6.01},
-					{"wiesiek", 6, 2.59},
-					{"gruby", 0, 421.0},
-				};
+				//vector <Item> source {
+				//	{"marzena", 2, 1.234},
+				//	{"borzena", 1, 2.52}, 
+				//	{"grarzyna", 4, 6.3}, 
+				//	{"halyna", 7, 0.352},
+				//	{"jarzyna", 3, 952.4}, 
+				//	{"rysiek", 5, -12.5},
+				//	{"zbysiek", 9, 0.0},
+				//	{"czesiek", 8, 6.01},
+				//	{"wiesiek", 6, 2.59},
+				//	{"gruby", 0, 421.0},
+				//};
+
 				ofstream ofs {filename};
 				ostream_iterator <Item> oi {ofs, " "};
 				copy (source.begin(), source.end(), oi);
@@ -90,13 +90,31 @@ namespace ch21
 			{
 				ifstream ifs {filename};
 				istream_iterator <Item> ii {ifs};
-
 				copy (ii, istream_iterator <Item> {}, data.begin());
 				ifs.close();
 			}
 
 		namespace d_1
 		{
+			vector <Item> source {
+				{"marzena", 2, 1.234},
+				{"borzena", 1, 2.52}, 
+				{"grarzyna", 4, 6.3}, 
+				{"halyna", 7, 0.352},
+				{"jarzyna", 3, 952.4}, 
+				{"rysiek", 5, -12.5},
+				{"zbysiek", 9, 0.0},
+				{"czesiek", 8, 6.01},
+				{"wiesiek", 6, 2.59},
+				{"gruby", 0, 421.0},
+			};
+			string filename {"..\\Basics\\resources\\ch21_d01.txt"};
+
+			void local_0 ()
+			{
+				initial <Item> (source, filename);
+			}
+
 			vector <Item> vi {10, Item{}};
 
 			void local_1 ()
@@ -196,7 +214,7 @@ namespace ch21
 
 			void local_1()
 			{
-				import (li, filename);
+				import (li, d_1::filename);
 				printer (li.begin(), li.end());
 			}
 
@@ -400,21 +418,45 @@ namespace ch21
 			}
 		}
 
+		namespace d_4
+		{
+			vector <double> source {
+				123.05, 
+				72715.0213,
+				-120.2539,
+				0.0,
+				-12.5,
+				72.05826,
+				785.745,
+				79.3656,
+				259.81,
+				1.63,
+				89.1,
+				-68.99
+			};
+
+			string filename {"..\\Basics\\resources\\ch21_d04.txt"};
+			//ofstream ofs {filename, "\n"};
+		}
+
 		void main()
 		{
-			/*{
+			// drills 01 : vector
+			if (true)
+			{
 				using namespace d_1;
-				initial ();
-				//local_1();
+				local_0 ();
+				local_1();
 				//local_2();
 				//local_3();
 				//local_4();
 				//local_5();
 				//local_6();
 				//local_7();
-				local_8();
-			}*/
-			
+				//local_8();
+			}
+
+			//drills 02 : list
 			/*{
 				using namespace d_2;
 				initial();
@@ -428,7 +470,8 @@ namespace ch21
 				//local_7();
 			}*/
 
-			{
+			//drills 03 : map
+			/*{
 				using namespace d_3;				
 				import();
 
@@ -439,7 +482,9 @@ namespace ch21
 				//local_7();
 				//local_8();
 				local_A();
-			}
+			}*/
+
+			//drills 04 : moar vectah
 		}
 	}
 }
