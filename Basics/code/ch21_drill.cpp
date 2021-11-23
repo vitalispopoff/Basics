@@ -72,12 +72,13 @@ namespace ch21
 			}
 
 			template <typename T = vector <Item>>
-			void import (T & data, const string & filename)
+			T import (const string & filename)
 			{
 				ifstream ifs {filename};
 				istream_iterator <Item> ii {ifs};
-				copy (ii, istream_iterator <Item> {}, data.begin());
+				T result {ii, istream_iterator <Item> {}};
 				ifs.close();
+				return result
 			}
 
 		namespace d_1
@@ -96,16 +97,10 @@ namespace ch21
 			};
 			string filename {"..\\Basics\\resources\\ch21_d01.txt"};
 
-			void local_0 ()
-			{
-				initial <Item> (source, filename);
-			}
-
-			vector <Item> vi {10, Item{}};
-
 			void local_1 ()
 			{
-				import (vi, filename);
+				initial <Item> (source, filename);
+				vector <Item> vi {import (filename)};
 				printer  (vi.begin(), vi.end());
 			}
 
@@ -607,7 +602,7 @@ namespace ch21
 				//vector <double> vd2 {local_9(vd, mean)};
 				//d_4::printer (vd2.begin(), vd2.end());
 				//local_A(vd.begin(), vd.end());
-				//d_4::printer (vd.begin(), vd.end());
+				//d_4::printer (vd.begin(), vd.end());				
 			}
 		}
 	}

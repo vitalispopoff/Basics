@@ -1132,9 +1132,15 @@ namespace ch21
 						<< '\t' << a << '\n';
 			}
 		}
+
+		namespace _7
+		{
+			
+
+		}
 	}
 
-	void main()
+	void main() 
 	{
 		dr::main();
 	}

@@ -229,7 +229,8 @@ namespace ch21
 	// text 'try this' drills
 	namespace tr
 	{
-		//	try_this 1 p.765
+		//	try_this 1 p.761
+		//	try this p765
 
 		namespace _2
 		{
@@ -289,8 +290,7 @@ namespace ch21
 			void wrong (int max_size);
 		}
 
-		//	p.789
-
+		//	p.792
 		namespace _7{}
 
 		//	p. 794
