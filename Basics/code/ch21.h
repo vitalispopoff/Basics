@@ -312,8 +312,7 @@ namespace ch21
 	// homework excercises
 	namespace ex
 	{
-
-
+		void main();
 	}
 
 		void main();

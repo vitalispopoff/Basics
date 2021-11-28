@@ -13,127 +13,122 @@ namespace ch21
 	{
 		using namespace std;
 
-			template <typename T>
-			string num_to_string (T & t)
-			{
-				stringstream ss;				
-				ss << t;
-				string  result;
-				ss >> result;
-				return result;
+		template <typename T>
+		string num_to_string (T & t)
+		{
+			stringstream ss;				
+			ss << t;
+			string  result;
+			ss >> result;
+			return result;
+		}
+
+		struct Item
+		{
+			string
+				name;
+			int
+				iid {};
+			double
+				value {};
+
+			explicit Item () : name {}, iid {}, value {} {}
+
+			Item (string n, int i, double v) : name {n}, iid {i}, value {v} {}
+
+			string to_string()
+			{					
+				return name + " " + num_to_string (iid) + " " + num_to_string (value);
 			}
+		};
 
-			struct Item
+		ostream & operator << (ostream & os, const Item & i)
+		{
+			return os << i.name << " " << i.iid << " " << i.value;
+		}
+
+		istream & operator >> (istream & is, Item & item)
+		{
+			return is  >> item.name  >> item.iid  >> item.value;
+		}
+
+	//----------------------------------------------------------
+
+		vector <Item> source {
+			{"marzena", 2, 1.234},
+			{"borzena", 1, 2.52}, 
+			{"grarzyna", 4, 6.3}, 
+			{"halyna", 7, 0.352},
+			{"jarzyna", 3, 952.4}, 
+			{"rysiek", 5, -12.5},
+			{"zbysiek", 9, 0.0},
+			{"czesiek", 8, 6.01},
+			{"wiesiek", 6, 2.59},
+			{"gruby", 0, 421.0},
+		};
+		string filename {"..\\Basics\\resources\\ch21_d01.txt"};
+
+		template <typename T>
+		void initial (T s = source, string f = filename)
+		{
+			ofstream ofs {filename};
+			ostream_iterator <T> oi {ofs, " "};
+			copy (s.begin(), s.end(), oi);
+			ofs.close();
+		}
+
+		template <typename Iter>
+		void printer (Iter first, Iter last, bool flag = false)
+		{
+			while (first != last)
 			{
-				string
-					name;
-				int
-					iid {};
-				double
-					value {};
-
-				explicit Item () : name {}, iid {}, value {} {}
-
-				Item (string n, int i, double v) : name {n}, iid {i}, value {v} {}
-
-				string to_string()
-				{					
-					return name + " " + num_to_string (iid) + " " + num_to_string (value);
-				}
-			};
-
-			ostream & operator << (ostream & os, const Item & i)
-			{
-				return os << i.name << " " << i.iid << " " << i.value;
+				cout << first -> to_string() << '\n';
+				++first;
 			}
+		}
 
-			istream & operator >> (istream & is, Item & item)
-			{
-				return is  >> item.name  >> item.iid  >> item.value;
-			}
-
-			template <typename T>
-			void initial (vector <T> source, string filename)
-			{
-				ofstream ofs {filename};
-				ostream_iterator <T> oi {ofs, " "};
-				copy (source.begin(), source.end(), oi);
-				ofs.close();
-			}
-
-			template <typename Iter>
-			void printer (Iter first, Iter last, bool flag = false)
-			{
-				while (first != last)
-				{
-					cout << first -> to_string() << '\n';
-					++first;
-				}
-			}
-
-			template <typename T = vector <Item>>
-			T import (const string & filename)
+		template <typename T = vector <Item>>
+		T import (const string & filename, T result = vector <Item> {})
 			{
 				ifstream ifs {filename};
 				istream_iterator <Item> ii {ifs};
-				T result {ii, istream_iterator <Item> {}};
+				result = ii, istream_iterator <Item> {};
 				ifs.close();
 				return result
 			}
 
-		namespace d_1
+			namespace d_1
 		{
-			vector <Item> source {
-				{"marzena", 2, 1.234},
-				{"borzena", 1, 2.52}, 
-				{"grarzyna", 4, 6.3}, 
-				{"halyna", 7, 0.352},
-				{"jarzyna", 3, 952.4}, 
-				{"rysiek", 5, -12.5},
-				{"zbysiek", 9, 0.0},
-				{"czesiek", 8, 6.01},
-				{"wiesiek", 6, 2.59},
-				{"gruby", 0, 421.0},
-			};
-			string filename {"..\\Basics\\resources\\ch21_d01.txt"};
-
-			void local_1 ()
+			void local_1 (vector <Item> vi)
 			{
-				initial <Item> (source, filename);
-				vector <Item> vi {import (filename)};
 				printer  (vi.begin(), vi.end());
 			}
 
-			void local_2 ()
+			void local_2 (vector <Item> vi)
 			{
 				auto a = [] (const Item & i1, const Item & i2) {return i1.name < i2.name;};
-				import (vi, filename);
+				import (filename);
 				sort (vi.begin(), vi.end(), a);
 				printer (vi.begin(), vi.end());
 			}
 
-			void local_3 ()
+			void local_3 (vector <Item> vi)
 			{
 				auto a = [] (const Item & i1, const Item & i2) {return i1.iid < i2.iid;};
-
-				import (vi, filename);
 				sort (vi.begin(), vi.end(), a);
 				printer (vi.begin(), vi.end());
 			}
 
-			void local_4()
+			void local_4(vector <Item> vi)
 			{
 				auto a = [] (const Item & i1, const Item & i2) {return i1.value < i2.value;};
-
-				import (vi, filename);
 				sort (vi.begin(), vi.end(), a);
 				printer (vi.rbegin(), vi.rend());
 			}
 
-			void local_5(bool print_it = true)
+			void local_5(vector <Item> vi, bool print_it = true)
 			{
 				auto a = [] (const Item & i1, const Item & i2) {return i1.name < i2.name;};
-				import (vi, filename);
 				sort (vi.begin(), vi.end(), a);				
 				auto iter {vi.begin()};
 				while (iter != vi.end() && iter -> name <= "horse shoe")
@@ -146,9 +141,10 @@ namespace ch21
 				printer (vi.begin(), vi.end());
 			}
 
-			void local_6 ()
+			void local_6 (vector <Item> vi)
 			{
-				local_5(false);
+				local_5(vi, false);
+
 				auto iter {vi.cbegin()};
 				while (iter != vi.cend() && iter -> name != "horse shoe")
 					++iter;
@@ -160,9 +156,10 @@ namespace ch21
 				printer (vi.begin(), vi.end());
 			}
 
-			void local_7 ()
+			void local_7 (vector <Item> vi)
 			{
-				local_5(false);
+				local_5(vi, false);
+
 				auto iter {vi.cbegin()};
 				while (iter != vi.cend() && iter -> iid != 99)
 					++iter;
@@ -174,9 +171,10 @@ namespace ch21
 				printer (vi.begin(), vi.end());				
 			}
 
-			void local_8 ()
+			void local_8 (vector <Item> vi)
 			{
-				local_5(false);
+				local_5(vi, false);
+
 				auto iter {vi.cbegin()};
 				while (iter != vi.cend() && iter -> value != 12.34)
 					++iter;
@@ -191,32 +189,25 @@ namespace ch21
 
 		namespace d_2
 		{
-			list <Item> li {10, Item {}};
-
-			void local_0()
+			void local_1(list <Item> li)
 			{
-				initial <Item> (d_1::source, d_1::filename);
-			}
-
-			void local_1()
-			{
-				import (li, d_1::filename);
+				import (filename, li);
 				printer (li.begin(), li.end());
 			}
 
-			void local_2()
+			void local_2(list <Item> li)
 			{
 				li.sort ([] (const Item & i1, const Item &i2) {return i1.name < i2.name;});
 				printer (li.begin(), li.end());
 			}
 
-			void local_3()
+			void local_3(list <Item> li)
 			{
 				li.sort ([] (const Item & i1, const Item & i2) {return i1.iid < i2.iid;});
 				printer (li.begin(), li.end());
 			}
 
-			void local_4()
+			void local_4(list <Item> li)
 			{
 				li.sort ([] (const Item & i1, const Item & i2) {return i1.value < i2.value;});
 				printer (li.rbegin(), li.rend());
@@ -226,7 +217,7 @@ namespace ch21
 				horse {"horse shoe", 99, 12.34},
 				canon {"canons400", 9988, 499.95};
 
-			void local_5(bool print_it = true)
+			void local_5(list <Item> li, bool print_it = true)
 			{
 				li.sort ([] (const Item & i1, const Item & i2) {return i1.name < i2.name;});
 				auto iter {li.begin()};
@@ -237,13 +228,13 @@ namespace ch21
 				while (iter != li.end() && iter -> name < canon.name)
 					++iter;
 				li.insert(iter, canon);
-				//if (print_it) 
+				if (print_it)
 					printer (li.begin(), li.end());
 			}
 
-			void local_6 ()
+			void local_6 (list <Item> li)
 			{
-				local_5 (false);
+				local_5 (li, false);
 
 				auto iter {li.begin()};
 				while (iter != li.end() && iter -> name != horse.name)
@@ -256,9 +247,9 @@ namespace ch21
 				printer (li.begin(), li.end());
 			}
 
-			void local_7()
+			void local_7(list <Item> li)
 			{
-				local_5 (false);
+				local_5 (li, false);
 				auto iter {li.begin()};
 				while (iter != li.end() && iter -> iid != horse.iid)
 					++iter;
@@ -536,36 +527,42 @@ namespace ch21
 		}
 
 		void main()
-		{
+		{		
+			if (false) initial <Item> ();
+
 			// drills 01 : vector
 			if (false)
 			{
 				using namespace d_1;
-				local_0 ();
-
-				//local_1();
-				//local_2();
-				//local_3();
-				//local_4();
-				//local_5();
-				//local_6();
-				//local_7();
-				//local_8();
+				
+				vector <Item> vi {import (filename)};		
+				
+				//local_1(vi);
+				//local_2(vi);
+				//local_3(vi);
+				//local_4(vi);
+				//local_5(vi);
+				//local_6(vi);
+				//local_7(vi);
+				//local_8(vi);
 			}
 
 			//drills 02 : list
 			if (false) 
 			{
 				using namespace d_2;
-				local_0();
 
-				//local_1();
-				//local_2();
-				//local_3();
-				//local_4();
-				//local_5 ();
-				//local_6();
-				//local_7();
+				list <Item> li {};
+				import (filename, li);
+
+
+				//local_1(li);
+				//local_2(li);
+				//local_3(li);
+				//local_4(li);
+				//local_5(li);
+				//local_6(li);
+				//local_7(li);
 			}
 
 			//drills 03 : map
@@ -587,7 +584,7 @@ namespace ch21
 			if (true)
 			{
 				using namespace d_4;
-				initial(source, filename);
+				initial(d_4::source, d_4::filename);
 
 				vector <double> vd {local_1()};
 				//local_2();

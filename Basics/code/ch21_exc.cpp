@@ -1,7 +1,21 @@
 #include "ch21.h"
 
-namespace ch21_exc
+namespace ch21
 {
+	namespace ex
+	{	
+		namespace e_02
+		{
 
 
+
+
+		}
+
+		void main()
+		{
+
+
+		}
+	}
 }
